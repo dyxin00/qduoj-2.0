@@ -1,0 +1,10 @@
+ easy_install -f http://www.pythonware.com/products/pil/ Imaging
+ django==1.5
+ django-debug-toolbar == 1.2
+
+sudo apt-get install git-flow
+
+# Potter
+ south (0.8.4)
+ ipython
+ linaro-django-pagination (2.0.2)
