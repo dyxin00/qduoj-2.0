@@ -26,7 +26,7 @@
 }
 .btn-black:hover{
 
-  color: #0F0F0F;
+  color: #2A1A53;
 }
 
 
@@ -75,14 +75,14 @@
 
 /*problem-table-width*/
 .td-p{
-    width: 10%;
+    width: 5%;
 }
 
 .td-ID{
     width: 15%;
 }
 .td-Title{
-    width: 30%;
+    width: 35%;
 }
 .td-Ratio{
     width: 20%;
@@ -91,6 +91,7 @@
     width: 25%;
 }
 
+/*gonggao*/
 .gao{
     margin-left:12px;
     margin-right: 12px;
@@ -109,7 +110,7 @@
 .gao-h4{
     text-align: center;
 }
-
+/*secrch*/
 .serach_move{
     float: right;
 }
@@ -117,6 +118,7 @@
     margin-bottom: 5px;
 }
 
+/*sign*/
 .sign{
     background-color: #f7f5fa;
     margin: auto;
@@ -125,7 +127,84 @@
     border-radius: 10px;
 }
 
+/*problem*/
 .problem{
 
-    
+    background-color: #f7f5fa;
+    margin: auto;
+    width: 90%;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.problem-title{
+
+    text-align: center;
+    color:#712015;
+}
+.problem-info{
+    text-align: center;
+}
+.problem-info .font-color{
+    color:#712015;
+}
+.problem .mid{
+}
+.problem .mid-title{
+    color:#712015;
+}
+.problem .mid .content{
+    font-family: Consolas, Courier New, DejaVu Sans Mono, Droid Sans Mono, monospace;
+    word-break:break-all;
+}
+
+
+
+/*solution*/
+
+.serach-width{
+    width: 20%;
+}
+
+.serach-width-result{
+    width: 30%;
+}
+.status-td{
+    text-align: center;
+}
+.td-rid{
+    width: 10%;
+    text-align: center;
+}
+.td-user{
+    width: 10%;
+    text-align: center;
+}
+.td-pid{
+    width: 8%;
+    text-align: center;
+}
+.td-result{
+    width: 15%;
+    text-align: center;
+}
+.td-memory{
+    width: 10%;
+    text-align: center;
+}
+.td-time{
+    width: 8%;
+    text-align: center;
+}
+.td-Language{
+    width: 5%;
+    text-align: center;
+}
+.td-clength{
+    width: 10%;
+    text-align: center;
+}
+.td-stime{
+    width: 20%;
+    text-align: center;
 }
