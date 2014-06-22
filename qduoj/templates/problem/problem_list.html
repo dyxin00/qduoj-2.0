@@ -1,0 +1,17 @@
+{% extends 'base_layout.html' %}
+{% block top_title%}
+<div class="container">
+    <h1>Problems</h1>
+    <p>这是一些很有趣的问题 ！！</p>
+</div>
+{% endblock %}
+{% block mid_top%}
+{% include "_top_serach.html" %}
+{% endblock %}
+{% block mid_left_3%}
+{% include "_mid_left_3_default.html" %}
+{% endblock %}
+{% block mid_mid_9%}
+{% include "problem/_problem_table.html" %}
+{% include "_page.html" %}
+{% endblock %}
