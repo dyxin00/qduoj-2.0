@@ -1,0 +1,131 @@
+.btn-black {
+    margin-left: 20px;
+    margin-top: 8px;
+    color: #EEE;
+    background-color: #0F0F0F;
+    border-color: #2A1A53;;
+}
+.top-bar-center{
+    align-content: center;
+    margin-left: 20px;
+
+}
+.top-bar-right{
+    float: right;
+    margin-right: 10px;
+
+}
+
+.btn-default-a {
+    color: #EEE;
+    text-decoration:none;
+}
+.btn-default-a:hover{
+    color: #2A1A53;
+    text-decoration:none;
+}
+.btn-black:hover{
+
+  color: #0F0F0F;
+}
+
+
+.bs-mid {
+    margin-top: 51px;
+    padding: 30px 15px 40px;
+    font-size: 21px;
+    text-align: center;
+    text-shadow: 0 1px 0 rgba(0,0,0,.15);
+    background: #141414;
+}
+.row {
+    margin-right: -15px;
+    margin-top:40px;
+    margin-left: -15px;
+    margin-bottom: 5px;
+}
+@media (min-width: 1200px)
+.bs-sidebar.affix-bottom, .bs-sidebar.affix {
+    width: 263px;
+}
+@media (min-width: 992px)
+.bs-sidebar.affix {
+    position: fixed;
+    top: 80px;
+}
+.bs-sidenav {
+    margin-top: 0px;
+    margin-bottom: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-shadow: 0 1px 0 #fff;
+    background-color: #f7f5fa; 
+    border-radius: 10px;
+/*
+    border-color:#2A1A53;
+    border-right-width: 20px;
+    border-top-width: 20px; 
+*/
+}
+.row-mid {
+    margin-right: -15px;
+    margin-top: 45px;
+    margin-left: -15px;
+}
+
+/*problem-table-width*/
+.td-p{
+    width: 10%;
+}
+
+.td-ID{
+    width: 15%;
+}
+.td-Title{
+    width: 30%;
+}
+.td-Ratio{
+    width: 20%;
+}
+.td-Date{
+    width: 25%;
+}
+
+.gao{
+    margin-left:12px;
+    margin-right: 12px;
+    height: 250px;
+    width: 90%;
+    word-break:break-all;
+    padding: 10px;
+}
+.gao-h3{
+    text-align: center;
+    border-bottom: dashed 1px #CCCCCC;
+    padding: 0px 4px 4px 4px;
+    
+}
+
+.gao-h4{
+    text-align: center;
+}
+
+.serach_move{
+    float: right;
+}
+.serach-top{
+    margin-bottom: 5px;
+}
+
+.sign{
+    background-color: #f7f5fa;
+    margin: auto;
+    width: 70%;
+    padding: 80px;
+    border-radius: 10px;
+}
+
+.problem{
+
+    
+}
