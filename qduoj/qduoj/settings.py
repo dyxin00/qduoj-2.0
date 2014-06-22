@@ -133,6 +133,8 @@ INSTALLED_APPS = (
     'contest',
     'solution',
     #'oj_admin',
+    'oj_user',
+    'south',
 )
 
 # A sample logging configuration. The only tangible logging
