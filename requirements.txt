@@ -8,3 +8,19 @@ sudo apt-get install git-flow
  south (0.8.4)
  ipython
  linaro-django-pagination (2.0.2)
+
+#DjangoVerifyCode
+
+sudo apt-get install libjpeg8 libjpeg62-dev libfreetype6 libfreetype6-dev
+# 需要先安装jpeg库
+    wget http://www.ijg.org/files/jpegsrc.v7.tar.gz
+    tar -zxvf jpegsrc.v7.tar.gz
+    cd jpeg-7
+    CC="gcc -arch x86_64"
+    ./configure --enable-shared --enable-static
+    make
+    make install
+# 然后再安装PIL库
+    wget http://download.savannah.gnu.org/releases/freetype/freetype-2.4.0.tar.gz
+
+http://www.th7.cn/Program/Python/201307/144798.shtml
