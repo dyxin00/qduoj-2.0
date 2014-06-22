@@ -20,6 +20,8 @@ class Problem(models.Model):
     defunct = models.BooleanField(default=False)
     #标程
     accepted = models.IntegerField(default=0)
+    #分类
+    classify = models.IntegerField()
     submit = models.IntegerField(default=0)
     solved = models.IntegerField(default=0)
     user = models.ForeignKey(User)
