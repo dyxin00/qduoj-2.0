@@ -18,6 +18,7 @@ urlpatterns = patterns('',
     url(r'^problem/$', 'problem.views.problem', name='problem'),
     url(r'^sign_up/$', 'oj_user.views.sign_up', name='sign_up'),
     url(r'^sign_in/$', 'oj_user.views.sign_in', name='sign_in'),
+    url(r'^status_list/$', 'solution.views.solution_list', name='status_list'),
     url(r'^get_code/$', 'oj_user.views.get_code', name='get_code'),
 
 )
