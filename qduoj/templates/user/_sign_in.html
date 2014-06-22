@@ -1,15 +1,19 @@
-<form role="form">
+{% if error %}
+<div class="alert alert-danger">{{ error }}</div>
+{% endif %}
+<form role="form" action="{% url "sign_in" %}" method="post"> 
+    {% csrf_token %}
   <div class="form-group">
-    <label for="Email">Email address</label>
-    <input type="email" class="form-control input-lg" id="Email" placeholder="Enter email">
+    <label for="email">Email address</label>
+    <input type="email" name="email" class="form-control input-lg" id="Email" placeholder="Enter email">
   </div>
   <div class="form-group">
-    <label for="Password">Password</label>
-    <input type="password" class="form-control input-lg" id="Password" placeholder="Password">
+    <label for="password">Password</label>
+    <input type="password" name="password" class="form-control input-lg" id="Password" placeholder="Password">
   </div>
   <div class="form-group">
-    <label for="Captcha">Captcha</label>
-    <input type="text" class="form-control input-lg" id="Captcha" placeholder="Captcha">
+    <label for="Captcha">captcha</label>
+    <input type="text" name="captcha" class="form-control input-lg" id="Captcha" placeholder="Captcha">
   </div>
     <p><img onclick="refresh_captcha(this)" src="/get_code/"></p>
   <button type="submit" class="btn btn-success btn-lg btn-block">Sign in</button>

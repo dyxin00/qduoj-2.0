@@ -8,6 +8,10 @@
         <script src="{{ STATIC_URL }}js/1.js"></script>
         <script src="{{ STATIC_URL }}js/jquery.min.js"></script>
         <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
+        <title>
+        {% block title %}
+        {% endblock %}
+        </title>
         {% block script%}
         {% endblock %}
         {% block css%}

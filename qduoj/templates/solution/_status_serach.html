@@ -1,0 +1,34 @@
+
+<form class="form-inline serach-top" role="form">
+  <div class="form-group serach-width">
+    <label class="sr-only" for="problem_id"></label>
+    <input type="text" name="problem_id" class="form-control" id="" placeholder="Problem ID">
+  </div>     
+  <div class="form-group serach-width">
+    <label class="sr-only" for="user_name"></label>
+    <input type="text" name="problem_id" class="form-control" id="" placeholder="User Name">
+  </div>     
+    
+    <div class="form-group">
+        <select name="result" class="form-control">
+                <option value="-1">Result - All</option>
+                <option value="0">Accepted</option>
+                <option value="1">Presentation Error</option>
+                <option value="2">Time Limit Exceeded</option>
+                <option value="3">Memory Limit Exceeded</option>
+                <option value="4">Wrong Answer</option>
+                <option value="5">Runtime Error</option>
+                <option value="6">Output Limit Exceeded</option>
+                <option value="7">Compile Error</option>
+            </select>
+    </div>
+    <div class="form-group serach-width">
+        <select name="language" class="form-control">
+                <option value="-1">Language - All</option>
+                <option value="0">C</option>
+                <option value="1">C++</option>
+                <option value="2">Java</option>
+            </select>
+    </div>
+  <button type="submit" class="btn btn-default serach_move">Serach</button>
+</form>

@@ -1,2 +1,12 @@
-<li><button type="button" class="btn btn-black" target="_blank"><a class="btn-default-a" href="{% url "sign_in"%}">Sign in</a></button></li>
-<li><button type="button" class="btn btn-black" target="_blank"><a class="btn-default-a" href="{% url "sign_up"%}">Sign up</a></button></li>
+<li>
+    <form role="form" action="{% url "sign_in" %}" method="post"> 
+        {% csrf_token %}
+        <button type="submit" class="btn btn-black">Sign in</button>
+    </form>
+</li>
+<li>
+    <form role="form" action="{% url "sign_up" %}" method="post"> 
+        {% csrf_token %}
+        <button type="submit" class="btn btn-black">Sign up</button>
+    </form>
+</li>
