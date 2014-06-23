@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-  
 from random import choice
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.db import IntegrityError
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -17,17 +17,18 @@ def sign_up(request):
         email = request.POST.get('email', '')
         school_id = request.POST.get('school_ID', '')
         password = request.POST.get('password', '')
-        #未验证数据正确性
+        #未验证数据正确性, 合法性
 
         try:
             user = User.objects.create_user(username=username,
                              password=password, email=email)
         except IntegrityError:
-            return HttpResponse("fail")
+            error = 'This user name already exists !'
+            return render(request, "user/sign_up.html", {'error' : error})
 
         oj_user = User_oj.objects.create(user=user, school_id=school_id)
 
-        return HttpResponse("success")
+        return redirect('sign_in')
     return render(request, "user/sign_up.html", {})
 
 # The HttpResponse Used to test
@@ -41,18 +42,21 @@ def sign_in(request):
             return HttpResponse("captcha")
         code = Code(request)
         if not code.check(captcha):
-            return HttpResponse("captcha wrong")
+            error = 'Verification code error !'
+            return render(request, "user/sign_in.html", {'error' : error})
 
         user = authenticate(username=username, password=password)
         if user is not None:
             if user.is_active:
                 login(request, user)
-                return HttpResponse("success")
+                return redirect(request.POST.get('next', '/'))
             else:
-                return HttpResponse("not active")
+                error = 'The account has been stopped using !'
+                return render(request, "user/sign_in.html", {'error' : error})
         else:
-            return HttpResponse("fail")
-    return render(request, "user/sign_in.html", {})
+            error = 'The user name or password is incorrect !'
+            return render(request, "user/sign_in.html", {'error' : error})
+    return render(request, "user/sign_in.html", {'next' : request.GET.get('next', '/')})
 
 
 def sign_out(request):
