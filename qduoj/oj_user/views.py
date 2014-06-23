@@ -8,11 +8,13 @@ def sign_up(request):
     return render(request, "user/sign_up.html", {})
 
 def sign_in(request):
-    return render(request, "user/sign_in.html",{})
+    return render(request, "user/sign_in.html", {})
 
 def logout(request):
     return HttpResponse("logout")
 
+def user_info(request):
+    return render(request, "user/user_info_page.html", {})
 #http://www.oschina.net/p/django-verify-code/similar_projects?lang=26&sort=view
 def get_code(request):
     code = Code(request)
