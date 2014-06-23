@@ -5,19 +5,19 @@
   {% csrf_token %}
   <div class="form-group">
     <label for="username">Username</label>
-    <input type="text" name="username" class="form-control input-lg" id="Username" placeholder="Username">
+    <input type="text" name="username" class="form-control input-lg" id="Username" placeholder="Username" maxlength="20">
   </div>
   <div class="form-group">
     <label for="school-ID">School ID</label>
-    <input type="text" name="school-ID" class="form-control input-lg" id="School ID" placeholder="School ID">
+    <input type="text" name="school-ID" class="form-control input-lg" id="School ID" placeholder="School ID" maxlength="12">
   </div>
   <div class="form-group">
     <label for="email">Email address</label>
-    <input type="email" name="email" class="form-control input-lg" id="exampleInputEmail1" placeholder="Enter email">
+    <input type="email" name="email" class="form-control input-lg" id="exampleInputEmail1" placeholder="Enter email" maxlength="50">
   </div>
   <div class="form-group">
     <label for="password">Password</label>
-    <input type="password" name="password" class="form-control input-lg" id="exampleInputPassword1" placeholder="Password">
+    <input type="password" name="password" class="form-control input-lg" id="exampleInputPassword1" placeholder="Password" maxlength="20">
   </div>
    <label for="submit">Submits</label>
   <button type="submit" class="btn btn-success btn-lg btn-block">Sign up for Online Judge</button>

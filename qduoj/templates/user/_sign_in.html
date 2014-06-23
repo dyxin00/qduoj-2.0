@@ -5,15 +5,15 @@
     {% csrf_token %}
   <div class="form-group">
     <label for="email">Email address</label>
-    <input type="email" name="email" class="form-control input-lg" id="Email" placeholder="Enter email">
+    <input type="email" name="email" class="form-control input-lg" id="Email" placeholder="Enter email" maxlength="50">
   </div>
   <div class="form-group">
     <label for="password">Password</label>
-    <input type="password" name="password" class="form-control input-lg" id="Password" placeholder="Password">
+    <input type="password" name="password" class="form-control input-lg" id="Password" placeholder="Password" maxlength="20">
   </div>
   <div class="form-group">
     <label for="Captcha">captcha</label>
-    <input type="text" name="captcha" class="form-control input-lg" id="Captcha" placeholder="Captcha">
+    <input type="text" name="captcha" class="form-control input-lg" id="Captcha" placeholder="Captcha" maxlength="20">
   </div>
     <p><img onclick="refresh_captcha(this)" src="/get_code/"></p>
   <button type="submit" class="btn btn-success btn-lg btn-block">Sign in</button>
