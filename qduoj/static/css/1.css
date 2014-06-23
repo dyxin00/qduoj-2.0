@@ -208,3 +208,9 @@
     width: 20%;
     text-align: center;
 }
+
+/*userinfo-bar*/
+.user-info-bar{
+    height: 50px;
+    text-align: center;
+}

@@ -16,9 +16,12 @@ urlpatterns = patterns('',
     # url(r'^admin/', include(admin.site.urls)),
     url(r'^problem_index/$', 'problem.views.index', name='problem_index'),
     url(r'^problem/$', 'problem.views.problem', name='problem'),
+
     url(r'^sign_up/$', 'oj_user.views.sign_up', name='sign_up'),
+    url(r'^logout/$', 'oj_user.views.logout', name='logout'),
     url(r'^sign_in/$', 'oj_user.views.sign_in', name='sign_in'),
-    url(r'^status_list/$', 'solution.views.solution_list', name='status_list'),
     url(r'^get_code/$', 'oj_user.views.get_code', name='get_code'),
+
+    url(r'^status_list/$', 'solution.views.solution_list', name='status_list'),
 
 )

@@ -30,8 +30,11 @@
           
       </ul>
     <ul class="nav navbar-nav  top-bar-right">
-        {% include "user/_login_register.html" %}
-<!--        {% include "user/_user_info.html" %}-->
+        {% if e %}
+            {% include "user/_login_register.html" %}
+        {% else %}
+            {% include "user/_user_info.html" %}
+        {% endif %}
     </ul>
     </div>
   </div>
