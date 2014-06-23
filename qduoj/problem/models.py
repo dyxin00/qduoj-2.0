@@ -1,6 +1,6 @@
   # -*- coding: utf-8 -*-
 from django.db import models
-from oj_user.models import User
+from oj_user.models import User_oj
 
 class Problem(models.Model):
     title = models.CharField(max_length=200, default='')
@@ -24,8 +24,15 @@ class Problem(models.Model):
     classify = models.IntegerField()
     submit = models.IntegerField(default=0)
     solved = models.IntegerField(default=0)
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User_oj)
+
+    class Meta:
+        db_table = "problem"
+
 
 class Score(models.Model):
     problem_id = models.ForeignKey(Problem, primary_key=True)
-    score = models.IntegerField(default=0)    
+    score = models.IntegerField(default=0)
+
+    class Meta:
+        db_table = "score"

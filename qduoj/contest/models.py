@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from oj_user.models import User
+from oj_user.models import User_oj
 from problem.models import Problem
 
 class Contest(models.Model):
@@ -14,7 +14,10 @@ class Contest(models.Model):
     langmask = models.IntegerField(default=0)
     #mode 0 -> acm, 1->OI
     mode = models.IntegerField(default=0)
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User_oj)
+
+    class Meta:
+        db_table = 'contest'
 
 class Contest_problem(models.Model):
     problem_id = models.ForeignKey(Problem)
@@ -22,3 +25,5 @@ class Contest_problem(models.Model):
     num = models.IntegerField(default=0)
     sorce = models.IntegerField()
 
+    class Meta:
+        db_table = 'contest_problem'
