@@ -1,5 +1,6 @@
 <li>
     <form role="form" action="{% url "sign_in" %}" method="get"> 
+        <input type="hidden" name='next' value="{{request.path}}">
         <button type="submit" class="btn btn-black">Sign in</button>
     </form>
 </li>

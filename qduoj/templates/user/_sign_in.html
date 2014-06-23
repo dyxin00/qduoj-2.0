@@ -1,8 +1,9 @@
 {% if error %}
-<div class="alert alert-danger">{{ error }}</div>
+<div class="alert alert-danger error-info">{{ error }}</div>
 {% endif %}
 <form role="form" action="{% url "sign_in" %}" method="post"> 
     {% csrf_token %}
+  <input type="hidden" name='next' value="{{next}}">
   <div class="form-group">
     <label for="username">User Name</label>
     <input type="text" name="username" class="form-control input-lg" id="username" placeholder="Enter User Name" maxlength="20">

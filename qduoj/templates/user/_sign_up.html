@@ -1,5 +1,5 @@
 {% if error %}
-<div class="alert alert-danger">{{ error }}</div>
+<div class="alert alert-danger error-info">{{ error }}</div>
 {% endif %}
 <form role="form" action="{% url "sign_up" %}" method="post">
   {% csrf_token %}
