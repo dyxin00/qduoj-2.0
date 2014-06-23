@@ -9,5 +9,6 @@ def sign_in(request):
 
 def get_code(request):
     code = Code(request)
+    code.height = 46
     return code.display()
 
