@@ -1,12 +1,10 @@
 <li>
-    <form role="form" action="{% url "sign_in" %}" method="post"> 
-        {% csrf_token %}
+    <form role="form" action="{% url "sign_in" %}" method="get"> 
         <button type="submit" class="btn btn-black">Sign in</button>
     </form>
 </li>
 <li>
-    <form role="form" action="{% url "sign_up" %}" method="post"> 
-        {% csrf_token %}
+    <form role="form" action="{% url "sign_up" %}" method="get"> 
         <button type="submit" class="btn btn-black">Sign up</button>
     </form>
 </li>

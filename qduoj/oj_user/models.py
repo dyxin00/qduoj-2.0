@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 class User_oj(models.Model):
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(User, primary_key=True)
     submit = models.IntegerField(default=0)
     solved = models.IntegerField(default=0)
     school_id = models.CharField(max_length=12)
