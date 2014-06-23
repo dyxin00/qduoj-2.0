@@ -43,14 +43,6 @@ python setup.py install
 cd ..
 
 # 3. Install Python Imaging Library (PIL) 1.7
-easy_install -f http://www.pythonware.com/products/pil/ Imaging
-if [ "$?" != "0" ]; then
-	wget https://gitcafe.com/Potter/Softwares/raw/master/Imaging-1.1.7.tar.gz
-	tar -zxvf Imaging-1.1.7.tar.gz
-	cd Imaging*
-	python setup.py install
-	cd ..
-fi
 
 # 4 south
 pip install south

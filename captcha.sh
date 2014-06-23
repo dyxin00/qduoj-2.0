@@ -55,6 +55,10 @@ pip install pillow
 #安装DjangoVerifyCode
 pip install DjangoVerifyCode
 cp ../tools/__init__.py ../../lib/python2.7/site-packages/DjangoVerifyCode
+
+sudo ln -s /usr/local/lib/libiconv.so.2 /usr/lib/libiconv.so.2
+sudo ldconfig
+
 # Clear
 cd $CurrentDir
 sudo rm -rf $BuildDir
