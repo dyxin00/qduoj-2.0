@@ -1,4 +1,15 @@
-<li class="user-info-bar">xin</li>
+<li class="">
+    <div class="user-span">
+        <span><a class="user-info-bar" href="#">x疯狂的风景ijn</a></span>
+<!--        <span><a class="user-info-bar" href="#">&nbsp;(100)&nbsp;</a></span>-->
+    </div>
+</li>
+<li>
+    <form role="form" action="{% url "logout" %}" method="post"> 
+        {% csrf_token %}
+        <button type="submit" class="btn btn-black">签到</button>
+    </form>
+</li>
 <li>
     <form role="form" action="{% url "logout" %}" method="post"> 
         {% csrf_token %}

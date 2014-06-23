@@ -210,7 +210,18 @@
 }
 
 /*userinfo-bar*/
+.user-span{
+    height: 50px;
+    padding: 15px 0 15px 0;
+}
 .user-info-bar{
     height: 50px;
+    font-size: 17px;
+    color: #999;
+    text-decoration:none;
     text-align: center;
+}
+.user-info-bar:hover{
+  	color: #2A1A53;
+    text-decoration:none;
 }
