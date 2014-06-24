@@ -4,6 +4,7 @@ from random import choice
 from django.shortcuts import render, redirect
 from django.db import IntegrityError
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from DjangoVerifyCode import Code
@@ -65,10 +66,13 @@ def sign_in(request):
 def sign_out(request):
 
     logout(request)
-    return HttpResponse("logout")
+    return redirect('index')
 
+@login_required(login_url='sign_in')
 def user_info(request):
+
     return render(request, "user/user_info_page.html", {})
+
 #http://www.oschina.net/p/django-verify-code/similar_projects?lang=26&sort=view
 def get_code(request):
 
