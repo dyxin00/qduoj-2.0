@@ -90,6 +90,11 @@
 .td-Date{
     width: 25%;
 }
+.progress {
+    height: 20px;
+    margin-bottom: 0px;
+    border-radius: 4px;
+}
 
 /*gonggao*/
 .gao{
@@ -230,3 +235,11 @@
 .error-info{
     text-align: center;
 }
+.only{
+	display: none;    
+}
+.only : hover{
+    display: inline;
+    color: #2A1A53;
+}
+
