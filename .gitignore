@@ -37,4 +37,6 @@ nosetests.xml
 *~
 
 *.swp
+*.swn
+*.swo
 #*.sql

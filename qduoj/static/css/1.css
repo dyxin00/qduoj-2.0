@@ -90,6 +90,11 @@
 .td-Date{
     width: 25%;
 }
+.progress {
+    height: 20px;
+    margin-bottom: 0px;
+    border-radius: 4px;
+}
 
 /*gonggao*/
 .gao{
@@ -136,6 +141,15 @@
     padding: 20px;
     border-radius: 10px;
 }
+.problem-submit{
+
+    margin: auto;
+    width: 35%;
+    padding: 20px;
+}
+.problem-submit .status{
+    float: right;
+}
 
 .problem-title{
 
@@ -157,7 +171,9 @@
     font-family: Consolas, Courier New, DejaVu Sans Mono, Droid Sans Mono, monospace;
     word-break:break-all;
 }
-
+.submit-language{
+    width: 30%;
+}
 
 
 /*solution*/
@@ -230,3 +246,10 @@
 .error-info{
     text-align: center;
 }
+.only{
+}
+.only : hover{
+    display: inline;
+    color: #2A1A53;
+}
+
