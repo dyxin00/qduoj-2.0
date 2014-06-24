@@ -1,7 +1,8 @@
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      <form action="" method="post">
+      <form action="/submit_code/" method="post">
+          {% csrf_token %}
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h3 class="modal-title" id="myModalLabel">Submit Code</h3>
@@ -14,11 +15,13 @@
                         <option value="2">Java</option>
                 </select>
             </div>
-            <textarea name='code' rows='15' cols='67' autofocus></textarea>
+<!--              需要初始化pid value=-->
+            <input type="hidden" name='pid' value="1">
+            <textarea name='code' rows='15' cols='67' autofocus="autofocus"></textarea>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Save changes</button>
+            <button type="submit" class="btn btn-primary">Save Code</button>
           </div>
       </form>
     </div><!-- /.modal-content -->
