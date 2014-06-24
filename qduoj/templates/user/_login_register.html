@@ -2,7 +2,7 @@
     <form role="form" action="{% url "sign_in" %}" method="get"> 
         
         {%  if request.path != '/sign_up/' %}
-            <input type="hidden" name='next' value="{{request.path}}">
+            <input type="hidden" name='next' value="{{request.path}}?{% for key, var in request.GET.iteritems %}{{key}}={{var}}&{% endfor %}">
         {% endif %}
         <button type="submit" class="btn btn-black">Sign in</button>
     </form>

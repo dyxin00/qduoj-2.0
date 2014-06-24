@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 
 def index(request):
 
+    print request
     return render(request,"problem/problem_list.html", {})
 
 def problem(request):
