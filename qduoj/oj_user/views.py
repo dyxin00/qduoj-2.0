@@ -10,6 +10,9 @@ from DjangoVerifyCode import Code
 
 from oj_user.models import User_oj
 
+def index(request):
+    return render(request, "index.html", {})
+
 # The HttpResponse Used to test
 def sign_up(request):
     if request.method == 'POST':
