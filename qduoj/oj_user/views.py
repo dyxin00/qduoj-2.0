@@ -31,7 +31,6 @@ def sign_up(request):
             return render(request, "user/sign_up.html", {'error' : error})
 
         oj_user = User_oj.objects.create(user=user, school_id=school_id)
-
         return redirect('sign_in')
     return render(request, "user/sign_up.html", {})
 
@@ -60,7 +59,8 @@ def sign_in(request):
         else:
             error = 'The user name or password is incorrect !'
             return render(request, "user/sign_in.html", {'error' : error})
-    return render(request, "user/sign_in.html", {'next' : request.GET.get('next', '/')})
+    next_url = request.GET.get('next', '/')
+    return render(request, "user/sign_in.html", {'next' : next_url})
 
 
 def sign_out(request):
