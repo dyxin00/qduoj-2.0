@@ -10,7 +10,7 @@ def problem(request):
 
     return render(request,"problem/problem.html", {})
 
-
+@login_required(login_url='sign_in')
 def submit_code(request):
 
     if request.method == 'POST':
