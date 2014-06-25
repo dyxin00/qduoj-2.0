@@ -38,7 +38,7 @@ def sign_up(request):
             return render(request, "user/sign_up.html", {'error': error})
 
         if not re.match(ur'.{3,20}', password):
-            error = 'Password malformed'
+            error = 'Password malformed (can not be less than three)'
             return render(request, "user/sign_up.html", {'error': error})
 
         try:
