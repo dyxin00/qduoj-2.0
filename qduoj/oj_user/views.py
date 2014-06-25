@@ -11,6 +11,8 @@ from DjangoVerifyCode import Code
 
 from oj_user.models import User_oj
 
+import re   #francis
+
 def index(request):
     return render(request, "index.html", {})
 
@@ -22,6 +24,22 @@ def sign_up(request):
         school_id = request.POST.get('school_ID', '')
         password = request.POST.get('password', '')
         #未验证数据正确性, 合法性
+        
+        if not re.match(ur'[a-zA-Z0-9_\u4e00-\u9fa5]{2,20}$', unicode(username)):
+            return render(request, "user/sign_up.html",
+                    {"error": 'Username malformed'})
+
+        if not re.match(ur'[0-9]{9,11}', unicode(school_id)):
+            error = 'ID malformed'
+            return render(request, "user/sign_up.html", {'error': error})
+
+        if not re.match(ur'[\w!#$%&*+/=?^_`{|}~-]+(?:\.[\w!#$%&*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?', email):
+            error = 'Email malformed'
+            return render(request, "user/sign_up.html", {'error': error})
+
+        if not re.match(ur'.{3,20}', password):
+            error = 'Password malformed'
+            return render(request, "user/sign_up.html", {'error': error})
 
         try:
             user = User.objects.create_user(username=username,
