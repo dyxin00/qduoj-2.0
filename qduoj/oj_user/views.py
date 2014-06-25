@@ -27,18 +27,18 @@ def sign_up(request):
         
         if not re.match(ur'[a-zA-Z0-9_\u4e00-\u9fa5]{2,20}$', unicode(username)):
             return render(request, "user/sign_up.html",
-                    {"error": 'Username malformed'})
+                    {"error": 'Username is invalid or already taken'})
 
         if not re.match(ur'[0-9]{9,11}', unicode(school_id)):
-            error = 'ID malformed'
+            error = 'ID is invalid or already taken'
             return render(request, "user/sign_up.html", {'error': error})
 
         if not re.match(ur'[\w!#$%&*+/=?^_`{|}~-]+(?:\.[\w!#$%&*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?', email):
-            error = 'Email malformed'
+            error = 'Email is invalid'
             return render(request, "user/sign_up.html", {'error': error})
 
         if not re.match(ur'.{3,20}', password):
-            error = 'Password malformed (can not be less than three)'
+            error = 'Password is invalid(can not be less than three)'
             return render(request, "user/sign_up.html", {'error': error})
 
         try:
