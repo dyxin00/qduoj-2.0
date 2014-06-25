@@ -10,7 +10,7 @@ class Problem(models.Model):
     sample_input = models.TextField()
     sample_output = models.TextField()
     spj = models.CharField(max_length=1, default='0')
-    hint = models.TextField()
+    hint = models.TextField(null=True)
     source = models.CharField(max_length=100, null=True)
     in_date = models.DateTimeField(auto_now_add=True)
     time_limit = models.IntegerField(default=0)
@@ -25,6 +25,7 @@ class Problem(models.Model):
     submit = models.IntegerField(default=0)
     solved = models.IntegerField(default=0)
     user = models.ForeignKey(User_oj)
+    difficult = models.IntegerField(default=0)
 
     class Meta:
         db_table = "problem"

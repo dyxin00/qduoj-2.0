@@ -7,6 +7,7 @@ class User_oj(models.Model):
     school_id = models.CharField(max_length=12)
     reg_time = models.DateField(auto_now=True)
     accesstime = models.DateField(null=True)
+    integral = models.IntegerField(default=0)
 
     class Meta:
         db_table = "users"
