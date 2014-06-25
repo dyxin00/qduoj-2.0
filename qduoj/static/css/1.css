@@ -299,4 +299,26 @@
 }
 .server-time h3 span{
     color: #712015;
+
+
+/*about*/
+.about-bar{
+    width: 80%;
+    padding: 40px;
+}
+.about-default{
+    background-color: #f7f5fa;
+    padding: 20px 0px;
+    border-radius: 10px;
+}
+.dlbegin{
+    text-indent:2em;
+}
+.top-menu{
+    padding-left:0px;
+    margin-bottom:40px;
+}
+
+.table-align{
+    margin:40px 80px;
 }

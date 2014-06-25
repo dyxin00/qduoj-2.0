@@ -1,0 +1,40 @@
+{% extends 'base_layout.html' %} {% block top_title%}
+<div class="container">
+    <h1>About</h1>
+    <p>这是一些有趣的东西</p>
+</div>
+{% endblock %} 
+{% block mid_left_3%}
+{% include "_mid_left_3_default.html" %}
+{% endblock %} 
+{% block mid_mid_9 %}
+
+<div class='about-bar'>
+<ul class="nav nav-tabs top-menu" id="myTab">
+  <li class="active"><a href="#home" data-toggle="tab">Acm</a></li>
+  <li><a href="#profile" data-toggle="tab">Author</a></li>
+  <li><a href="#messages" data-toggle="tab">Advance</a></li>
+
+</ul>
+
+<div class="tab-content">
+  <div class="tab-pane active" id="home">
+      {% include 'about/_about_acm.html' %}
+  </div>
+  <div class="tab-pane" id="profile">
+      {% include 'about/_about_us.html' %}
+  </div>
+  <div class="tab-pane" id="messages">
+      {% include 'about/_about_advance.html' %}  
+  </div>
+
+</div>
+
+<script>
+  $(function () {
+    $('#myTab a:first').tab('show')
+  })
+</script>
+
+
+{% endblock %} 
