@@ -142,6 +142,7 @@ INSTALLED_APPS = (
     #'oj_admin',
     'oj_user',
     'south',
+    'about',
 )
 
 # A sample logging configuration. The only tangible logging
