@@ -21,6 +21,7 @@ class Contest(models.Model):
 
 class Contest_problem(models.Model):
     problem_id = models.ForeignKey(Problem)
+    contest_id = models.ForeignKey(Contest)
     title = models.CharField(max_length=200, default='')
     num = models.IntegerField(default=0)
     sorce = models.IntegerField()

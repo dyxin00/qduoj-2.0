@@ -12,7 +12,7 @@ class Problem(models.Model):
     spj = models.CharField(max_length=1, default='0')
     hint = models.TextField()
     source = models.CharField(max_length=100, null=True)
-    in_date = models.DateTimeField(null=True)
+    in_date = models.DateTimeField(auto_now_add=True)
     time_limit = models.IntegerField(default=0)
     memory_limit = models.IntegerField(default=0)
     visible = models.BooleanField(default=False)

@@ -4,8 +4,7 @@ from problem.models import Problem
 from oj_user.models import User_oj
 
 class Solution(models.Model):
-    solution_id = models.IntegerField()
-    problem = models.ForeignKey(Problem, primary_key=True)
+    problem = models.ForeignKey(Problem)
     user = models.ForeignKey(User_oj)
     time = models.IntegerField(default=0)
     memory = models.IntegerField(default=0)
