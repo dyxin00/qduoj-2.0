@@ -258,3 +258,45 @@
     color: #2A1A53;
 }
 
+/*contest*/
+.contest{
+
+    background-color: #f7f5fa;
+    margin: auto;
+    width: 90%;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.c_status{
+    width: 10%;
+    text-align: center;
+}
+.c_ID{
+    width: 10%;
+    text-align: center;
+}
+.c-title{
+    width: 30%;
+    text-align: center;
+}
+.c-mode{
+    width: 10%;
+    text-align: center;
+}
+.c-public{
+    width: 10%;
+    text-align: center;
+}
+.c_time{
+    width: 30%;
+    text-align: center;
+}
+.contest_info{
+    text-align: center;
+}
+.server-time{
+}
+.server-time h3 span{
+    color: #712015;
+}
