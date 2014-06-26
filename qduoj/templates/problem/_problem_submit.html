@@ -16,7 +16,10 @@
                 </select>
             </div>
 <!--              需要初始化pid value=-->
-            <input type="hidden" name='pid' value="1">
+            {% if cid %}
+                <input type="hidden" name='cid' value="{{cid}}">
+            {% endif %}
+            <input type="hidden" name='pid' value="{{problem.id}}">
             <textarea name='code' rows='15' cols='67' autofocus="autofocus"></textarea>
           </div>
           <div class="modal-footer">

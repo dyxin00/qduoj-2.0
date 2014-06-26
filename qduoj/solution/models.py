@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from problem.models import Problem
+from contest.models import Contest
 from oj_user.models import User_oj
 
 class Solution(models.Model):
@@ -12,12 +13,12 @@ class Solution(models.Model):
     result = models.IntegerField(default=0)
     language = models.IntegerField(default=0)
     ip = models.CharField(max_length=15)
-    contest_id = models.IntegerField(null=True)
+    contest = models.ForeignKey(Contest, null=True)
     valid = models.IntegerField(default=1)
     num = models.IntegerField(default=-1)
     code_length = models.IntegerField(default=0)
     judgetime = models.DateTimeField(null=True)
-    pass_rate = models.DecimalField(max_digits=2, decimal_places=2)
+    pass_rate = models.DecimalField(max_digits=2, decimal_places=2, null=True)
     ######
 
     class Meta:
@@ -36,8 +37,15 @@ class Custominput(models.Model):
     class Meta:
         db_table = 'custominput'
 class Runtimeinfo(models.Model):
-    solution_id = models.ForeignKey(Solution)
+    solution = models.ForeignKey(Solution)
     error = models.TextField()
 
     class Meta:
         db_table = 'runtimeinfo'
+
+class Source_code(models.Model):
+    solution = models.ForeignKey(Solution)
+    source  = models.TextField()
+
+    class Meta:
+        db_table = 'source_code'
