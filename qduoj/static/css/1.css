@@ -179,8 +179,26 @@
 .submit-language{
     width: 30%;
 }
+.submit_text{
+    width: 98%;
+    margin: auto;
+}
+.CodeMirror {
+    margin: 6px 0;
+    line-height: 1em;
+    border: 1px solid #ddd;
+    font-family: 'Droid Sans Mono', Consolas, Courier New, monospace;
+    background-color: #fff;
+}
 
-
+.CodeMirror-scroll {
+    min-height: 250px;
+    height: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
+    width: 100%;
+    position: relative;
+}
 /*solution*/
 
 .serach-width{
@@ -300,7 +318,7 @@
 .server-time h3 span{
     color: #712015;
 
-
+}
 /*about*/
 .about-bar{
     width: 80%;
