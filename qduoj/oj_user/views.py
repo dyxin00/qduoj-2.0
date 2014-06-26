@@ -75,10 +75,11 @@ def sign_in(request):
                 return redirect(next_url)
             else:
                 error = 'The account has been stopped using !'
-                return render(request, "user/sign_in.html", {'error' : error})
+                return render(request, "user/sign_in.html",
+                        {'error' : error, 'next' : next_url})
         else:
-            error = 'The user name or password is incorrect !'
-            return render(request, "user/sign_in.html", {'error' : error})
+            return render(request, "user/sign_in.html",
+                    {'error' : error, 'next' : next_url})
     next_url = request.GET.get('next', '/')
     return render(request, "user/sign_in.html", {'next' : next_url})
 
