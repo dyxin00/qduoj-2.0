@@ -55,6 +55,7 @@ def sign_up(request):
 # The HttpResponse Used to test
 def sign_in(request):
     if request.method == 'POST':
+        next_url = request.POST.get('next', '/')
         username = request.POST.get('username', '')
         password = request.POST.get('password', '')
         captcha = request.POST.get('captcha', '')
@@ -64,13 +65,14 @@ def sign_in(request):
         code = Code(request)
         if not code.check(captcha):
             error = 'Verification code error !'
-            return render(request, "user/sign_in.html", {'error' : error})
+            return render(request, "user/sign_in.html",
+                    {'error' : error, 'next' : next_url})
 
         user = authenticate(username=username, password=password)
         if user is not None:
             if user.is_active:
                 login(request, user)
-                return redirect(request.POST.get('next', '/'))
+                return redirect(next_url)
             else:
                 error = 'The account has been stopped using !'
                 return render(request, "user/sign_in.html", {'error' : error})
