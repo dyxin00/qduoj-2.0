@@ -26,7 +26,6 @@ class Problem(models.Model):
     solved = models.IntegerField(default=0)
     user = models.ForeignKey(User_oj)
     difficult = models.IntegerField(default=0)
-    
     def __unicode__(self):
         return self.title
 
