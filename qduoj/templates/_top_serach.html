@@ -2,7 +2,7 @@
 <form class="form-inline serach-top" role="form" action="/problem/" method="get">
     <div class="form-group">
         <span >Classify：</span>
-        <select name="type" class="form-control">
+        <select name="type" class="form-control" id = 'type_s' onchange="setsubmit()">
                 <option value="-1">全部</option>
                 <option value="0">其它</option>
                 <option value="1">模拟</option>
@@ -22,6 +22,12 @@
                 <option value="15">网络流</option>
             </select>
     </div>
+	<script type="text/javascript">
+		function setsubmit(){
+			
+			window.location='/problem_index/?type=' + type_s.value;
+		}
+</script>
   <button type="submit" class="btn btn-default serach_move">Serach</button>
   <div class="form-group serach_move">
     <label class="sr-only" for="Problem-id"></label>
