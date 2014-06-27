@@ -49,20 +49,30 @@ def submit_code(request):
             error="Code too short!"
             return render(request, "error.html", {'error':error})
 
-        submit = {
-                'user' : request.user.user_oj,
-                'problem' : Problem.objects.get(id=pid),
-                'ip' : request.META.get('REMOTE_ADDR'),
-                'code_length' : len(code)
-                }
+        try:
+            submit = {
+                    'user' : request.user.user_oj,
+                    'problem' : Problem.objects.get(id=pid),
+                    'ip' : request.META.get('REMOTE_ADDR'),
+                     'code_length' : len(code)
+                     }
+        except ObjectDoesNotExist:
+            error="The problem not exist!"
+            return render(request, "error.html", {'error':error})
+
         if cid != None:
-            cid = Contest.objects.get(id=cid)
-            submit['cid'] = cid
+            try:
+                cid = Contest.objects.get(id=cid)
+                submit['cid'] = cid
+            except ObjectDoesNotExist:
+                error='The contest not exist!'
+                return render(request, "error.html", {'error':error})
         
         solution = Solution.objects.create(**submit)
         Source_code.objects.create(solution=solution, source=code)
 
-        return redirect('status_list')
+        return render(request, 'delay_jump.html', {'next_url' : '/status_list/'})
+        #return redirect('status_list')
 
     error="~ ~呵呵！！"
     return render(request,"error.html", {'error':error})

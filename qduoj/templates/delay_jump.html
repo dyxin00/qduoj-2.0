@@ -1,0 +1,16 @@
+{% extends 'base_layout.html' %}
+
+{% block meta%}
+{% endblock %}
+{% block top_title%}
+<div class="container">
+    <h1>Wait a minute</h1>
+</div>
+{% endblock %}
+<meta http-equiv="refresh" content="5; url={{next_url}}">
+{% block mid_left_3%}
+{% include "_mid_left_3_default.html" %}
+{% endblock %}
+{% block mid_mid_9%}
+<div class="alert alert-success error-info">{{next_url}}</div>
+{% endblock %}
