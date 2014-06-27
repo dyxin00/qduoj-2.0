@@ -1,16 +1,25 @@
 {% extends 'base_layout.html' %}
 
 {% block meta%}
+<meta http-equiv="refresh" content="3; url={{next_url}}">
 {% endblock %}
 {% block top_title%}
 <div class="container">
     <h1>Wait a minute</h1>
 </div>
 {% endblock %}
-<meta http-equiv="refresh" content="5; url={{next_url}}">
 {% block mid_left_3%}
 {% include "_mid_left_3_default.html" %}
 {% endblock %}
 {% block mid_mid_9%}
-<div class="alert alert-success error-info">{{next_url}}</div>
+<div class="alert alert-success text-center">{{info}} -- <a href="{{ next_url }}"><span id='jump'></span>s 后跳转</a></div>
+<script type="text/javascript">
+    jump = 3;
+    function go(){
+        document.getElementById("jump").innerHTML=jump;
+        setTimeout('go()', 1000);
+        jump --;
+    }
+    go();
+</script>
 {% endblock %}

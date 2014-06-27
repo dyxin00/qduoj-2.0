@@ -8,31 +8,42 @@ from contest.models import Contest
 import re
 
 def index(request):
-    
-    return render(request,"problem/problem_list.html", {})
+    if request.method == 'GET':
+
+        problem_type = request.GET.get('type', '-1')
+
+        if problem_type == '-1':
+            problems = Problem.objects.all()
+
+        else:
+            problems = Problem.objects.filter(classify=problem_type)
+
+        return render(request, "problem/problem_list.html",
+                {'problems': problems, 'type' : problem_type})
+    error = "~ ~呵呵！！"
+    return render(request, "error.html", {'error':error})
 
 def problem(request):
     if request.method == 'GET':
         pid = request.GET.get('pid', None)
         cid = request.GET.get('cid', None)
         if pid == None:
-            error="Not Found !"
+            error = "Not Found !"
             return render(request, "error.html", {'error':error})
        
         if not re.match(ur'[0-9]+$', unicode(pid)):
-            error="Only number please!"
+            error = "Only number please!"
             return render(request, "error.html", {'error':error})
         else:
             try:
                 problem = Problem.objects.get(id=pid)
             except ObjectDoesNotExist:
-                error="The problem not exist!"
+                error = "The problem not exist!"
                 return render(request, "error.html", {'error':error})
             return render(request, "problem/problem.html",
                     {'problem' : problem, 'cid' : cid})
-    else:
-        error="~ ~呵呵！！"
-        return render(request,"error.html", {'error':error})
+    error = "~ ~呵呵！！"
+    return render(request, "error.html", {'error':error})
 
 
 @login_required(login_url='sign_in')
@@ -46,7 +57,7 @@ def submit_code(request):
         cid = request.POST.get('cid', None)
 
         if len(code) == 0:
-            error="Code too short!"
+            error = "Code too short!"
             return render(request, "error.html", {'error':error})
 
         try:
@@ -54,25 +65,29 @@ def submit_code(request):
                     'user' : request.user.user_oj,
                     'problem' : Problem.objects.get(id=pid),
                     'ip' : request.META.get('REMOTE_ADDR'),
-                     'code_length' : len(code)
+                    'code_length' : len(code),
+                    'language' : language
                      }
         except ObjectDoesNotExist:
-            error="The problem not exist!"
+            error = "The problem not exist!"
             return render(request, "error.html", {'error':error})
 
         if cid != None:
             try:
-                cid = Contest.objects.get(id=cid)
-                submit['cid'] = cid
+                contest = Contest.objects.get(id=cid)
+                submit['cid'] = contest
             except ObjectDoesNotExist:
-                error='The contest not exist!'
+                error = 'The contest not exist!'
                 return render(request, "error.html", {'error':error})
         
         solution = Solution.objects.create(**submit)
         Source_code.objects.create(solution=solution, source=code)
 
-        return render(request, 'delay_jump.html', {'next_url' : '/status_list/'})
+        return render(request, 'delay_jump.html', {
+            'next_url' : '/status_list/',
+            'info' : 'Submitted successfully'
+            })
         #return redirect('status_list')
 
-    error="~ ~呵呵！！"
-    return render(request,"error.html", {'error':error})
+    error = "~ ~呵呵！！"
+    return render(request, "error.html", {'error':error})

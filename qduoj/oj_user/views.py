@@ -23,7 +23,6 @@ def sign_up(request):
         email = request.POST.get('email', '')
         school_id = request.POST.get('school_ID', '')
         password = request.POST.get('password', '')
-        #未验证数据正确性, 合法性
         
         if not re.match(ur'[a-zA-Z0-9_\u4e00-\u9fa5]{2,20}$', unicode(username)):
             return render(request, "user/sign_up.html",
@@ -49,7 +48,11 @@ def sign_up(request):
             return render(request, "user/sign_up.html", {'error' : error})
 
         oj_user = User_oj.objects.create(user=user, school_id=school_id)
-        return redirect('sign_in')
+        return render(request, 'delay_jump.html', {
+            'next_url' : '/sign_in/',
+            'info' : 'Registration successful'
+            })
+
     return render(request, "user/sign_up.html", {})
 
 # The HttpResponse Used to test
@@ -72,7 +75,10 @@ def sign_in(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
-                return redirect(next_url)
+                return render(request, 'delay_jump.html', {
+                    'next_url' : next_url,
+                    'info' : 'Login successful'
+                    })
             else:
                 error = 'The account has been stopped using !'
                 return render(request, "user/sign_in.html",
@@ -87,7 +93,11 @@ def sign_in(request):
 def sign_out(request):
 
     logout(request)
-    return redirect('index')
+
+    return render(request, 'delay_jump.html', {
+        'next_url' : '/',
+        'info' : 'Logout successful'
+        })
 
 @login_required(login_url='sign_in')
 def user_info(request):
