@@ -16,7 +16,7 @@
             </tr>
             <tr>
                 <th>Latest login</th>
-                <td>{{ user.user_oj.accesstime }}</td>
+                <td>{{ user.user_oj.accesstime|date:"Y-m-d" }}</td>
             </tr>
         </table>
     </div>
