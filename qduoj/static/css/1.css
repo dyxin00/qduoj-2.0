@@ -340,3 +340,43 @@
 .table-align{
     margin:40px 80px;
 }
+.basic_info_head{
+     border-bottom: dashed 1px #CCCCCC;
+}
+
+._basic_info_head{
+    padding: 10px;
+    text-align: center;
+    border-bottom: dashed 1px #CCCCCC;
+}
+
+._submit_info_head{
+    padding: 10px;
+    text-align: left;
+    border-bottom: dashed 1px #CCCCCC;
+}
+._basic_info{
+    margin-left:12%;
+    margin-right: 10%;
+    width: 90%;
+    word-break:break-all;
+}
+.basic_info{
+    height: 250px;
+    padding: 10px 0px 30px 0px;
+}
+._submit_info{
+    background-color: #f7f5fa;
+    margin: auto;
+    width: 90%;
+    padding: 20px;
+    border-radius: 10px;
+    padding-bottom: 33%;
+    word-break:break-all;
+}
+
+._sub_head{
+    margin-top: 5%;
+    border-bottom: dashed 1px #CCCCCC;
+    
+}

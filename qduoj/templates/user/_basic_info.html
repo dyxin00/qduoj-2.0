@@ -1,0 +1,23 @@
+ <div class="nav bs-sidenav">
+     <div class='basic_info'>
+         <h3 class="_basic_info_head">User information</h3>
+        <table class="_basic_info">
+            <tr>
+                <th>Username</th>
+                <td>{{ user.username }}</td>
+            </tr>
+            <tr>
+                <th>AC</th>
+                <td>{{ user.user_oj.solved }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <th>Latest login</th>
+                <td>{{ user.user_oj.accesstime }}</td>
+            </tr>
+        </table>
+    </div>
+</div>
