@@ -1,3 +1,4 @@
+{% load result_tag %}
 <table class="table table-bordered table-hover ">
     <thead>
       <tr>
@@ -20,12 +21,12 @@
                 <td><a href="/user_info/?username={{ solution.user.user.username }}">{{ solution.user.user.username }}</a></td>
                 <td><a href="/problem/?pid={{ solution.problem.id }}">{{ solution.problem.id }}</a></td>
                 <td>
-                <button type="button" class="btn btn-success btn-block btn-xs">Accepted</button>
+                {% result_tag solution.result 1%}
                 </td>
                 <td>{{ solution.memory }}</td>
                 <td>{{ solution.time }}</td>
                 <td id = 'language'>
-                    {{ solution.language }}
+                    {%  language_tag solution.language 1 %}
                 </td>
                 <td>{{solution.code_length }}b</td>
                 <td>{{ solution.in_date|date:"Y-m-d H:i:s" }}</td>
