@@ -100,6 +100,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'linaro_django_pagination.middleware.PaginationMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -122,6 +123,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.media',
     'django.core.context_processors.static',
     'django.core.context_processors.i18n',
+    'django.core.context_processors.debug',
 )
 
 INSTALLED_APPS = (
@@ -143,8 +145,13 @@ INSTALLED_APPS = (
     'oj_user',
     'south',
     'about',
+    'linaro_django_pagination',
 )
 
+#linaro_django_pagination setting
+PAGINATION_DISPLAY_DISABLED_PREVIOUS_LINK = True
+PAGINATION_DISPLAY_DISABLED_NEXT_LINK = True
+PAGINATION_INVALID_PAGE_RAISES_404 = True
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error when DEBUG=False.

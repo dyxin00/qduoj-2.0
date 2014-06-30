@@ -1,3 +1,4 @@
+ {% load pagination_tags %}
 <table class="table table-bordered table-hover">
     <thead>
       <tr>
@@ -9,6 +10,8 @@
       </tr>
     </thead>
     <tbody>
+      
+ 	{% autopaginate problems 1 %}
     {% for problem in problems %}
     <tr>
         <td></td>
@@ -26,3 +29,4 @@
     {% endfor %}
     </tbody>
 </table>
+{% paginate %}
