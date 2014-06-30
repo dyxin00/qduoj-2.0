@@ -8,6 +8,9 @@ class User_oj(models.Model):
     reg_time = models.DateField(auto_now=True)
     accesstime = models.DateField(null=True)
     integral = models.IntegerField(default=0)
+    
+    def __unicode__(self):
+        return self.user
 
     class Meta:
         db_table = "users"

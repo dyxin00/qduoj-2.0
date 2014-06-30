@@ -23,6 +23,8 @@ class Solution(models.Model):
 
     class Meta:
         db_table = 'solution'
+    def __unicode__(self):
+        return str(self.problem.id) + ' - ' + self.problem.title + ' - ' + self.user.user.username
 
 class Compileinfo(models.Model):
     solution = models.ForeignKey(Solution, primary_key=True)
