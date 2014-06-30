@@ -12,14 +12,22 @@ def index(request):
 
         problem_type = request.GET.get('type', '-1')
 
-        if problem_type == '-1':
-            problems = Problem.objects.all()
+        problems = Problem.objects.filter(visible=True)
 
-        else:
-            problems = Problem.objects.filter(classify=problem_type)
+        if problem_type != '-1':
+            problems = problems.filter(classify=problem_type)
+
+	if request.user.is_authenticated():
+   
+            solution_list = Solution.objects.filter(user_id=request.user.id)
+            accepted = solution_list.filter(result=4).order_by('problem').\
+                    values_list('problem', flat=True).distinct()
+            unsolved = solution_list.exclude(result=4).order_by('problem').\
+                    values_list('problem', flat=True).distinct()
 
         return render(request, "problem/problem_list.html",
-                {'problems': problems, 'type' : problem_type})
+                {'problems': problems, 'type' : problem_type,
+                 'accepteds' : accepted, 'unsolveds' : unsolved})
     error = "~ ~呵呵！！"
     return render(request, "error.html", {'error':error})
 
