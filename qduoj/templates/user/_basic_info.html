@@ -4,19 +4,19 @@
         <table class="_basic_info">
             <tr>
                 <th>Username</th>
-                <td><font color="#3389FF">{{ user.username }}</font></td>
+                <td class="user_content">{{ user.username }}</td>
             </tr>
             <tr>
                 <th>AC</th>
-                <td><font color="#3389FF">{{ user.user_oj.solved }}</font></td>
+                <td class="user_content">{{ user.user_oj.solved }}</td>
             </tr>
             <tr>
                 <th>Email</th>
-                <td><font color="#3389FF">{{ user.email }}</font></td>
+                <td class="user_content">{{ user.email }}</td>
             </tr>
             <tr>
                 <th>Latest login</th>
-                <td><font color="#3389FF">{{ user.user_oj.accesstime|date:"Y-m-d" }}</font></td>
+                <td class="user_content">{{ user.user_oj.accesstime|date:"Y-m-d" }}</td>
             </tr>
         </table>
     </div>

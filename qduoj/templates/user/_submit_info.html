@@ -5,7 +5,7 @@
             <h4 class="_sub_head">Accepted problems</h4>
             {% if accepted_list %}
                 {% for pid in accepted_list %}
-                    <a href="/problem/?pid={{pid}}"><font color="#3389FF">{{ pid }}</font></a>
+                    <a href="/problem/?pid={{pid}}">{{ pid }}</a>
                 {% endfor %}
             {% endif %}
         </div>
@@ -13,7 +13,7 @@
             <h4 class="_sub_head">Unsolved problems</h4>
             {% if unsolved_list %}
                 {% for pid in unsolved_list %}
-                    <a href="/problem/?pid={{pid}}"><font color="#3389FF">{{ pid }}</font></a>
+                    <a href="/problem/?pid={{pid}}">{{ pid }}</a>
                 {% endfor %}
             {% endif %}
         </div>
