@@ -10,29 +10,15 @@
       </tr>
     </thead>
     <tbody class='contest_info'>
+      {% for contest in contests %}
       <tr>
-        <td class="text-success">Done</td>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-        <td class="text-success">public</td>
-        <td>@mdo</td>
+        <th class="c_status">{{contest.visible}}</th>
+        <th class="c_ID">{{contest.id}}</th>
+        <th class="c-title"><a href = "/problem_index/?cid={{contest.id}}">{{contest.title}}</th>
+        <th class="c-mode">{{contest.mode}}</th></th>
+        <th class="c-public">Public</th>
+        <th class="c_time">{{contest.start_time}}/{{contest.end_time}}</th>
       </tr>
-      <tr>
-        <td>2</td>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-        <td class="text-success">public</td>
-        <td>2014-06-22 16:05 / 2014-06-22 16:05</td>
-      </tr>                            
-      <tr>
-        <td>2</td>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-        <td class="text-danger">private</td>
-        <td>@mdo</td>
-      </tr>                            
+		{% endfor %}                                                       
     </tbody>
 </table>
