@@ -1,0 +1,32 @@
+{% load pagination_tags %}
+{% load rank_tag %}
+<table class="table table-bordered table-hover ">
+    <thead>
+      <tr>
+        <th class="td-rid">No.</th>
+        <th class="td-user">User</th>
+        <th class="td-pid">Solved</th>
+        <th class="td-pid">Submit</th>
+        <th class="td-Ratio text-center">Ratio</th>
+      </tr>
+    </thead>
+    {% autopaginate user_list 4 %}
+    <tbody class="status-td">
+      {% for users in user_list %}
+      <tr>
+        <td>{% rank_tag page forloop.counter %}</td>
+        <td><a href="{% url 'user_info' %}?user={{users.user}}">{{users.user}}</td>
+        <td>{{users.solved}}</td>
+        <td>{{users.submit}}</td>
+        <td>
+			<div class="progress">
+              <div class="progress-bar" role="progressbar" aria-valuenow="{% widthratio users.solved users.submit 100%}" aria-valuemin="0" aria-valuemax="100" style="width: {% widthratio users.solved users.submit 100%}%;">
+                <span id = 'only' class="only" >{% widthratio users.solved  users.submit 100%}%</span>
+              </div>
+            </div>
+		</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+</table>
+{% paginate %}

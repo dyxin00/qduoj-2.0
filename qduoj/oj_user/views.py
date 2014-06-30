@@ -121,3 +121,14 @@ def get_code(request):
     code.type = choice(['number', 'world'])
     return code.display()
 
+def rank(request):
+    if request.method == 'GET':
+        page = request.GET.get('page', '1') 
+
+        rank_list = User_oj.objects.all()
+        
+        user_list=rank_list.filter().order_by('-solved', 'submit')
+        return render(request, 'rank/rank.html', {'user_list' : user_list, 'page' : int(page)})
+    
+    error = "呵呵"
+    return render(request, 'error.html', {'error' : error})
