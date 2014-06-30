@@ -37,8 +37,10 @@ def solution_list(request):
         solution = Solution.objects.filter(**kwargs)
 
         return render(request, "solution/status.html", 
-                    {'solution' : solution})
-    error = "hehe"
+                {'solution' : solution,
+                 'result_type' : result,
+                 'language_type' : language})
+    error = "呵呵"
     return render(request, "error.html", {'error' : error})
 
 
