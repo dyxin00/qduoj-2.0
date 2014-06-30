@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-  
 from random import choice
+import re
 
 from django.shortcuts import render, redirect
 from django.db import IntegrityError
@@ -9,16 +10,15 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 from DjangoVerifyCode import Code
 
+from util import request_method_only
 from oj_user.models import User_oj
 from problem.models import Problem
 from solution.models import Solution
 
-import re   #francis
 
 def index(request):
     return render(request, "index.html", {})
 
-# The HttpResponse Used to test
 def sign_up(request):
     if request.method == 'POST':
         username = request.POST.get('username', '')
@@ -57,7 +57,6 @@ def sign_up(request):
 
     return render(request, "user/sign_up.html", {})
 
-# The HttpResponse Used to test
 def sign_in(request):
     if request.method == 'POST':
         next_url = request.POST.get('next', '/')
@@ -91,7 +90,6 @@ def sign_in(request):
     next_url = request.GET.get('next', '/')
     return render(request, "user/sign_in.html", {'next' : next_url})
 
-
 def sign_out(request):
 
     logout(request)
@@ -114,6 +112,8 @@ def user_info(request):
     return render(request, "user/user_info_page.html", {'accepted_list': accepted_list, 'unsolved_list': unsolved_list})
 
 #http://www.oschina.net/p/django-verify-code/similar_projects?lang=26&sort=view
+
+@request_method_only('GET')
 def get_code(request):
 
     code = Code(request)

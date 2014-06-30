@@ -7,11 +7,13 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 
+from util import request_method_only
 from problem.models import Problem
 from solution.models import Solution, Custominput, Source_code
 from contest.models import Contest
 from oj_user.models import User_oj
 
+@request_method_only('GET')
 def solution_list(request):
     #solution = Solution.objects.all();
     if request.method == 'GET':
@@ -40,7 +42,4 @@ def solution_list(request):
                 {'solution' : solution,
                  'result_type' : result,
                  'language_type' : language})
-    error = "呵呵"
-    return render(request, "error.html", {'error' : error})
-
 

@@ -1,12 +1,16 @@
 # -*- coding: utf-8 -*-    
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-from problem.models import Problem
-from solution.models import Solution, Custominput, Source_code
-from django.core.exceptions import ObjectDoesNotExist
-from contest.models import Contest
 import re
 
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
+
+from util import request_method_only
+from problem.models import Problem
+from solution.models import Solution, Custominput, Source_code
+from contest.models import Contest
+
+@request_method_only('GET')
 def index(request):
     if request.method == 'GET':
 
@@ -20,9 +24,8 @@ def index(request):
 
         return render(request, "problem/problem_list.html",
                 {'problems': problems, 'type' : problem_type})
-    error = "~ ~呵呵！！"
-    return render(request, "error.html", {'error':error})
 
+@request_method_only('GET')
 def problem(request):
     if request.method == 'GET':
         pid = request.GET.get('pid', None)
@@ -42,11 +45,9 @@ def problem(request):
                 return render(request, "error.html", {'error':error})
             return render(request, "problem/problem.html",
                     {'problem' : problem, 'cid' : cid})
-    error = "~ ~呵呵！！"
-    return render(request, "error.html", {'error':error})
-
 
 @login_required(login_url='sign_in')
+@request_method_only('POST')
 def submit_code(request):
 
     if request.method == 'POST':
@@ -87,6 +88,3 @@ def submit_code(request):
             'next_url' : '/status_list/',
             'info' : 'Submitted successfully'
             })
-
-    error = "~ ~呵呵！！"
-    return render(request, "error.html", {'error':error})

@@ -152,6 +152,7 @@ INSTALLED_APPS = (
 PAGINATION_DISPLAY_DISABLED_PREVIOUS_LINK = True
 PAGINATION_DISPLAY_DISABLED_NEXT_LINK = True
 PAGINATION_INVALID_PAGE_RAISES_404 = True
+
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error when DEBUG=False.
