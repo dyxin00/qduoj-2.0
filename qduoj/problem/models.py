@@ -27,7 +27,7 @@ class Problem(models.Model):
     user = models.ForeignKey(User_oj)
     difficult = models.IntegerField(default=0)
     def __unicode__(self):
-        return self.title
+        return str(self.id) + ' - '+ self.title + ' - ' + self.user.user.username
 
     class Meta:
         db_table = "problem"
@@ -36,6 +36,8 @@ class Problem(models.Model):
 class Score(models.Model):
     problem_id = models.ForeignKey(Problem, primary_key=True)
     score = models.IntegerField(default=0)
-
+    
+    def __unicode__(self):
+        return str(self.problem_id.id) + ' - ' + self.problem_id.title + ' - ' + self.score
     class Meta:
         db_table = "score"

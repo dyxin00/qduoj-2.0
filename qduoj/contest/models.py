@@ -15,16 +15,22 @@ class Contest(models.Model):
     #mode 0 -> acm, 1->OI
     mode = models.IntegerField(default=0)
     user = models.ForeignKey(User_oj)
+    
+    def __unicode__(self):
+        return str(self.id) + ' - ' + self.title + ' - ' + self.user.user.username
 
     class Meta:
         db_table = 'contest'
 
 class Contest_problem(models.Model):
-    problem_id = models.ForeignKey(Problem)
-    contest_id = models.ForeignKey(Contest)
+    problem = models.ForeignKey(Problem)
+    contest = models.ForeignKey(Contest)
     title = models.CharField(max_length=200, default='')
     num = models.IntegerField(default=0)
     sorce = models.IntegerField()
-
+    
+    def __unicode__(self):
+        return str(self.id) + ' - ' + self.problem_id.title + ' - ' + str(self.problem_id.id)
+    
     class Meta:
         db_table = 'contest_problem'

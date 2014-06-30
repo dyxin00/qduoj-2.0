@@ -382,3 +382,13 @@
     border-bottom: dashed 1px #CCCCCC;
     
 }
+.problem_pass{
+	background: url('/static/img/1.png');
+	background-repeat: no-repeat;
+	background-position: center;
+}
+.problem_unpass{
+	background: url('/static/img/2.png');
+	background-repeat: no-repeat;
+	background-position: center;
+}
