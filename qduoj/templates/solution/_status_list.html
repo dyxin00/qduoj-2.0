@@ -13,38 +13,32 @@
       </tr>
     </thead>
     <tbody class="status-td">
+        {% if judge_list %}
+            {% for solution in judge_list %}
       <tr>
-        <td>10111</td>
-        <td>Mark</td>
-        <td>1011</td>
-        <td><button type="button" class="btn btn-danger btn-block btn-xs">Memory Limit</button></td>
-        <td>1000k</td>
-        <td>22222ms</td>
-        <td>c++</td>
-        <td>100b</td>
-        <td>@mdo</td>
-      </tr>
-      <tr>
-        <td>101111</td>
-        <td>Mark</td>
-        <td>1011</td>
-        <td><button type="button" class="btn btn-warning btn-block btn-xs">Compile Error</button></td>
-        <td>1000k</td>
-        <td>22222ms</td>
-        <td>c++</td>
-        <td>100b</td>
-        <td>@mdo</td>
-      </tr>
-      <tr>
-        <td>101111</td>
-        <td>Mark</td>
-        <td>1011</td>
-        <td><button type="button" class="btn btn-success btn-block btn-xs">Accepted</button></td>
-        <td>1000k</td>
-        <td>22222ms</td>
-        <td>c++</td>
-        <td>100b</td>
-        <td>2014-06-22 16:05:26</td>
+        <td>{{ solution.id }}</td>
+        <td><a href="/user_info/?username={{ solution.user.user.username }}">{{ solution.user.user.username }}</a></td>
+        <td><a href="/problem/?pid={{ solution.problem.id }}">{{ solution.problem.id }}</a></td>
+        <td>
+        <button type="button" class="btn btn-success btn-block btn-xs">Accepted</button>
+        </td>
+        <td>{{ solution.memory }}</td>
+        <td>{{ solution.time }}</td>
+        <td>
+            <script type="text/javascript">
+                var language = {{ solution.language }}
+                if (language==1)
+                    document.write("C")
+                else if(language==2)
+                    document.write("C++")
+                else
+                    document.write("Java")
+            </script>
+        </td>
+        <td>{{solution.code_length }}b</td>
+        <td>{{ solution.in_date|date:"Y-m-d H:i:s" }}</td>
+            {% endfor %}
+        {% endif %}
       </tr>
     </tbody>
 </table>
