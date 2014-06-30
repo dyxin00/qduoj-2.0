@@ -107,11 +107,11 @@ def user_info(request):
 
         user_id = request.user.id
         solution_list = Solution.objects.filter(user_id=user_id)
-        accepted_list = solution_list.filter(result=4).order_by('id').values_list('id', flat=True)
-        unsolved_list = solution_list.exclude(result=4).order_by('id').values_list('id', flat=True)
-       # submit_num = solution_list.count()
-       # print submit_num
-    return render(request, "user/user_info_page.html", {'accepted_list': accepted_list, 'unsolved_list': unsolved_list})
+    
+        accepted_list = solution_list.filter(result=4).order_by('problem').values_list('problem', flat=True).distinct()
+        unsolved_list = solution_list.exclude(result=4).order_by('problem').values_list('problem', flat=True).distinct()
+        unsolved_num = len(list(set(unsolved_list).difference(set(accepted_list))))
+    return render(request, "user/user_info_page.html", {'accepted_list': accepted_list, 'unsolved_list': unsolved_list, 'unsolved_num' :unsolved_num})
 
 #http://www.oschina.net/p/django-verify-code/similar_projects?lang=26&sort=view
 def get_code(request):
