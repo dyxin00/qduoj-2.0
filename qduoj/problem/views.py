@@ -87,7 +87,6 @@ def submit_code(request):
             'next_url' : '/status_list/',
             'info' : 'Submitted successfully'
             })
-        #return redirect('status_list')
 
     error = "~ ~呵呵！！"
     return render(request, "error.html", {'error':error})
