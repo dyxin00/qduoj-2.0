@@ -1,3 +1,4 @@
+{% load pagination_tags %}
 {% load result_tag %}
 <table class="table table-bordered table-hover ">
     <thead>
@@ -13,6 +14,7 @@
         <th class="td-stime">Submit Time</th>
       </tr>
     </thead>
+    {% autopaginate judge_list 2 %}
     <tbody class="status-td">
         {% if judge_list %}
             {% for solution in judge_list %}
@@ -35,3 +37,4 @@
         {% endif %}
     </tbody>
 </table>
+{% paginate %}

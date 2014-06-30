@@ -10,7 +10,7 @@ class User_oj(models.Model):
     integral = models.IntegerField(default=0)
     
     def __unicode__(self):
-        return self.user
+        return self.user.username
 
     class Meta:
         db_table = "users"
