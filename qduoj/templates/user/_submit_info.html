@@ -7,20 +7,16 @@
                 {% for pid in accepted_list %}
                     <a href="/problem/?pid={{pid}}">{{ pid }}</a>
                 {% endfor %}
-            {% else %}
-                <h5>None</h5>
             {% endif %}
         </div>
         <div class="Unsolved_list">
-            <h4 class="_sub_head">Unsolved problems({{ unsolved_num }})</h4>
+            <h4 class="_sub_head">Unsolved problems({{unsolved_num}})</h4>
             {% if unsolved_list %}
                 {% for pid in unsolved_list %}
 			{% if not pid in accepted_list %}
                     <a href="/problem/?pid={{pid}}">{{ pid }}</a>
 			{% endif %}
                 {% endfor %}
-            {% else %}
-                <h5>None</h5>
             {% endif %}
         </div>
     </div>

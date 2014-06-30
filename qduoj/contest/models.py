@@ -30,7 +30,7 @@ class Contest_problem(models.Model):
     sorce = models.IntegerField()
     
     def __unicode__(self):
-        return str(self.id) + ' - ' + self.problem_id.title + ' - ' + str(self.problem_id.id)
+        return str(self.id) + ' - ' + self.problem.title + ' - ' + str(self.problem.id)
     
     class Meta:
         db_table = 'contest_problem'

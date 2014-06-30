@@ -15,20 +15,18 @@ from oj_user.models import User_oj
 
 @request_method_only('GET')
 def solution_list(request):
-    #solution = Solution.objects.all();
     if request.method == 'GET':
         problem_id = request.GET.get('problem_id', None)
         user_name = request.GET.get('user_name', '')
         result = request.GET.get('result', '-1')
         language = request.GET.get('language', '-1')
         
-        kwargs = { }
+        kwargs = {}
 
         if re.match(ur'[0-9]+$', unicode(problem_id)):
             kwargs['problem'] = problem_id
 
         if user_name != '':
-            print ' 1' + user_name +'1 '
             kwargs['user__user__username'] = user_name
 
         if result != '-1':
@@ -39,7 +37,6 @@ def solution_list(request):
         solution = Solution.objects.filter(**kwargs)
 
         return render(request, "solution/status.html", 
-                {'solution' : solution,
+                {'judge_list' : solution,
                  'result_type' : result,
                  'language_type' : language})
-
