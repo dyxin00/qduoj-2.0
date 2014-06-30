@@ -21,19 +21,17 @@ def index(request):
         if problem_type != '-1':
             problems = problems.filter(classify=problem_type)
 
-	if request.user.is_authenticated():
-   
+        problem_dict = {'problems': problems, 'type' : problem_type}
+        if request.user.is_authenticated():
             solution_list = Solution.objects.filter(user_id=request.user.id)
             accepted = solution_list.filter(result=4).order_by('problem').\
                     values_list('problem', flat=True).distinct()
             unsolved = solution_list.exclude(result=4).order_by('problem').\
                     values_list('problem', flat=True).distinct()
+            problem_dict['accepteds'] = accepted
+            problem_dict['unsolveds'] = unsolved
 
-        return render(request, "problem/problem_list.html",
-                {'problems': problems, 'type' : problem_type,
-                 'accepteds' : accepted, 'unsolveds' : unsolved})
-    error = "~ ~呵呵！！"
-    return render(request, "error.html", {'error':error})
+        return render(request, "problem/problem_list.html", problem_dict)
 
 @request_method_only('GET')
 def problem(request):
