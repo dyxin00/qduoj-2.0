@@ -14,21 +14,21 @@
         <th class="td-stime">Submit Time</th>
       </tr>
     </thead>
-    {% autopaginate judge_list 2 %}
+    {% autopaginate judge_list 10 %}
     <tbody class="status-td">
         {% if judge_list %}
             {% for solution in judge_list %}
               <tr>
                 <td>{{ solution.id }}</td>
-                <td><a href="/user_info/?username={{ solution.user.user.username }}">{{ solution.user.user.username }}</a></td>
-                <td><a href="/problem/?pid={{ solution.problem.id }}">{{ solution.problem.id }}</a></td>
+                <td><a href="{% url 'user_info' %}?username={{ solution.user.user.username }}">{{ solution.user.user.username }}</a></td>
+                <td><a href="{% url 'problem' %}?pid={{ solution.problem.id }}">{{ solution.problem.id }}</a></td>
                 <td>
-                {% result_tag solution.result 1%}
+                {% result_tag solution.result %}
                 </td>
                 <td>{{ solution.memory }}</td>
                 <td>{{ solution.time }}</td>
                 <td id = 'language'>
-                    {%  language_tag solution.language 1 %}
+                    {%  language_tag solution.language%}
                 </td>
                 <td>{{solution.code_length }}b</td>
                 <td>{{ solution.in_date|date:"Y-m-d H:i:s" }}</td>

@@ -17,7 +17,7 @@
         <th class="c-title"><a href = "/problem_index/?cid={{contest.id}}">{{contest.title}}</th>
         <th class="c-mode">{{contest.mode}}</th></th>
         <th class="c-public">Public</th>
-        <th class="c_time">{{contest.start_time}}/{{contest.end_time}}</th>
+        <th class="c_time">{{contest.start_time | date:"Y-m-d H:i"}}/{{contest.end_time | date:"Y-m-d H:i"}}</th>
       </tr>
 		{% endfor %}                                                       
     </tbody>

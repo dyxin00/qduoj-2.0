@@ -14,6 +14,7 @@ class User_oj(models.Model):
 
     class Meta:
         db_table = "users"
+        ordering = ['-solved', 'submit']
 
 class Privilege(models.Model):
     user = models.ForeignKey(User_oj)

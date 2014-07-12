@@ -8,9 +8,8 @@ register = template.Library()
 class LangNode(template.Node):
 
     language = ['C', 'C++', '', 'Java'] + [''] * 2
-    def __init__(self, solution, msg):
+    def __init__(self, solution):
         self.solution = solution
-        self.msg = msg
 
     def render(self, context):
         try:   
@@ -21,12 +20,12 @@ class LangNode(template.Node):
 @register.tag
 def language_tag(parser, token):
     try:
-        tag_name, solution, msg = token.split_contents()
+        tag_name, solution = token.split_contents()
     except ValueError:
         raise template.TemplateSyntaxError,\
              "%r tag requires exactly two arguments" % token.contents.split()[0]
 
-    return LangNode(solution, msg)
+    return LangNode(solution)
 
 
 class ResultNode(template.Node):
@@ -38,9 +37,8 @@ class ResultNode(template.Node):
     flag = ['default'] * 4 +\
             ['success', 'warning', 'danger'] + ['warning'] * 5 + [''] * 2
     button = '<button type="button" class="btn btn-%s btn-block btn-xs"> %s </button>'
-    def __init__(self, result, msg):
+    def __init__(self, result):
         self.result = result
-        self.msg = msg
     def render(self, context):
 
         try:
@@ -54,9 +52,9 @@ class ResultNode(template.Node):
 def result_tag(parser, token):
 
     try: 
-        tag_name, result, msg = token.split_contents()
+        tag_name, result = token.split_contents()
     except ValueError:
         raise template.TemplateSyntaxError,\
             "%r tag requires exactly two arguments" % token.contents.split()[0]
 
-    return ResultNode(result, msg)
+    return ResultNode(result)

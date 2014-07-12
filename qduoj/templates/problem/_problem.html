@@ -3,9 +3,9 @@
         <div class="">
             <h1 class="problem-title">{{problem.title}}</h1>
             <p class="problem-info">
-                <span>Time Limit: <span class="font-color">{{problem.time_limit}}</span> ms</span>
+                <span>Time Limit: <span class="font-color">{{problem.time_limit}}</span> s</span>
                 &nbsp;&nbsp;|&nbsp;&nbsp;
-                <span>Memory Limit: <span class="font-color">{{problem.memory_limit}} </span>KB</span>
+                <span>Memory Limit: <span class="font-color">{{problem.memory_limit}} </span>MB</span>
             </p>
             <p class="problem-info">
                 <span>Difficulty: <span class="font-color">{{problem.difficult}}</span></span>
@@ -15,38 +15,48 @@
             <div>
                 <h3 class="mid-title">Description</h3>
                 <div class="content">
-                    <pre>{{problem.description}}</pre>
+                    <pre>{{problem.description | safe}}</pre>
                 </div>
             </div>
             <div>
                 <h3 class="mid-title">Input</h3>
                 <div class="content">
-                    <pre>{{problem.pro_input}}</pre>
+                    <pre>{{problem.pro_input | safe}}</pre>
                 </div>
             </div>
             <div>
                 <h3 class="mid-title">Output</h3>
                 <div class="content">
-                    <pre>{{problem.pro_output}}</pre>
+                    <pre>{{problem.pro_output | safe}}</pre>
                 </div>
             </div>
             <div>
                 <h3 class="mid-title">Sample Input</h3>
                 <div class="content">
-                    <pre>{{problem.sample_input}}</pre>
+                    <pre>{{problem.sample_input |  safe}}</pre>
                 </div>
             </div>
             <div>
                 <h3 class="mid-title">Sample Output</h3>
                 <div class="content">
-                    <pre>{{problem.sample_output}}</pre>
+                    <pre>{{problem.sample_output | safe}}</pre>
                 </div>
             </div>
+            {% if problem.source %}
             <div>
                 <h3 class="mid-title">Source</h3>
                 <div class="content">
-                    <pre>{{problem.source}}</pre>
+                    <pre>{{problem.source | safe }}</pre>
                 </div>
             </div>
+            {% endif %}
+            {% if problem.hint %}
+            <div>
+                <h3 class="mid-title">Hint</h3>
+                <div class="content">
+                    <pre>{{problem.hint | safe }}</pre>
+                </div>
+            </div>
+            {% endif %}
         </div>
         </div>

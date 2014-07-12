@@ -100,10 +100,10 @@ def sign_out(request):
         'info' : 'Logout successful'
         })
 
-@login_required(login_url='sign_in')
 def user_info(request):
-    if request.method=="GET":
+    if request.method == "GET":
 
+        username = request.GET.get('username')
         user_id = request.user.id
         solution_list = Solution.objects.filter(user_id=user_id)
     
@@ -130,7 +130,8 @@ def rank(request):
 
         rank_list = User_oj.objects.all()
         
-        user_list=rank_list.filter().order_by('-solved', 'submit')
+        user_list=rank_list.filter()
+        #user_list=rank_list.filter().order_by('-solved', 'submit')
         return render(request, 'rank/rank.html', {'user_list' : user_list, 'page' : int(page)})
     
     error = "呵呵"

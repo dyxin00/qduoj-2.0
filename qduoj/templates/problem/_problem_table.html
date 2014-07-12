@@ -11,7 +11,7 @@
     </thead>
     <tbody>
       
- 	{% autopaginate problems 1 %}
+ 	{% autopaginate problems 10 %}
     {% for problem in problems %}
     <tr>
 		{% if problem.id in accepteds %}
@@ -27,12 +27,12 @@
         <td><a href = '/problem/?pid={{problem.id}}'>{{problem.title}}</a></td>
         <td>
 			<div class="progress">
-              <div class="progress-bar" role="progressbar" aria-valuenow="{% widthratio problem.solved problem.submit 100%}" aria-valuemin="0" aria-valuemax="100" style="width: {% widthratio problem.solved problem.submit 100%}%;">
-                <span id = 'only' class="only" >{% widthratio problem.solved  problem.submit 100%}%</span>
+              <div class="progress-bar" role="progressbar" aria-valuenow="{% widthratio problem.accepted problem.submit 100%}" aria-valuemin="0" aria-valuemax="100" style="width: {% widthratio problem.accepted problem.submit 100%}%;">
+                <span id = 'only' class="only" >{% widthratio problem.accepted  problem.submit 100%}%</span>
               </div>
             </div>
 		</td>
-        <td>{{problem.in_date}}</td>
+        <td>{{problem.in_date | date:"Y-m-d H:i"}}</td>
     </tr>
     {% endfor %}
 		

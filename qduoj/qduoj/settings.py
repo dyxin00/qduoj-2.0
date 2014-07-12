@@ -10,11 +10,11 @@ ADMINS = (
 
 MANAGERS = ADMINS 
 DATABASES = {
-    'default': { 'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': './db.sql',                      # Or path to database file if using sqlite3.
+    'default': { 'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'qduoj',                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
-        'USER': '',
-        'PASSWORD': '',
+        'USER': 'root',
+        'PASSWORD': 'root',
         'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
         'PORT': '',                      # Set to empty string for default.
     }
@@ -148,11 +148,6 @@ INSTALLED_APPS = (
     'linaro_django_pagination',
 )
 
-#linaro_django_pagination setting
-PAGINATION_DISPLAY_DISABLED_PREVIOUS_LINK = True
-PAGINATION_DISPLAY_DISABLED_NEXT_LINK = True
-PAGINATION_INVALID_PAGE_RAISES_404 = True
-
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error when DEBUG=False.
@@ -181,6 +176,15 @@ LOGGING = {
         },
     }
 }
+
+#linaro_django_pagination setting
+PAGINATION_DISPLAY_DISABLED_PREVIOUS_LINK = True
+PAGINATION_DISPLAY_DISABLED_NEXT_LINK = True
+PAGINATION_INVALID_PAGE_RAISES_404 = True
+
+#session setting
+#SESSION_COOKIE_AGE = 60 * 60
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 if not DEBUG:
     INTERNAL_IPS = ('127.0.0.1',)

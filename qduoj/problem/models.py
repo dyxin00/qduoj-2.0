@@ -21,7 +21,7 @@ class Problem(models.Model):
     #标程
     accepted = models.IntegerField(default=0)
     #分类
-    classify = models.IntegerField()
+    classify = models.IntegerField(default=0)
     submit = models.IntegerField(default=0)
     solved = models.IntegerField(default=0)
     user = models.ForeignKey(User_oj)
@@ -34,10 +34,13 @@ class Problem(models.Model):
 
 
 class Score(models.Model):
-    problem_id = models.ForeignKey(Problem, primary_key=True)
+    problem = models.ForeignKey(Problem)
+    file_name = models.CharField(max_length=20)
     score = models.IntegerField(default=0)
     
     def __unicode__(self):
-        return str(self.problem_id.id) + ' - ' + self.problem_id.title + ' - ' + self.score
+        return str(self.problem.id) + ' - ' + self.problem.title + ' - ' + str(self.score)
     class Meta:
         db_table = "score"
+        unique_together = (("problem", "file_name"),)
+

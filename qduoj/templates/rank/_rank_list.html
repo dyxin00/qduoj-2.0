@@ -15,7 +15,7 @@
       {% for users in user_list %}
       <tr>
         <td>{% rank_tag page forloop.counter %}</td>
-        <td><a href="{% url 'user_info' %}?user={{users.user}}">{{users.user}}</td>
+        <td><a href="{% url 'user_info' %}?username={{users.user}}">{{users.user}}</td>
         <td>{{users.solved}}</td>
         <td>{{users.submit}}</td>
         <td>

@@ -18,11 +18,12 @@ class Solution(models.Model):
     num = models.IntegerField(default=-1)
     code_length = models.IntegerField(default=0)
     judgetime = models.DateTimeField(null=True)
-    pass_rate = models.DecimalField(max_digits=2, decimal_places=2, null=True)
+    pass_rate = models.DecimalField(max_digits=3, decimal_places=2, null=True)
     ######
 
     class Meta:
         db_table = 'solution'
+        ordering = ['-id']
     def __unicode__(self):
         return str(self.problem.id) + ' - ' + self.problem.title + ' - ' + self.user.user.username
 
@@ -51,3 +52,15 @@ class Source_code(models.Model):
 
     class Meta:
         db_table = 'source_code'
+
+class Sim(models.Model):
+
+    solution = models.ForeignKey(Solution, primary_key=True)
+    sim_s_id = models.IntegerField()
+    sim = models.IntegerField()
+
+    class Meta:
+        db_table = 'sim'
+
+    def __unicode__(self):
+        return 'solution_id %d sim_id %d sim %d ' %(self.solution.id, self.sim_s_id, self.sim) 
