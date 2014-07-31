@@ -101,17 +101,24 @@ def sign_out(request):
         })
 
 def user_info(request):
-    if request.method == "GET":
-
-        username = request.GET.get('username', None)
-        user_id = request.user.id
+    if request.method=="GET":
+        username = request.GET.get('username', '-1')
+        print username
+        if username != '-1':
+            user_info = User.objects.get(username=username)
+            user_id = user_info.id
+        else:
+            user_id = request.user.id
+            user_info = request.user
         solution_list = Solution.objects.filter(user_id=user_id)
     
         accepted_list = solution_list.filter(result=4).order_by('problem').values_list('problem', flat=True).distinct()
         unsolved_list = solution_list.exclude(result=4).order_by('problem').values_list('problem', flat=True).distinct()
         unsolved_num = len(list(set(unsolved_list).difference(set(accepted_list))))
+            
     return render(request, "user/user_info_page.html",
-            {'accepted_list': accepted_list,
+            {'user_info': user_info,
+             'accepted_list': accepted_list,
              'unsolved_list': unsolved_list, 'unsolved_num' :unsolved_num})
 
 #http://www.oschina.net/p/django-verify-code/similar_projects?lang=26&sort=view

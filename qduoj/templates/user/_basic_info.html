@@ -4,19 +4,19 @@
         <table class="_basic_info">
             <tr>
                 <th>Username</th>
-                <td class="user_content">{{ user.username }}</td>
+                <td class="user_content">{{ user_info.username }}</td>
             </tr>
             <tr>
                 <th>AC</th>
-                <td class="user_content">{{ user.user_oj.solved }}</td>
+                <td class="user_content">{{ user_info.user_oj.solved }}</td>
             </tr>
             <tr>
                 <th>Email</th>
-                <td class="user_content">{{ user.email }}</td>
+                <td class="user_content">{{ user_info.email }}</td>
             </tr>
             <tr>
                 <th>Latest login</th>
-                <td class="user_content">{{ user.user_oj.accesstime|date:"Y-m-d" }}</td>
+                <td class="user_content">{{ user_info.user_oj.accesstime|date:"Y-m-d" }}</td>
             </tr>
         </table>
     </div>

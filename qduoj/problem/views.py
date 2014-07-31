@@ -51,8 +51,13 @@ def problem(request):
             except ObjectDoesNotExist:
                 error = "The problem not exist!"
                 return render(request, "error.html", {'error':error})
-            return render(request, "problem/problem.html",
-                    {'problem' : problem, 'cid' : cid})
+            if problem.visible is True:
+                return render(request, "problem/problem.html",
+                        {'problem' : problem, 'cid' : cid})
+            else:
+                error = "The problem not exist!"
+                return render(request, "error.html", {'error':error})
+
 
 @login_required(login_url='sign_in')
 @request_method_only('POST')
