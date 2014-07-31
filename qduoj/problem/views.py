@@ -64,22 +64,28 @@ def submit_code(request):
         language = request.POST.get('language', None)
         pid = request.POST.get('pid', None)
         cid = request.POST.get('cid', None)
+        
+        try:
+            problem = Problem.objects.get(id=pid)
+        except ObjectDoesNotExist:
+            error = "The problem not exist!"
+            return render(request, "error.html", {'error':error})
+
+        if problem.visible == False:
+            error = "The problem is invisible!"
+            return render(request, "error.html", {'error':error})
 
         if len(code) == 0:
             error = "Code too short!"
             return render(request, "error.html", {'error':error})
 
-        try:
-            submit = {
-                    'user' : request.user.user_oj,
-                    'problem' : Problem.objects.get(id=pid),
-                    'ip' : request.META.get('REMOTE_ADDR'),
-                    'code_length' : len(code),
-                    'language' : language
-                     }
-        except ObjectDoesNotExist:
-            error = "The problem not exist!"
-            return render(request, "error.html", {'error':error})
+        submit = {
+                'user' : request.user.user_oj,
+                'problem' : problem,
+                'ip' : request.META.get('REMOTE_ADDR'),
+                'code_length' : len(code),
+                'language' : language
+                }
 
         if cid != None:
             try:
