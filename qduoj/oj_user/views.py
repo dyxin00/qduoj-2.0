@@ -103,7 +103,7 @@ def sign_out(request):
 def user_info(request):
     if request.method == "GET":
 
-        username = request.GET.get('username')
+        username = request.GET.get('username', None)
         user_id = request.user.id
         solution_list = Solution.objects.filter(user_id=user_id)
     
