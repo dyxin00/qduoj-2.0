@@ -34,7 +34,10 @@ def solution_list(request):
 
         if language != '-1':
             kwargs['language'] = language
+        kwargs['problem__visible'] = True
+
         solution = Solution.objects.filter(**kwargs)
+
 
         return render(request, "solution/status.html", 
                 {'judge_list' : solution,
