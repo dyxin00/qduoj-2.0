@@ -13,6 +13,8 @@ from solution.models import Solution, Custominput, Source_code
 from contest.models import Contest
 from oj_user.models import User_oj
 
+from django.db.models import Q
+
 @request_method_only('GET')
 def solution_list(request):
     if request.method == 'GET':
@@ -35,9 +37,9 @@ def solution_list(request):
         if language != '-1':
             kwargs['language'] = language
         kwargs['problem__visible'] = True
-
-        solution = Solution.objects.filter(**kwargs)
-
+    
+        username = request.user.username
+        solution = Solution.objects.filter(Q(**kwargs) | (Q(user__user__username=username) & Q(problem__visible=False)))
 
         return render(request, "solution/status.html", 
                 {'judge_list' : solution,
