@@ -10,14 +10,17 @@ from problem.models import Problem
 from solution.models import Solution, Custominput, Source_code
 from contest.models import Contest
 
+from django.db.models import Q
+
 @request_method_only('GET')
 def index(request):
     if request.method == 'GET':
 
         problem_type = request.GET.get('type', '-1')
 
-        problems = Problem.objects.filter(visible=True)
-
+        user_now = request.user
+        problems = Problem.objects.filter(Q(visible=True) | (Q(user__user=user_now) & Q(visible=False)))
+        
         if problem_type != '-1':
             problems = problems.filter(classify=problem_type)
 
