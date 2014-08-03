@@ -37,8 +37,7 @@ def solution_list(request):
         kwargs['problem__visible'] = True
 
         solution = Solution.objects.filter(**kwargs)
-
-
+         
         return render(request, "solution/status.html", 
                 {'judge_list' : solution,
                  'result_type' : result,

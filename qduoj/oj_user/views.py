@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-  
 from random import choice
 import re
+import time, datetime
 
 from django.shortcuts import render, redirect
 from django.db import IntegrityError
@@ -48,8 +49,8 @@ def sign_up(request):
         except IntegrityError:
             error = 'This user name already exists !'
             return render(request, "user/sign_up.html", {'error' : error})
-
-        oj_user = User_oj.objects.create(user=user, school_id=school_id)
+        
+        oj_user = User_oj.objects.create(user=user, school_id=school_id, accesstime = '1997-01-01')
         return render(request, 'delay_jump.html', {
             'next_url' : '/sign_in/',
             'info' : 'Registration successful'
@@ -92,7 +93,6 @@ def sign_in(request):
     return render(request, "user/sign_in.html", {'next' : next_url})
 
 def sign_out(request):
-
     logout(request)
 
     return render(request, 'delay_jump.html', {
@@ -100,10 +100,37 @@ def sign_out(request):
         'info' : 'Logout successful'
         })
 
+def check_in(request):
+    if request.method == 'POST':
+        next_url = request.POST.get('next', '/')
+        k = request.get_full_path()
+        print k, 'dsdsd'
+        user_id = request.user.id
+        user_oj = User_oj.objects.get(user__id = user_id)
+
+        GMT_FORMAT = '%Y-%m-%d %H:%M:%S'
+        now = time.localtime()
+        t1 = user_oj.accesstime.replace() + datetime.timedelta(hours=8)
+        st = time.mktime(time.strptime( str(t1),'%Y-%m-%d'))
+        accesstime = time.localtime(st)
+        if now[0] == accesstime[0] and now[1] == accesstime[1] and now[2] == accesstime[2]:
+            return render(request, 'delay_jump.html',{
+                'next_url' : '/',
+                'info' : 'Dont recheck_in'
+                })
+        else:
+	    user_oj.integral = user_oj.integral + 1
+            user_oj.accesstime = datetime.datetime.now()
+            user_oj.save()
+            
+            return render(request, 'delay_jump.html', {
+                'next_url' : '/',
+                'info' : 'Check_in successful',
+                })
+
 def user_info(request):
     if request.method=="GET":
         username = request.GET.get('username', '-1')
-        print username
         if username != '-1':
             user_info = User.objects.get(username=username)
             user_id = user_info.id
@@ -115,11 +142,24 @@ def user_info(request):
         accepted_list = solution_list.filter(result=4).order_by('problem').values_list('problem', flat=True).distinct()
         unsolved_list = solution_list.exclude(result=4).order_by('problem').values_list('problem', flat=True).distinct()
         unsolved_num = len(list(set(unsolved_list).difference(set(accepted_list))))
-            
-    return render(request, "user/user_info_page.html",
-            {'user_info': user_info,
-             'accepted_list': accepted_list,
-             'unsolved_list': unsolved_list, 'unsolved_num' :unsolved_num})
+        
+        count = 0
+        for ac_id in accepted_list:
+            problem = Problem.objects.get(id = ac_id)
+            count = count + problem.difficult
+        user_info.user_oj.integral = user_info.user_oj.integral + count
+        accesstime = user_info.user_oj.accesstime.replace() + datetime.timedelta(hours=8)
+        if str(accesstime) == "1997-01-01":
+            flag = 1
+        else:
+            flag = 0
+        user_infos = {'user_info': user_info, 
+                'accepted_list': accepted_list,
+                'unsolved_list': unsolved_list,
+                'unsolved_num' : unsolved_num,
+                'flag' : flag
+                }
+    return render(request, "user/user_info_page.html", user_infos)
 
 #http://www.oschina.net/p/django-verify-code/similar_projects?lang=26&sort=view
 
