@@ -1,7 +1,7 @@
 <div class="nav bs-sidenav _submit_info">
     <h3 class="_submit_info_head">Submit list</h3>
     <div class="">
-        <div class="accepted_lsit">
+        <div class="submit_lsit">
             <h4 class="_sub_head">Accepted problems({{ accepted_list|length }})</h4>
             {% if accepted_list %}
                 {% for pid in accepted_list %}
@@ -9,7 +9,7 @@
                 {% endfor %}
             {% endif %}
         </div>
-        <div class="Unsolved_list">
+        <div class="submit_lsit">
             <h4 class="_sub_head">Unsolved problems({{unsolved_num}})</h4>
             {% if unsolved_list %}
                 {% for pid in unsolved_list %}
