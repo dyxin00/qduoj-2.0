@@ -1,7 +1,21 @@
 {% load result_tag %}
+{% block css %}
+<link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}styles/shCore.css"/>
+<link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}styles/shThemeDefault.css"/>
+{% endblock%}
+{% block script%}
+<script type="text/javascript" src="{{ STATIC_URL }}scripts/shCore.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}scripts/shBrushCpp.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}scripts/shBrushJava.js"></script>
+    
+    <script type="text/javascript">
+            SyntaxHighlighter.config.clipboardSwf = '{{ STATIC_URL }}scripts/clipboard.swf';
+		    SyntaxHighlighter.all();
+    </script>
+{% endblock %}
 <div>
-.   <h3 align="center">查看代码---运行号:{{ solution.id }}---结果:{{ result }}</h3>
-    <h4 align="center">运行时间：{{ solution.in_date|date:"Y-m-d H:i:s" }}</h4>
+.   <h3 class='text-center'>查看代码---运行号:{{ solution.id }}---结果:{{ result }}</h3>
+    <h4 class='text-center'>运行时间：{{ solution.in_date|date:"Y-m-d H:i:s" }}</h4>
     <div class="code-default">
         <pre class="brush: {% language_tag solution.language %};">{{ source_code.source }}</pre>
     </div>
