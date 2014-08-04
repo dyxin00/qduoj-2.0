@@ -47,8 +47,18 @@ def solution_list(request):
 def code(request):
     if request.method == "GET":
         run_id = request.GET.get('runid', '')
-        solution = Solution.objects.get(id=run_id)
-        source_code = Source_code.objects.get(solution=solution)
+        try:
+            solution = Solution.objects.get(id=run_id)
+        except ObjectDoesNotExist:
+            error = "The solution not exist!"
+            return render(request, "error.html", {'error':error})
+
+        try:
+            source_code = Source_code.objects.get(solution=solution)
+        except ObjectDoesNotExist:
+            error = "The code not exist!"
+            return render(request, "error.html", {'error':error})
+
         answer = ['Pending'] * 4 + ['Accepted', 'Presentation Error',
                                 'Wrong Answer', 'Time Limit',
                                 'Memory Limit', 'Output Limit',
