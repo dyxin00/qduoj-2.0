@@ -392,5 +392,10 @@
 }
 
 .user_content{
-    color: #3389FF;
+    color: #009966;
+}
+
+.submit_list {
+    text-align: center;
+    line-height: 2em;
 }
