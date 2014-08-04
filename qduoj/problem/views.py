@@ -18,8 +18,8 @@ def index(request):
 
         problem_type = request.GET.get('type', '-1')
 
-        user_now = request.user
-        problems = Problem.objects.filter(Q(visible=True) | (Q(user__user=user_now) & Q(visible=False)))
+        username= request.user.username
+        problems = Problem.objects.filter(Q(visible=True) | (Q(user__user__username=username) & Q(visible=False)))
         
         if problem_type != '-1':
             problems = problems.filter(classify=problem_type)
