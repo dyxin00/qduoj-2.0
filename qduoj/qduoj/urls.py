@@ -29,6 +29,7 @@ urlpatterns = patterns('',
     url(r'^about/$', 'about.views.about', name="about"),
 
     url(r'^status_list/$', 'solution.views.solution_list', name='status_list'),
+    url(r'^code/$', 'solution.views.code', name = 'code'),
 
 
     url(r'^contest_list/$', 'contest.views.contest_list', name='contest_list'),

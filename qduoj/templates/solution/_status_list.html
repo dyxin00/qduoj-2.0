@@ -19,7 +19,11 @@
         {% if judge_list %}
             {% for solution in judge_list %}
               <tr>
-                <td>{{ solution.id }}</td>
+                {% if user.username == solution.user.user.username %}
+                    <td><a href="{% url 'code' %}?runid={{ solution.id }}">{{ solution.id }}</td>
+                {% else %}
+                    <td>{{ solution.id }}</td>
+                {% endif %}
                 <td><a href="{% url 'user_info' %}?username={{ solution.user.user.username }}">{{ solution.user.user.username }}</a></td>
                 <td><a href="{% url 'problem' %}?pid={{ solution.problem.id }}">{{ solution.problem.id }}</a></td>
                 <td>

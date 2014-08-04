@@ -35,11 +35,27 @@ def solution_list(request):
         if language != '-1':
             kwargs['language'] = language
         kwargs['problem__visible'] = True
-
+        
         solution = Solution.objects.filter(**kwargs)
-
+        
 
         return render(request, "solution/status.html", 
                 {'judge_list' : solution,
                  'result_type' : result,
                  'language_type' : language})
+
+def code(request):
+    if request.method == "GET":
+        run_id = request.GET.get('runid', '')
+        solution = Solution.objects.get(id=run_id)
+        source_code = Source_code.objects.get(solution=solution)
+        answer = ['Pending'] * 4 + ['Accepted', 'Presentation Error',
+                                'Wrong Answer', 'Time Limit',
+                                'Memory Limit', 'Output Limit',
+                                'Runtime Error', 'Compile Error'
+                                ]
+        result = answer[solution.result]
+        return render(request, "solution/code.html",
+                      {'solution' : solution,
+                       'source_code' : source_code,
+                       'result' : result})

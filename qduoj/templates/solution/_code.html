@@ -1,0 +1,8 @@
+{% load result_tag %}
+<div>
+.   <h3 align="center">查看代码---运行号:{{ solution.id }}---结果:{{ result }}</h3>
+    <h4 align="center">运行时间：{{ solution.in_date|date:"Y-m-d H:i:s" }}</h4>
+    <div class="code-default">
+        <pre class="brush: {% language_tag solution.language %};">{{ source_code.source }}</pre>
+    </div>
+</div>
