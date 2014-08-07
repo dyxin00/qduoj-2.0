@@ -20,9 +20,11 @@ class Privilege(models.Model):
     user = models.ForeignKey(User_oj)
     authority = models.IntegerField()
     defunct = models.BooleanField(default=False)
+    
+    def __unicode__(self):
+        return self.user.user.username + ' - authority - ' + str(self.authority)
 
     class Meta:
         db_table = "privilege"
 
-
-#alter table test AUTO_INCREMENT = 1000;
+    #alter table test AUTO_INCREMENT = 1000;
