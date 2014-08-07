@@ -4,13 +4,14 @@ import re
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Q
 
 from util import request_method_only
 from problem.models import Problem
 from solution.models import Solution, Custominput, Source_code
 from contest.models import Contest
-
-from django.db.models import Q
+from oj_user.models import User_oj, Privilege
+from qduoj import config
 
 @request_method_only('GET')
 def index(request):
@@ -19,8 +20,17 @@ def index(request):
         problem_type = request.GET.get('type', '-1')
 
         username= request.user.username
-        problems = Problem.objects.filter(Q(visible=True) | (Q(user__user__username=username) & Q(visible=False)))
-        
+        try:
+            user_authority = Privilege.objects.get(user__user__username=username).authority
+            if user_authority == config.ADMIN:
+                problems = Problem.objects.all()
+            else:
+                problems = Problem.objects.filter(Q(visible=True) | (Q(user__user__username=username) & Q(visible=False)))
+        except ObjectDoesNotExist:
+            problems = Problem.objects.filter(Q(visible=True) | (Q(user__user__username=username) & Q(visible=False)))
+            #error = "limited permissioin"
+            #return render(request, "error.html", {'error':error})
+ 
         if problem_type != '-1':
             problems = problems.filter(classify=problem_type)
 
