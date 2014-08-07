@@ -186,7 +186,7 @@ PAGINATION_INVALID_PAGE_RAISES_404 = True
 #SESSION_COOKIE_AGE = 60 * 60
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
-if not DEBUG:
+if  DEBUG:
     INTERNAL_IPS = ('127.0.0.1',)
     MIDDLEWARE_CLASSES += (
         'debug_toolbar.middleware.DebugToolbarMiddleware',
