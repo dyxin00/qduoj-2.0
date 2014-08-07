@@ -6,14 +6,14 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Q
 
 from util import request_method_only
 from problem.models import Problem
 from solution.models import Solution, Custominput, Source_code
 from contest.models import Contest
-from oj_user.models import User_oj
-
-from django.db.models import Q
+from oj_user.models import User_oj, Privilege
+from qduoj import config
 
 @request_method_only('GET')
 def solution_list(request):
@@ -37,20 +37,23 @@ def solution_list(request):
         if language != '-1':
             kwargs['language'] = language
         kwargs['problem__visible'] = True
-<<<<<<< HEAD
     
         username = request.user.username
-        solution = Solution.objects.filter(Q(**kwargs) | (Q(user__user__username=username) & Q(problem__visible=False)))
-=======
+        try:
+            user_authority = Privilege.objects.get(user__user__username=username).authority
+            if user_authority == config.ADMIN:
+                solution = Solution.objects.select_related(depth=2).all()
+            else:
+                solution = Solution.objects.select_related(depth=2).filter(Q(**kwargs) | (Q(user__user__username=username) & Q(problem__visible=False)))
+        except:
+            user_authority = 0
+            solution = Solution.objects.select_related(depth=2).filter(Q(**kwargs) | (Q(user__user__username=username) & Q(problem__visible=False)))
         
-        solution = Solution.objects.filter(**kwargs)
-        
->>>>>>> origin/wang
-
         return render(request, "solution/status.html", 
                 {'judge_list' : solution,
                  'result_type' : result,
-                 'language_type' : language})
+                 'language_type' : language,
+                 'authority' : user_authority})
 
 def code(request):
     if request.method == "GET":
