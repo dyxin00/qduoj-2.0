@@ -2,8 +2,10 @@
 from random import choice
 import re
 import time, datetime
+import json
 
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
 from django.db import IntegrityError
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -103,7 +105,16 @@ def sign_out(request):
 
 def check_in(request):
     if request.method == 'POST':
-        next_url = request.POST.get('next', '/')
+        user_id = request.user.id
+        user_oj = User_oj.objects.get(user__id = user_id)
+        user_oj.integral = user_oj.integral + 1
+        user_oj.accesstime = datetime.datetime.now()
+        user_oj.save()
+            
+        return HttpResponse(json.dumps({'status' : 'success'}))
+
+def check_judge(request):
+    if request.method == 'POST':
         user_id = request.user.id
         user_oj = User_oj.objects.get(user__id = user_id)
 
@@ -115,30 +126,12 @@ def check_in(request):
             st = time.mktime(time.strptime( str(t1),'%Y-%m-%d'))
             accesstime = time.localtime(st)
             if now[0] == accesstime[0] and now[1] == accesstime[1] and now[2] == accesstime[2]:
-                return render(request, 'delay_jump.html',{
-                    'next_url' : '/',
-                    'info' : 'Dont recheck_in'
-                    })
+                return HttpResponse(json.dumps({'status' : 'filed'}))
             else:
-	        user_oj.integral = user_oj.integral + 1
-                user_oj.accesstime = datetime.datetime.now()
-                user_oj.save()
+                return HttpResponse(json.dumps({'status' : 'success'}))
             
-                return render(request, 'delay_jump.html', {
-                    'next_url' : '/',
-                    'info' : 'Check_in successful',
-                    })
         else:
-            user_oj.integral = user_oj.integral + 1
-            user_oj.accesstime = datetime.datetime.now()
-            user_oj.save()
-            
-            return render(request, 'delay_jump.html', {
-                'next_url' : '/',
-                'info' : 'Check_in successful',
-                })
-
-
+            return HttpResponse(json.dumps({'status' : 'success'}))
 
 def user_info(request):
     if request.method=="GET":
@@ -168,14 +161,11 @@ def user_info(request):
         accesstime_info = user_info.user_oj.accesstime
         if accesstime_info != None:
             accesstime = accesstime_info.replace() + datetime.timedelta(hours=8)
-            flag = 0
-        else:
-            flag = 1
         user_infos = {'user_info': user_info, 
                 'accepted_list': accepted_list,
                 'unsolved_list': unsolved_list,
                 'unsolved_num' : unsolved_num,
-                'flag' : flag
+                'accesstime_info' : accesstime_info
                 }
     return render(request, "user/user_info_page.html", user_infos)
 

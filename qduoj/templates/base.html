@@ -5,17 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.min.css">
         <link rel="stylesheet" href="{{ STATIC_URL }}css/1.css">
-        <script src="{{ STATIC_URL }}js/1.js"></script>
+        
         <script src="{{ STATIC_URL }}js/jquery.min.js"></script>
         <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
-		<script type="text/javascript">
-		$(document).ready(function(){
-		  $("#bt").click(function(){
-		  $.post('http://127.0.0.1:8000/check_in/', {'user_id' : '5', function(res)){
-		  }
-		  });
-		});
-		</script>
 
         <title>
         {% block title %}
@@ -31,5 +23,6 @@
     <body>
         {% block body %}
         {% endblock %}
+		<script src="{{ STATIC_URL }}js/1.js"></script>
     </body>
 </html> 
