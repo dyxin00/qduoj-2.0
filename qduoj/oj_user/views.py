@@ -172,9 +172,8 @@ def rank(request):
     if request.method == 'GET':
         page = request.GET.get('page', '1') 
 
-        rank_list = User_oj.objects.all()
+        user_list = User_oj.objects.select_related(depth=2).all()
         
-        user_list=rank_list.filter()
         #user_list=rank_list.filter().order_by('-solved', 'submit')
         return render(request, 'rank/rank.html', {'user_list' : user_list, 'page' : int(page)})
     
