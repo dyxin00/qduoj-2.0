@@ -44,7 +44,9 @@ def solution_list(request):
             user_authority = Privilege.objects.get(user__user__username=username).authority
             if user_authority == config.ADMIN:
                 ADMIN = True
-                solution = Solution.objects.select_related(depth=2).all()
+                del  kwargs['problem__visible']
+                solution = Solution.objects.select_related(depth=2).filter(**kwargs)
+                
             else:
                 solution = Solution.objects.select_related(depth=2).filter(Q(**kwargs) | (Q(user__user__username=username) & Q(problem__visible=False)))
         except:
