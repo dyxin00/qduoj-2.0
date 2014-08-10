@@ -107,18 +107,7 @@ def check_in(request):
     if request.method == 'POST':
         user_id = request.user.id
         user_oj = User_oj.objects.get(user__id = user_id)
-        user_oj.integral = user_oj.integral + 1
-        user_oj.accesstime = datetime.datetime.now()
-        user_oj.save()
-            
-        return HttpResponse(json.dumps({'status' : 'success'}))
 
-def check_judge(request):
-    if request.method == 'POST':
-        user_id = request.user.id
-        user_oj = User_oj.objects.get(user__id = user_id)
-
-        GMT_FORMAT = '%Y-%m-%d %H:%M:%S'
         now = time.localtime()
         accesstime = user_oj.accesstime
         if accesstime != None:
@@ -127,11 +116,16 @@ def check_judge(request):
             accesstime = time.localtime(st)
             if now[0] == accesstime[0] and now[1] == accesstime[1] and now[2] == accesstime[2]:
                 return HttpResponse(json.dumps({'status' : 'filed'}))
-            else:
-                return HttpResponse(json.dumps({'status' : 'success'}))
-            
-        else:
-            return HttpResponse(json.dumps({'status' : 'success'}))
+
+        check = request.POST.get('check_in', 0)
+        if check:
+            user_id = request.user.id
+            user_oj = User_oj.objects.get(user__id = user_id)
+            user_oj.integral = user_oj.integral + 1
+            user_oj.accesstime = datetime.datetime.now()
+            user_oj.save()
+
+        return HttpResponse(json.dumps({'status' : 'success'}))
 
 def user_info(request):
     if request.method=="GET":

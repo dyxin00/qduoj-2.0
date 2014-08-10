@@ -3,13 +3,15 @@ function refresh_captcha(obj) {
 }
 
 function check_in(){
-	var check = $('#check_in')
+	var check = $('#check_in').unbind();
 	check.click(function(){
 		$.ajax({
 			url : '/check_in/',
 			type : 'POST',
 			dataType : 'json',
-			data : {},
+			data : {
+				'check_in' : 1, 
+			},
 			success : function(data){
 				if(data.status == 'success'){
 					check.html('已签到');
@@ -23,7 +25,7 @@ function fun(){
 	var check = $('#check_in')
 	check.click(function(){
 		$.ajax({
-			url : '/check_judge/',
+			url : '/check_in/',
 			type : 'POST',
 			dataType : 'json',
 			data : {},
