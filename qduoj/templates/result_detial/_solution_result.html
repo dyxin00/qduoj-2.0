@@ -2,7 +2,8 @@
 {% load result_tag %}
     <div class="problem">
         <div class="">
-            <h1 class="problem-title">{% result_tag solution_info.result %}</h1>
+            <!--<h1 class="problem-title">错误信息</h1> -->
+            {% result_tag solution_info.result %}
             <p class="problem-info">
                 <span>Runtime: <span class="font-color">{{ solution_info.judgetime|date:"Y-m-d H:i:s" }}</span></span>
                 &nbsp;&nbsp;|&nbsp;&nbsp;
