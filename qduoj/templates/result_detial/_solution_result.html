@@ -1,0 +1,26 @@
+{% load pagination_tags %}
+{% load result_tag %}
+    <div class="problem">
+        <div class="">
+            <h1 class="problem-title">{% result_tag solution_info.result %}</h1>
+            <p class="problem-info">
+                <span>Runtime: <span class="font-color">{{ solution_info.judgetime|date:"Y-m-d H:i:s" }}</span></span>
+                &nbsp;&nbsp;|&nbsp;&nbsp;
+                <span>Username: <span class="font-color">{{ solution_info.user.user.username }} </span></span>
+            </p>
+        </div>
+        {% if error_info %}
+            <pre>{{ error_info }}</pre>
+        {% else %}
+            <pre>
+常见出错的原因可能有以下几种：
+    1、数组开得太小了，导致访问到了不该访问的内存区域
+    2、发生除零错误
+    3、大数组定义在函数内,导致程序栈区耗尽
+    4、指针用错了，导致访问到不该访问的内存区域
+    5、还有可能是程序抛出了未接收的异常
+            </pre>
+        {% endif %}
+    </div>
+
+{% paginate %}

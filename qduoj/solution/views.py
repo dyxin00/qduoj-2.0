@@ -10,7 +10,7 @@ from django.db.models import Q
 
 from util import request_method_only
 from problem.models import Problem
-from solution.models import Solution, Custominput, Source_code
+from solution.models import Solution, Custominput, Source_code, Compileinfo, Runtimeinfo
 from contest.models import Contest
 from oj_user.models import User_oj, Privilege
 from qduoj import config
@@ -80,3 +80,25 @@ def code(request):
                       {'solution' : solution,
                        'source_code' : source_code,
                        'result' : result})
+
+def result_detial(request):
+    if request.method == 'GET':
+        runid = request.GET.get('runid', -1)
+
+        username = request.user.username
+
+        try:
+            ce_obj = Compileinfo.objects.get(solution_id = runid, solution__user__user__username = username)
+        except ObjectDoesNotExist:
+            try:
+                re_obj = Solution.objects.get(id = runid, user__user__username = username)
+            except ObjectDoesNotExist:
+                error = "You do not have permission to view the results details!"
+                return render(request, "error.html", {'error':error})
+
+            return render(request, 'result_detial/result_detial.html', 
+                    {'solution_info' : re_obj})
+        
+        return render(request, 'result_detial/result_detial.html', 
+                {'solution_info' : ce_obj.solution, 'error_info' : ce_obj.error})
+    
