@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-  
 from random import choice
 import re
+import time, datetime
+import json
 
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
 from django.db import IntegrityError
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -15,6 +18,7 @@ from oj_user.models import User_oj
 from problem.models import Problem
 from solution.models import Solution
 
+from django.db.models import Sum
 
 def index(request):
     return render(request, "index.html", {})
@@ -48,7 +52,7 @@ def sign_up(request):
         except IntegrityError:
             error = 'This user name already exists !'
             return render(request, "user/sign_up.html", {'error' : error})
-
+        
         oj_user = User_oj.objects.create(user=user, school_id=school_id)
         return render(request, 'delay_jump.html', {
             'next_url' : '/sign_in/',
@@ -92,7 +96,6 @@ def sign_in(request):
     return render(request, "user/sign_in.html", {'next' : next_url})
 
 def sign_out(request):
-
     logout(request)
 
     return render(request, 'delay_jump.html', {
@@ -100,10 +103,33 @@ def sign_out(request):
         'info' : 'Logout successful'
         })
 
+def check_in(request):
+    if request.method == 'POST':
+        user_id = request.user.id
+        user_oj = User_oj.objects.get(user__id = user_id)
+
+        now = time.localtime()
+        accesstime = user_oj.accesstime
+        if accesstime != None:
+            t1 = user_oj.accesstime.replace() + datetime.timedelta(hours=8)
+            st = time.mktime(time.strptime( str(t1),'%Y-%m-%d'))
+            accesstime = time.localtime(st)
+            if now[0] == accesstime[0] and now[1] == accesstime[1] and now[2] == accesstime[2]:
+                return HttpResponse(json.dumps({'status' : 'filed'}))
+
+        check = request.POST.get('check_in', 0)
+        if check:
+            user_id = request.user.id
+            user_oj = User_oj.objects.get(user__id = user_id)
+            user_oj.integral = user_oj.integral + 1
+            user_oj.accesstime = datetime.datetime.now()
+            user_oj.save()
+
+        return HttpResponse(json.dumps({'status' : 'success'}))
+
 def user_info(request):
     if request.method=="GET":
         username = request.GET.get('username', '-1')
-        print username
         if username != '-1':
             user_info = User.objects.get(username=username)
             user_id = user_info.id
@@ -112,14 +138,25 @@ def user_info(request):
             user_info = request.user
         solution_list = Solution.objects.filter(user_id=user_id)
     
-        accepted_list = solution_list.filter(result=4).order_by('problem').values_list('problem', flat=True).distinct()
-        unsolved_list = solution_list.exclude(result=4).order_by('problem').values_list('problem', flat=True).distinct()
+        accepted_list = solution_list.filter(result=4).order_by('problem').\
+                values_list('problem', flat=True).distinct()
+        unsolved_list = solution_list.exclude(result=4).order_by('problem').\
+                values_list('problem', flat=True).distinct()
         unsolved_num = len(list(set(unsolved_list).difference(set(accepted_list))))
-            
-    return render(request, "user/user_info_page.html",
-            {'user_info': user_info,
-             'accepted_list': accepted_list,
-             'unsolved_list': unsolved_list, 'unsolved_num' :unsolved_num})
+        
+        ac_problem = Problem.objects.filter(id__in = accepted_list)
+        count = ac_problem.aggregate(Sum('difficult'))
+        user_info.user_oj.integral = user_info.user_oj.integral + count['difficult__sum']
+        accesstime_info = user_info.user_oj.accesstime
+        if accesstime_info != None:
+            accesstime = accesstime_info.replace() + datetime.timedelta(hours=8)
+        user_infos = {'user_info': user_info, 
+                'accepted_list': accepted_list,
+                'unsolved_list': unsolved_list,
+                'unsolved_num' : unsolved_num,
+                'accesstime_info' : accesstime_info
+                }
+    return render(request, "user/user_info_page.html", user_infos)
 
 #http://www.oschina.net/p/django-verify-code/similar_projects?lang=26&sort=view
 

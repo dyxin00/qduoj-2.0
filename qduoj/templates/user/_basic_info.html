@@ -18,10 +18,16 @@
                 <th>Email</th>
                 <td class="user_content">{{ user_info.email }}</td>
             </tr>
+			<tr>
+				<th>Integral</th>
+				<td class="user_content">{{ user_info.user_oj.integral }}</td>
+			</tr>
             <tr>
+				{% if accesstime_info != None %}
                 <th>Latest login</th>
-                <td class="user_content">{{ user_info.user_oj.accesstime|date:"Y-m-d" }}</td>
-            </tr>
+                	<td class="user_content">{{ user_info.user_oj.accesstime|date:"Y-m-d" }}</td>
+				{% endif %}
+			</tr>
         </table>
     </div>
 </div>
