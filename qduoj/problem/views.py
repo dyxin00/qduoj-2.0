@@ -51,6 +51,7 @@ def problem(request):
     if request.method == 'GET':
         pid = request.GET.get('pid', None)
         cid = request.GET.get('cid', None)
+        username = request.user.username
         if pid == None:
             error = "Not Found !"
             return render(request, "error.html", {'error':error})
@@ -60,11 +61,17 @@ def problem(request):
             return render(request, "error.html", {'error':error})
         else:
             try:
+                authority = Privilege.objects.get(user__user__username=username).authority
+            except ObjectDoesNotExist:
+                authority = None
+                #error = 'Limited permission!'
+                #return render(request, 'error.html', {'error':error})
+            try:
                 problem = Problem.objects.get(id=pid)
             except ObjectDoesNotExist:
                 error = "The problem not exist!"
                 return render(request, "error.html", {'error':error})
-            if problem.visible is True:
+            if authority == config.ADMIN or problem.visible is True:
                 return render(request, "problem/problem.html",
                         {'problem' : problem, 'cid' : cid})
             else:
@@ -88,8 +95,14 @@ def submit_code(request):
         except ObjectDoesNotExist:
             error = "The problem not exist!"
             return render(request, "error.html", {'error':error})
+        
+        username = request.user.username
+        try:
+            authority = Privilege.objects.get(user__user__username=username).authority
+        except ObjectDoesNotExist:
+            authority = None
 
-        if problem.visible == False:
+        if problem.visible == False and authority != config.ADMIN:
             error = "The problem is invisible!"
             return render(request, "error.html", {'error':error})
 
