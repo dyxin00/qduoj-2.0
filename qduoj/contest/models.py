@@ -34,3 +34,7 @@ class Contest_problem(models.Model):
     
     class Meta:
         db_table = 'contest_problem'
+
+class ContestPrivilege(models.Model):
+    user = models.ForeignKey(User_oj)
+    contest = models.ForeignKey(Contest)
