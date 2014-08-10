@@ -21,7 +21,7 @@ function check_in(){
 		})
 	})
 }
-function fun(){
+function fun_check(){
 	var check = $('#check_in')
 	check.click(function(){
 		$.ajax({
@@ -44,7 +44,7 @@ function fun(){
 	$('#check_in').trigger("click");
 }
 $(document).ready(function(){
-	fun();
+	fun_check();
 })
 
 $(document).ajaxSend(function(event, xhr, settings) {  
