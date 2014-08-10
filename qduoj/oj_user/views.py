@@ -149,12 +149,7 @@ def user_info(request):
         unsolved_list = solution_list.exclude(result=4).order_by('problem').\
                 values_list('problem', flat=True).distinct()
         unsolved_num = len(list(set(unsolved_list).difference(set(accepted_list))))
-        '''
-        count = 0
-        for ac_id in accepted_list:
-            problem = Problem.objects.get(id = ac_id)
-            count = count + problem.difficult
-        '''
+        
         ac_problem = Problem.objects.filter(id__in = accepted_list)
         count = ac_problem.aggregate(Sum('difficult'))
         user_info.user_oj.integral = user_info.user_oj.integral + count['difficult__sum']
