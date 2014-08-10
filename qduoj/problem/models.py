@@ -44,3 +44,9 @@ class Score(models.Model):
         db_table = "score"
         unique_together = (("problem", "file_name"),)
 
+class Problem_Image(models.Model):
+    problem = models.ForeignKey(Problem)
+    image = models.ImageField(upload_to='/')
+
+    class Meta:
+        db_table = 'image'

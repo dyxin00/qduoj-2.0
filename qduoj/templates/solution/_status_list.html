@@ -19,7 +19,7 @@
         {% if judge_list %}
             {% for solution in judge_list %}
               <tr>
-                {% if user.username == solution.user.user.username %}
+                {% if user.username == solution.user.user.username or ADMIN %}
                     <td><a href="{% url 'code' %}?runid={{ solution.id }}">{{ solution.id }}</td>
                 {% else %}
                     <td>{{ solution.id }}</td>

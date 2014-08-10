@@ -101,8 +101,6 @@ def submit_code(request):
             authority = Privilege.objects.get(user__user__username=username).authority
         except ObjectDoesNotExist:
             authority = None
-            #error = 'Limited permission!'
-            #return render(request, 'error.html', {'error':error})
 
         if problem.visible == False and authority != config.ADMIN:
             error = "The problem is invisible!"
