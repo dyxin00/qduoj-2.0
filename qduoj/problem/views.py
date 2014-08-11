@@ -70,7 +70,6 @@ def problem(request):
             except ObjectDoesNotExist:
                 error = "The problem not exist!"
                 return render(request, "error.html", {'error':error})
-            print problem.user.user.username, problem.visible
             if authority == config.ADMIN or problem.visible is True or (problem.user.user.username==username and problem.visible==False):
                 return render(request, "problem/problem.html",
                         {'problem' : problem, 'cid' : cid})
