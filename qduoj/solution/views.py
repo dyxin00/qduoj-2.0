@@ -36,7 +36,7 @@ def solution_list(request):
 
         if language != '-1':
             kwargs['language'] = language
-        kwargs['problem__visible'] = True
+        #kwargs['problem__visible'] = True
     
         ADMIN = False
         username = request.user.username
@@ -44,13 +44,15 @@ def solution_list(request):
             user_authority = Privilege.objects.get(user__user__username=username).authority
             if user_authority == config.ADMIN:
                 ADMIN = True
-                del  kwargs['problem__visible']
+               # del  kwargs['problem__visible']
                 solution = Solution.objects.select_related(depth=2).filter(**kwargs)
                 
             else:
-                solution = Solution.objects.select_related(depth=2).filter(Q(**kwargs) | (Q(user__user__username=username) & Q(problem__visible=False)))
+                solution = Solution.objects.select_related(depth=2).filter(Q(**kwargs) &
+                                    (Q(problem__user__user__username=username)| Q(problem__visible=False)))
         except:
-            solution = Solution.objects.select_related(depth=2).filter(Q(**kwargs) | (Q(user__user__username=username) & Q(problem__visible=False)))
+           # del kwargs['problem__visible']
+            solution = Solution.objects.select_related(depth=2).filter(Q(**kwargs) & (Q(problem__user__user__username=username) | Q(problem__visible=False)))
         
         return render(request, "solution/status.html", 
                 {'judge_list' : solution,
