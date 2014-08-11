@@ -48,11 +48,12 @@ def solution_list(request):
                 solution = Solution.objects.select_related(depth=2).filter(**kwargs)
                 
             else:
-                solution = Solution.objects.select_related(depth=2).filter(Q(**kwargs) &
-                                    (Q(problem__user__user__username=username)| Q(problem__visible=False)))
+                solution = Solution.objects.select_related(depth=2).filter(Q(**kwargs) \
+                                            & (Q(problem__user__user__username=username) | Q(problem__visible=True)))
         except:
            # del kwargs['problem__visible']
-            solution = Solution.objects.select_related(depth=2).filter(Q(**kwargs) & (Q(problem__user__user__username=username) | Q(problem__visible=False)))
+            solution = Solution.objects.select_related(depth=2).filter(Q(**kwargs) \
+                                            & (Q(problem__user__user__username=username) | Q(problem__visible=True)))
         
         return render(request, "solution/status.html", 
                 {'judge_list' : solution,
