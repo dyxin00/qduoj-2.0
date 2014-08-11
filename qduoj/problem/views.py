@@ -64,14 +64,14 @@ def problem(request):
                 authority = Privilege.objects.get(user__user__username=username).authority
             except ObjectDoesNotExist:
                 authority = None
-                #error = 'Limited permission!'
-                #return render(request, 'error.html', {'error':error})
+            
             try:
                 problem = Problem.objects.get(id=pid)
             except ObjectDoesNotExist:
                 error = "The problem not exist!"
                 return render(request, "error.html", {'error':error})
-            if authority == config.ADMIN or problem.visible is True:
+            print problem.user.user.username, problem.visible
+            if authority == config.ADMIN or problem.visible is True or (problem.user.user.username==username and problem.visible==False):
                 return render(request, "problem/problem.html",
                         {'problem' : problem, 'cid' : cid})
             else:
