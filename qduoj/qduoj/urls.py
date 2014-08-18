@@ -38,4 +38,6 @@ urlpatterns = patterns('',
 
     url(r'^rank/$', 'oj_user.views.rank', name='rank'),
 
+    url(r'^contest_rank/$', 'contest.views.contest_rank', name='contest_rank')
+
 )
