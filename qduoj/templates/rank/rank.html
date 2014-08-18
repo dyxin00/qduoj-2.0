@@ -14,5 +14,14 @@ Rank-List
 {% include "_mid_left_3_default.html" %}
 {% endblock %}
 {% block mid_mid_9%}
+{% if mode == None %}
 {% include "rank/_rank_list.html" %}
+{% else %}
+    {% if mode == 1 %}
+        {% include "rank/_rank_list_oi.html" %}
+    {% else %}
+        {% include "rank/_rank_list_acm.html" %}
+    {% endif %}
+{% endif %}
+
 {% endblock %}

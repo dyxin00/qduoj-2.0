@@ -131,7 +131,7 @@ def problem(request):
                 error = "The contest does not exist!"
                 return render(request, "error.html", {'error':error})
 
-            if authority == config.ADMIN or contest.user.user.username == username:
+            if authority == config.ADMIN or problem.visible is True or (problem.user.user.username==username and problem.visible==False):
                 return render(request, "problem/problem.html",
                             {'problem' : problem, 'cid': cid})
             if contest.start_or_not():

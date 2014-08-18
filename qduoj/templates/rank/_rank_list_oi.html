@@ -1,0 +1,33 @@
+{% load pagination_tags %}
+{% load rank_tag %}
+<table class="table table-bordered table-hover ">
+    <thead>
+      <tr>
+        <th class="td-rid">No.</th>
+        <th class="td-user">User</th>
+        <th class="td-pid">Grade</th>
+        <th class="td-pid">Solved</th>
+        <th class="td-pid">Submit</th>
+      </tr>
+    </thead>
+    {% autopaginate user_list 4 %}
+    <tbody class="status-td">
+      {% for users in user_list %}
+      <tr>
+        <td>{% rank_tag page forloop.counter %}</td>
+<!--        {% if forloop.first %}-->
+<!--        <td>Winner</td>-->
+<!--        {% else %}-->
+<!--        <td>{{ forloop.counter }}</td>-->
+<!--        {% endif %}-->
+        <td><a href="{% url 'user_info' %}?username={{ users.0 }}">{{ users.0 }}</td>
+        <td>{{ users.1 }}</td>
+        <td>{{ users.2 }}</td>
+        <td>{{ users.3 }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+</table>
+{% paginate %}
+<a role="button" href="#" class="btn btn-default btn-lg rank-status" >Status</a>
+<button type="button" class="btn btn-primary btn-lg rank-excel">Excel</button>

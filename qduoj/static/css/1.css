@@ -405,3 +405,11 @@
     text-align: center;
     line-height: 2em;
 }
+
+.rank-status {
+    margin-top: 50px;
+}
+.rank-excel {
+    margin-top: 50px;
+    margin-left: 25%;
+}
