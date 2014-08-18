@@ -6,11 +6,14 @@
         <th class="td-rid">Run ID</th>
         <th class="td-user">User</th>
         <th class="td-pid">Problem ID</th>
+        {% if ADMIN or contest_user or mode == 0%}
         <th class="td-result">Result</th>
+        <th class="td-time">Score</th>
         <th class="td-memory">Memory</th>
         <th class="td-time">time</th>
         <th class="td-Language">Language</th>
         <th class="td-clength">Code Length</th>
+        {% endif %}
         <th class="td-stime">Submit Time</th>
       </tr>
     </thead>
@@ -20,13 +23,15 @@
             {% for solution in judge_list %}
               <tr>
                 {% if user.username == solution.user.user.username or ADMIN %}
-                    <td><a href="{% url 'code' %}?runid={{ solution.id }}">{{ solution.id }}</td>
+                    <td><a href="{% url 'code' %}?cid={{cid}}&runid={{ solution.id }}">{{ solution.id }}</td>
                 {% else %}
                     <td>{{ solution.id }}</td>
                 {% endif %}
                 <td><a href="{% url 'user_info' %}?username={{ solution.user.user.username }}">{{ solution.user.user.username }}</a></td>
-                <td><a href="{% url 'problem' %}?pid={{ solution.problem.id }}">{{ solution.problem.id }}</a></td>
-                <td>{% if user.username == solution.user.user.username or ADMIN %}
+                <td><a href="{% url 'problem' %}?cid={{cid}}&pid={{ solution.problem.id }}">{{solution.num}}</a></td>
+                {% if ADMIN or contest_user or mode == 0%}
+                <td>
+                    {% if user.username == solution.user.user.username or ADMIN %}
                       {% if solution.result == 11 %}
                         <a style="text-decoration:none" href="{% url 'ce_error_detial' %}?runid={{ solution.id }}">{% result_tag solution.result %}</a>
                       {% endif %}
@@ -40,12 +45,12 @@
                       {% result_tag solution.result %}
                     {% endif %}
                 </td>
+                <td>-_-!</td>
                 <td>{{ solution.memory }}</td>
                 <td>{{ solution.time }}</td>
-                <td id = 'language'>
-                {%  language_tag solution.language%}
-                </td>
+                <td id = 'language'>{%  language_tag solution.language%}</td>
                 <td>{{solution.code_length }}b</td>
+                {% endif %}
                 <td>{{ solution.in_date|date:"Y-m-d H:i:s" }}</td>
               </tr>
             {% endfor %}
@@ -53,3 +58,12 @@
     </tbody>
 </table>
 {% paginate %}
+
+<div class="problem-submit">
+    <div>
+        <a role="button" href="/contest_problem_list/?cid={{cid}}" class="btn btn-default">Problem</a>
+        {% if ADMIN %}
+        <a role="button" href="{% url  'rank' %}" class="btn btn-primary status" >Rank</a>
+        {% endif %}
+    </div>
+</div>

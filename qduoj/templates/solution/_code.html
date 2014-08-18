@@ -14,7 +14,11 @@
     </script>
 {% endblock %}
 <div>
-.   <h3 class='text-center'>查看代码---运行号:{{ solution.id }}---结果:{{ result }}</h3>
+	{% if cid == 0 %}
+    <h3 class='text-center'>查看代码---运行号:{{ solution.id }}---结果:{{ result }}</h3>
+	{% else %}
+	<h3 class='text-center'>查看代码---运行号:{{ solution.id }}</h3>
+	{% endif %}
     <h4 class='text-center'>运行时间：{{ solution.in_date|date:"Y-m-d H:i:s" }}</h4>
     <div class="code-default">
         <pre class="brush: {% language_tag solution.language %};">{{ source_code.source }}</pre>

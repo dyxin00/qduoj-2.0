@@ -1,0 +1,41 @@
+ {% load pagination_tags %}
+<table class="table table-bordered table-hover">
+    <thead>
+      <tr>
+        <th class="td-p">Status</th>
+        <th class="td-ID">ID</th>
+        <th class="td-Title">Title</th>
+		<th class="td-p">Score</th>
+        <th class="td-Ratio">Ratio</th>
+        <th class="Date">Date</th>
+      </tr>
+    </thead>
+    <tbody>
+ 
+    {% for problem in problems %}
+    <tr>
+		{% if problem.problem.id in accepted %}
+		<td class='problem_pass'></td>
+		{% endif %}
+		{% if problem.problem.id in unsolved and not problem.problem.id in accepted %}
+		<td class='problem_unpass'></td>
+		{% endif %}
+		{% if not problem.problem.id in accepted and not problem.problem.id in unsolved %}
+		<td></td>
+		{% endif %}
+        <td><a href = '/problem/?cid={{cid}}&pid={{problem.problem.id}}'>{{problem.num}}</a></td>
+        <td><a href = '/problem/?cid={{cid}}&pid={{problem.problem.id}}'>{{problem.title}}</a></td>
+		<td>{{problem.sorce}}</td>
+        <td></td>
+        <td>{{problem.problem.in_date | date:"Y-m-d H:i"}}</td>
+    </tr>
+    {% endfor %}
+    </tbody>	
+</table>
+{% paginate %}
+<div class="problem-submit">
+	<div>
+    	<a role="button" class="btn btn-default" href='/contest_status/?cid={{cid}}'>Status</a>
+   		<a role="button" class="btn btn-primary status">Rank</a>
+	</div>
+</div>

@@ -2,7 +2,8 @@
 from django.db import models
 from oj_user.models import User_oj
 from problem.models import Problem
-
+import time, datetime
+from django.utils import timezone
 class Contest(models.Model):
     title = models.CharField(max_length=255, null=True)
     start_time = models.DateTimeField(null=True)
@@ -16,11 +17,18 @@ class Contest(models.Model):
     mode = models.IntegerField(default=0)
     user = models.ForeignKey(User_oj)
     
+    def start_or_not(self):
+        return self.start_time <= timezone.now()
+
+    def end_or_not(self):
+        return self.end_time > timezone.now()
+
     def __unicode__(self):
         return str(self.id) + ' - ' + self.title + ' - ' + self.user.user.username
 
     class Meta:
         db_table = 'contest'
+        ordering = ['-id']
 
 class Contest_problem(models.Model):
     problem = models.ForeignKey(Problem)
@@ -38,3 +46,6 @@ class Contest_problem(models.Model):
 class ContestPrivilege(models.Model):
     user = models.ForeignKey(User_oj)
     contest = models.ForeignKey(Contest)
+
+    def __unicode__(self):
+        return self.user.user.username + ' - ' + self.contest.title

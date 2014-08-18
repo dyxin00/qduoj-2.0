@@ -11,7 +11,7 @@ from django.db.models import Q
 from util import request_method_only
 from problem.models import Problem
 from solution.models import Solution, Custominput, Source_code, Compileinfo, Runtimeinfo
-from contest.models import Contest
+from contest.models import Contest, ContestPrivilege, Contest_problem
 from oj_user.models import User_oj, Privilege
 from qduoj import config
 
@@ -51,7 +51,6 @@ def solution_list(request):
                 solution = Solution.objects.select_related(depth=2).filter(Q(**kwargs) | (Q(user__user__username=username) & Q(problem__visible=False)))
         except:
             solution = Solution.objects.select_related(depth=2).filter(Q(**kwargs) | (Q(user__user__username=username) & Q(problem__visible=False)))
-        
         return render(request, "solution/status.html", 
                 {'judge_list' : solution,
                  'result_type' : result,
@@ -61,6 +60,7 @@ def solution_list(request):
 def code(request):
     if request.method == "GET":
         run_id = request.GET.get('runid', '')
+        cid = request.GET.get('cid', 0)
         try:
             solution = Solution.objects.get(id=run_id)
         except ObjectDoesNotExist:
@@ -82,8 +82,9 @@ def code(request):
         return render(request, "solution/code.html",
                       {'solution' : solution,
                        'source_code' : source_code,
-                       'result' : result})
-
+                       'result' : result,
+                       'cid' : cid})
+'''
 def result_detial(request):
     if request.method == 'GET':
         runid = request.GET.get('runid', -1)
@@ -104,4 +105,111 @@ def result_detial(request):
         
         return render(request, 'result_detial/result_detial.html', 
                 {'solution_info' : ce_obj.solution, 'error_info' : ce_obj.error})
+
+'''
+
+def ce_error_detial(request):
+    if request.method == 'GET':
+        runid = request.GET.get('runid', -1)
+
+        username = request.user.username
+        ADMIN = False
+        try:
+            user_authority = Privilege.objects.get(user__user__username=username).authority
+            if user_authority == config.ADMIN:
+                ADMIN = True
+        except:
+            pass
+        
+        try:
+            error_obj = Compileinfo.objects.get(solution_id = runid)
+        except ObjectDoesNotExist:
+            error = "This error does not exist!"
+            return render(request, "error.html", {'error':error})
+
+        if (ADMIN == True) or (username == error_obj.solution.user.user.username):
+            return render(request, 'result_detial/result_detial.html', 
+                      {'solution_info' : error_obj.solution, 'error_info':error_obj.error})
+        
+        error = "You do not have permission to view the results details!"
+        return render(request, "error.html", {'error':error})
+        
+
+def re_error_detial(request):
+    if request.method == 'GET':
+        runid = request.GET.get('runid', '-1')
+
+        username = request.user.username
+        ADMIN = False
+        try:
+            user_authority = Privilege.objects.get(user__user__username=username).authority
+            if user_authority == config.ADMIN:
+                ADMIN = True
+        except:
+            pass
+
+        try:
+            error_obj = Solution.objects.get(id=runid)
+        except ObjectDoesNotExist:
+            error = "This error does not exist!"
+            return render(request, "error.html", {'error':error})
+
+        if (ADMIN == True) or (username == error_obj.user.user.username):
+            return render(request, "result_detial/result_detial.html",
+                      {'solution_info':error_obj})
+
+        error = "You do not have permission to view the results details!"
+        return  render(request, "error.html", {'error':error})
+
+def contest_solution_list(request):
+    if request.method == 'GET':
+        cid = request.GET.get('cid', '-1')
+        username = request.user.username
+        ADMIN = False
+        try:
+            user_authority = Privilege.objects.get(user__user__username=username).authority
+            if user_authority == config.ADMIN:
+                ADMIN = True
+        except:
+            pass
+
+        try:
+            contest_obj = Contest.objects.get(id=cid)
+        except:
+            error = "The contest does not exist!"
+            return render(request, "error.html", {'error':error})
+        '''
+        if contest_obj.mode == 0 and contest_obj.defunct == True:
+            error = "结果 ? ? ?想吧 ! ! !"
+            return render(request, "error.html", {'error':error})
+        ''' 
+        contest_user = False
+        if username == contest_obj.user.user.username:
+            contest_user = True
+        
+        visit_contest = True
+        try:
+           ContestPrivilege.objects.get(user__user__username=username, contest_id=cid)
+        except:
+            visit_contest = False 
+        if (visit_contest == False) and (ADMIN == False) and (contest_user == False) and (contest_obj.private == 1):
+            error = "You do not have permission to view the results details!"
+            return render(request, "error.html", {'error':error})
+
+        now_time = contest_obj.start_or_not()
+        if (ADMIN == False) and (contest_user == False) and now_time == False:
+            error = "You do not have permission to view the results details!"
+            return render(request, "error.html", {'error':error})
+        
+        if ADMIN == False and contest_user == False and contest_obj.mode == 1:
+            solution = Solution.objects.select_related(depth=2).filter(contest_id=cid, user__user__username=username)
+            
+        else:
+            solution = Solution.objects.select_related(depth=2).filter(contest_id=cid)
+        
+        return render(request, "contest/contest_status.html", 
+                      {'judge_list':solution, 'ADMIN':ADMIN, 
+                       'contest_user':contest_user,
+                       'mode':contest_obj.mode,
+                       'cid': cid})
     

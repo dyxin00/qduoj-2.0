@@ -7,18 +7,20 @@ import json
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.db import IntegrityError
+from django.utils import timezone
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from DjangoVerifyCode import Code
-
+from django.core.exceptions import ObjectDoesNotExist
 from util import request_method_only
-from oj_user.models import User_oj
+from oj_user.models import User_oj, Privilege
 from problem.models import Problem
 from solution.models import Solution
 
-from django.db.models import Sum
+from django.db.models import Sum, Q
+from qduoj import config
 
 def index(request):
     return render(request, "index.html", {})
@@ -53,7 +55,7 @@ def sign_up(request):
             error = 'This user name already exists !'
             return render(request, "user/sign_up.html", {'error' : error})
         
-        oj_user = User_oj.objects.create(user=user, school_id=school_id)
+        User_oj.objects.create(user=user, school_id=school_id)
         return render(request, 'delay_jump.html', {
             'next_url' : '/sign_in/',
             'info' : 'Registration successful'
@@ -136,23 +138,33 @@ def user_info(request):
         else:
             user_id = request.user.id
             user_info = request.user
-        solution_list = Solution.objects.filter(user_id=user_id)
-    
+        try:
+            authority = Privilege.objects.get(user__user__username=username).authority
+        except ObjectDoesNotExist:
+            authority = None
+
+        if authority == config.ADMIN:
+            solution_list = Solution.objects.filter(user_id=user_id)
+        else:
+            solution_list = Solution.objects.filter(Q(user_id=user_id) & (Q(contest__isnull = True) | (Q(contest__isnull = False) & Q(contest__end_time__lt = timezone.now()))))
+        
         accepted_list = solution_list.filter(result=4).order_by('problem').\
                 values_list('problem', flat=True).distinct()
         unsolved_list = solution_list.exclude(result=4).order_by('problem').\
                 values_list('problem', flat=True).distinct()
+        accepted_num = len(list(set(accepted_list)))
         unsolved_num = len(list(set(unsolved_list).difference(set(accepted_list))))
         
         ac_problem = Problem.objects.filter(id__in = accepted_list)
         count = ac_problem.aggregate(Sum('difficult'))
+        if count['difficult__sum'] == None:
+            count['difficult__sum'] = 0
         user_info.user_oj.integral = user_info.user_oj.integral + count['difficult__sum']
         accesstime_info = user_info.user_oj.accesstime
-        if accesstime_info != None:
-            accesstime = accesstime_info.replace() + datetime.timedelta(hours=8)
         user_infos = {'user_info': user_info, 
                 'accepted_list': accepted_list,
                 'unsolved_list': unsolved_list,
+                'accepted_num': accepted_num,
                 'unsolved_num' : unsolved_num,
                 'accesstime_info' : accesstime_info
                 }

@@ -32,10 +32,14 @@ urlpatterns = patterns('',
     url(r'^status_list/$', 'solution.views.solution_list', name='status_list'),
     url(r'^code/$', 'solution.views.code', name = 'code'),
 
-    url(r'^result_detial/$', 'solution.views.result_detial', name='result_detial'),
+    #url(r'^result_detial/$', 'solution.views.result_detial', name='result_detial'),
 
+    url(r'^re_error_detial/$', 'solution.views.re_error_detial', name='re_error_detial'),
+    url(r'^ce_error_detial/$', 'solution.views.ce_error_detial', name='ce_error_detial'),
     url(r'^contest_list/$', 'contest.views.contest_list', name='contest_list'),
-
+    url(r'^contest_problem_list/', 'contest.views.contest_problem_list', name='contest_problem_list'),
+    url(r'^contest_status/', 'solution.views.contest_solution_list', name = 'contest_status'),
+    
     url(r'^rank/$', 'oj_user.views.rank', name='rank'),
 
 )

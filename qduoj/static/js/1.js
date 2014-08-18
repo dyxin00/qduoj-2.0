@@ -2,6 +2,7 @@ function refresh_captcha(obj) {
     obj.src = "/get_code/";
 }
 
+
 function check_in(){
 	var check = $('#check_in').unbind();
 	check.click(function(){
