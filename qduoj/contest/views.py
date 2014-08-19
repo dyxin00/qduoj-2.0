@@ -94,8 +94,11 @@ def contest_problem_list(request):
                 contest_user = False
                 if username == contest.user.user.username:
                     contest_user = True
+                ADMIN = False
+                if user_authority == config.ADMIN:
+                    ADMIN = True
                 problem_dict = {'problems': problems, 'contest': contest, 'start_time': int(start_time),\
-                                'contest_user': contest_user, 'cid': cid, 'hours': hours, 'minutes': minutes, 'seconds': seconds}
+                                'ADMIN': ADMIN, 'contest_user': contest_user, 'cid': cid, 'hours': hours, 'minutes': minutes, 'seconds': seconds}
                 return render(request, 'contest/contest_problem_list.html', problem_dict)
 
             except ObjectDoesNotExist:
@@ -155,6 +158,8 @@ def contest_rank(request):
                 try:
                     last_solution = Solution.objects.filter(contest__id=cid,\
                                 problem__id=problem.problem.id, user__user__id=contest_user.user.id).order_by('-id')[0]
+                    if last_solution.pass_rate == None:
+                        last_solution.pass_rate = 0
                     problem_score = float(last_solution.pass_rate) * problem.sorce
                     if problem_score == problem.sorce:
                         accepted += 1

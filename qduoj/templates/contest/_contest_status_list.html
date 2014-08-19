@@ -28,7 +28,7 @@
                     <td>{{ solution.0 }}</td>
                 {% endif %}
                 <td><a href="{% url 'user_info' %}?username={{ solution.2.user.user.username }}">{{ solution.2.user.user.username }}</a></td>
-                <td><a href="{% url 'problem' %}?pid={{ solution.2.problem.id }}">{{ solution.2.num }}</a></td>
+                <td><a href="{% url 'problem' %}?cid={{cid}}&pid={{ solution.2.problem.id }}">{{ solution.2.num }}</a></td>
                 {% if ADMIN or contest_user or mode == 0%}
                 <td>
                     {% if user.username == solution.2.user.user.username or ADMIN %}
