@@ -1,0 +1,69 @@
+{% load pagination_tags %}
+{% load result_tag %}
+<table class="table table-bordered table-hover ">
+    <thead>
+      <tr>
+        <th class="td-rid">Run ID</th>
+        <th class="td-user">User</th>
+        <th class="td-pid">Problem ID</th>
+        {% if ADMIN or contest_user or mode == 0%}
+        <th class="td-result">Result</th>
+        <th class="td-time">Score</th>
+        <th class="td-memory">Memory</th>
+        <th class="td-time">time</th>
+        <th class="td-Language">Language</th>
+        <th class="td-clength">Code Length</th>
+        {% endif %}
+        <th class="td-stime">Submit Time</th>
+      </tr>
+    </thead>
+    {% autopaginate judge_list 10 %}
+    <tbody class="status-td">
+        {% if solution_result_info %}
+            {% for solution in solution_result_info %}
+              <tr>
+                {% if user.username == solution.solution.user.user.username or ADMIN %}
+                    <td><a href="{% url 'code' %}?runid={{ solution.2.id }}">{{ solution.0 }}</td>
+                {% else %}
+                    <td>{{ solution.0 }}</td>
+                {% endif %}
+                <td><a href="{% url 'user_info' %}?username={{ solution.2.user.user.username }}">{{ solution.2.user.user.username }}</a></td>
+                <td><a href="{% url 'problem' %}?pid={{ solution.2.problem.id }}">{{ solution.2.num }}</a></td>
+                {% if ADMIN or contest_user or mode == 0%}
+                <td>
+                    {% if user.username == solution.2.user.user.username or ADMIN %}
+                      {% if solution.2.result == 11 %}
+                        <a style="text-decoration:none" href="{% url 'ce_error_detial' %}?runid={{ solution.2.id }}">{% result_tag solution.2.result %}</a>
+                      {% endif %}
+                      {% if solution.2.result == 10 %}
+                        <a style="text-decoration:none" href="{% url 're_error_detial' %}?runid={{ solution.2.id }}">{% result_tag solution.2.result %}</a>
+                      {% endif %}
+                      {% if solution.2.result != 11 and solution.2.result != 10 %}
+                        {% result_tag solution.2.result %}
+                      {% endif %}
+                    {% else %}
+                      {% result_tag solution.2.result %}
+                    {% endif %}
+                </td>
+                <td>{{solution.1}}</td>
+                <td>{{ solution.2.memory }}</td>
+                <td>{{ solution.2.time }}</td>
+                <td id = 'language'>{%  language_tag solution.2.language%}</td>
+                <td>{{solution.2.code_length }}b</td>
+                {% endif %}
+                <td>{{ solution.2.in_date|date:"Y-m-d H:i:s" }}</td>
+              </tr>
+            {% endfor %}
+        {% endif %}
+    </tbody>
+</table>
+{% paginate %}
+
+<div class="problem-submit">
+    <div>
+        <a role="button" href="{% url 'problem_index' %}" class="btn btn-default btn-lg">Problem</a>
+        {% if ADMIN or contest_user or mode == 0%}
+        <a role="button" href="{% url  'rank' %}" class="btn btn-primary btn-lg status" >Rank</a>
+        {% endif %}
+    </div>
+</div>

@@ -1,0 +1,16 @@
+{% extends 'base_layout.html' %}
+{% block title %}
+Solution-List
+{% endblock %}
+{% block top_title%}
+<div class="container">
+    <h1>Solutions</h1>
+    <p>这是Contest提交结果 ！！</p>
+</div>
+{% endblock %}
+{% block mid_left_3%}
+{% include "_mid_left_3_default.html" %}
+{% endblock %}
+{% block mid_mid_9%}
+{% include "contest/_contest_status_list.html" %}
+{% endblock %}
