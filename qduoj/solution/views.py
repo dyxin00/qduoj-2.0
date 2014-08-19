@@ -37,7 +37,7 @@ def solution_list(request):
         if language != '-1':
             kwargs['language'] = language
         #kwargs['problem__visible'] = True
-    
+        kwargs['contest__id'] = None
         ADMIN = False
         username = request.user.username
         try:
