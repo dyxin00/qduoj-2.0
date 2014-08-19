@@ -17,7 +17,7 @@
         <th class="td-stime">Submit Time</th>
       </tr>
     </thead>
-    {% autopaginate judge_list 10 %}
+    {% autopaginate solution_result_info 10 %}
     <tbody class="status-td">
         {% if solution_result_info %}
             {% for solution in solution_result_info %}
@@ -62,8 +62,14 @@
 <div class="problem-submit">
     <div>
         <a role="button" href="/contest_problem_list/?cid={{cid}}" class="btn btn-default">Problem</a>
-        {% if ADMIN or contest_user or mode == 0%}
-        <a role="button" href="/contest_rank/?cid={{cid}}" class="btn btn-primary status" >Rank</a>
-        {% endif %}
-    </div>
+		{% if mode == 1 %}
+			{% if ADMIN or contest_user or flag == False %}
+        		<a role="button" href="/contest_rank/?cid={{cid}}" class="btn btn-primary status" >Rank</a>
+        	{% endif %}
+		{% else %}
+			{% if mode == 0 %}
+				<a role="button" href="#" class="btn btn-primary status" >Rank</a>
+			{% endif %}
+		{% endif %}
+	</div>
 </div>

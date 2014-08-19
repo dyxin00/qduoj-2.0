@@ -228,10 +228,11 @@ def contest_solution_list(request):
             solution_result_info.append(solution_grade_loop)
 
         return render(request, "contest/contest_status.html", 
-                      {'judge_list':solution_list, 'ADMIN':ADMIN, 
+                      {'ADMIN':ADMIN, 
                        'contest_user':contest_user,
                        'mode':contest_obj.mode,
                        'solution_result_info':solution_result_info,
+                       'flag': contest_obj.end_or_not(),
                        'cid': cid})
 
 

@@ -23,7 +23,7 @@ def contest_list(request):
         except ObjectDoesNotExist:
             contests = Contest.objects.select_related(depth=3).filter(Q(visible=True) | (Q(user__user__username = username) & Q(visible=False)))
         for contest in contests:
-            if (contest.start_or_not() <= True and contest.end_or_not() == True) or (contest.start_or_not() == False):
+            if (contest.start_or_not() == True and contest.end_or_not() == True) or (contest.start_or_not() == False):
                 if contest.defunct:
                     contest.defunct = False
                     contest.save()
@@ -54,8 +54,11 @@ def contest_problem_list(request):
                 hours = int(start_time / (60 * 60))
                 minutes = int((start_time - (hours * 60 * 60)) / 60)
                 seconds = int(start_time - (hours * 60 * 60) - (minutes * 60))
+                ADMIN = False
                 try:
                     user_authority = Privilege.objects.get(user__user__username = username).authority
+                    if user_authority == config.ADMIN:
+                        ADMIN = True
                     if user_authority == config.ADMIN or contest.user.user.username == username:
                         start_time = 0
                     else:
@@ -94,11 +97,10 @@ def contest_problem_list(request):
                 contest_user = False
                 if username == contest.user.user.username:
                     contest_user = True
-                ADMIN = False
-                if user_authority == config.ADMIN:
-                    ADMIN = True
-                problem_dict = {'problems': problems, 'contest': contest, 'start_time': int(start_time),\
-                                'ADMIN': ADMIN, 'contest_user': contest_user, 'cid': cid, 'hours': hours, 'minutes': minutes, 'seconds': seconds}
+
+                problem_dict = {'problems': problems, 'contest': contest, 'start_time': int(start_time),
+                                'ADMIN': ADMIN, 'contest_user': contest_user, 'cid': cid, 'hours': hours, 
+                                'minutes': minutes, 'seconds': seconds, 'flag': contest.end_or_not()}
                 return render(request, 'contest/contest_problem_list.html', problem_dict)
 
             except ObjectDoesNotExist:

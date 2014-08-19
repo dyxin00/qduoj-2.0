@@ -36,8 +36,14 @@
 <div class="problem-submit">
 	<div>
     	<a role="button" class="btn btn-default" href='/contest_status/?cid={{cid}}'>Status</a>
-		{% if ADMIN or contest_user or mode == 0%}
-   		<a role="button" href="/contest_rank/?cid={{cid}}" class="btn btn-primary status" >Rank</a>
+		{% if contest.mode == 1 %}
+			{% if ADMIN or contest_user or flag == False%}
+        		<a role="button" href="/contest_rank/?cid={{cid}}" class="btn btn-primary status" >Rank</a>
+        	{% endif %}
+		{% else %}
+			{% if contest.mode == 0 %}
+				<a role="button" href="#" class="btn btn-primary status" >Rank</a>
+			{% endif %}
 		{% endif %}
 	</div>
 </div>
