@@ -15,7 +15,7 @@
 		{% if cid == None %}
       	<a role="button" href="{% url 'status_list' %}?problem_id={{problem.id}}" class="btn btn-default btn-lg status" >Status</a>
 		{% else %}
-		<a role="button" href="{% url 'contest_list' %}?cid={{cid}}&pid={{problem.id}}" class="btn btn-default btn-lg status" >Status</a>
+		<a role="button" href="/contest_status/?cid={{cid}}&pid={{problem.id}}" class="btn btn-default btn-lg status" >Status</a>
 		{% endif %}
     </div>
 </div>

@@ -146,7 +146,7 @@ def re_error_detial(request):
 def contest_solution_list(request):
     if request.method == 'GET':
         cid = request.GET.get('cid', '-1')
-        problem_id = request.GET.get('problem_id', None)
+        problem_id = request.GET.get('pid', None)
 
         kwargs = {}
 

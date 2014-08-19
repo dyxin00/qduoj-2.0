@@ -91,9 +91,11 @@ def contest_problem_list(request):
                             if contest.visible == False and user_authority != config.ADMIN and contest.user.user.username != username:
                                 error = "Limited permission!"
                                 return render(request, "error.html", {'error': error})
-                
+                contest_user = False
+                if username == contest.user.user.username:
+                    contest_user = True
                 problem_dict = {'problems': problems, 'contest': contest, 'start_time': int(start_time),\
-                                'end_time': int(end_time), 'cid': cid, 'hours': hours, 'minutes': minutes, 'seconds': seconds}
+                                'contest_user': contest_user, 'cid': cid, 'hours': hours, 'minutes': minutes, 'seconds': seconds}
                 return render(request, 'contest/contest_problem_list.html', problem_dict)
 
             except ObjectDoesNotExist:
@@ -179,4 +181,5 @@ def contest_rank(request):
         contest_info.sort(key=lambda t: (t[1], t[2], -t[3]), reverse=True)
         return render(request, 'rank/rank.html', {'user_list': contest_info,
                                                   'mode': contest.mode,
-                                                  'page': int(page)})
+                                                  'page': int(page),
+                                                  'cid': cid})

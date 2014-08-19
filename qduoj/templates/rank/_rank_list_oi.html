@@ -29,5 +29,9 @@
     </tbody>
 </table>
 {% paginate %}
-<a role="button" href="#" class="btn btn-default btn-lg rank-status" >Status</a>
-<button type="button" class="btn btn-primary btn-lg rank-excel">Excel</button>
+<div class="problem-submit">
+	<div>
+    	<a role="button" class="btn btn-default" href='/contest_status/?cid={{cid}}'>Status</a>
+   		<a role="button"  class="btn btn-primary status" >Excel</a>
+	</div>
+</div>
