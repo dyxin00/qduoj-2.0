@@ -19,39 +19,39 @@
     </thead>
     {% autopaginate judge_list 10 %}
     <tbody class="status-td">
-        {% if judge_list %}
-            {% for solution in judge_list %}
+        {% if solution_result_info %}
+            {% for solution in solution_result_info %}
               <tr>
-                {% if user.username == solution.user.user.username or ADMIN %}
-                    <td><a href="{% url 'code' %}?cid={{cid}}&runid={{ solution.id }}">{{ solution.id }}</td>
+                {% if user.username == solution.solution.user.user.username or ADMIN %}
+                    <td><a href="{% url 'code' %}?runid={{ solution.2.id }}">{{ solution.0 }}</td>
                 {% else %}
-                    <td>{{ solution.id }}</td>
+                    <td>{{ solution.0 }}</td>
                 {% endif %}
-                <td><a href="{% url 'user_info' %}?username={{ solution.user.user.username }}">{{ solution.user.user.username }}</a></td>
-                <td><a href="{% url 'problem' %}?cid={{cid}}&pid={{ solution.problem.id }}">{{solution.num}}</a></td>
+                <td><a href="{% url 'user_info' %}?username={{ solution.2.user.user.username }}">{{ solution.2.user.user.username }}</a></td>
+                <td><a href="{% url 'problem' %}?pid={{ solution.2.problem.id }}">{{ solution.2.num }}</a></td>
                 {% if ADMIN or contest_user or mode == 0%}
                 <td>
-                    {% if user.username == solution.user.user.username or ADMIN %}
-                      {% if solution.result == 11 %}
-                        <a style="text-decoration:none" href="{% url 'ce_error_detial' %}?runid={{ solution.id }}">{% result_tag solution.result %}</a>
+                    {% if user.username == solution.2.user.user.username or ADMIN %}
+                      {% if solution.2.result == 11 %}
+                        <a style="text-decoration:none" href="{% url 'ce_error_detial' %}?runid={{ solution.2.id }}">{% result_tag solution.2.result %}</a>
                       {% endif %}
-                      {% if solution.result == 10 %}
-                        <a style="text-decoration:none" href="{% url 're_error_detial' %}?runid={{ solution.id }}">{% result_tag solution.result %}</a>
+                      {% if solution.2.result == 10 %}
+                        <a style="text-decoration:none" href="{% url 're_error_detial' %}?runid={{ solution.2.id }}">{% result_tag solution.2.result %}</a>
                       {% endif %}
-                      {% if solution.result != 11 and solution.result != 10 %}
-                        {% result_tag solution.result %}
+                      {% if solution.2.result != 11 and solution.2.result != 10 %}
+                        {% result_tag solution.2.result %}
                       {% endif %}
                     {% else %}
-                      {% result_tag solution.result %}
+                      {% result_tag solution.2.result %}
                     {% endif %}
                 </td>
-                <td>-_-!</td>
-                <td>{{ solution.memory }}</td>
-                <td>{{ solution.time }}</td>
-                <td id = 'language'>{%  language_tag solution.language%}</td>
-                <td>{{solution.code_length }}b</td>
+                <td>{{solution.1}}</td>
+                <td>{{ solution.2.memory }}</td>
+                <td>{{ solution.2.time }}</td>
+                <td id = 'language'>{%  language_tag solution.2.language%}</td>
+                <td>{{solution.2.code_length }}b</td>
                 {% endif %}
-                <td>{{ solution.in_date|date:"Y-m-d H:i:s" }}</td>
+                <td>{{ solution.2.in_date|date:"Y-m-d H:i:s" }}</td>
               </tr>
             {% endfor %}
         {% endif %}
@@ -62,7 +62,7 @@
 <div class="problem-submit">
     <div>
         <a role="button" href="/contest_problem_list/?cid={{cid}}" class="btn btn-default">Problem</a>
-        {% if ADMIN %}
+        {% if ADMIN or contest_user or mode == 0%}
         <a role="button" href="/contest_rank/?cid={{cid}}" class="btn btn-primary status" >Rank</a>
         {% endif %}
     </div>
