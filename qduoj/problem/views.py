@@ -49,39 +49,6 @@ def index(request):
         return render(request, "problem/problem_list.html", problem_dict)
 
 @request_method_only('GET')
-def index(request):
-    if request.method == 'GET':
-
-        problem_type = request.GET.get('type', '-1')
-
-        username= request.user.username
-        try:
-            user_authority = Privilege.objects.get(user__user__username=username).authority
-            if user_authority == config.ADMIN:
-                problems = Problem.objects.all()
-            else:
-                problems = Problem.objects.filter(Q(visible=True) | (Q(user__user__username=username) & Q(visible=False)))
-        except ObjectDoesNotExist:
-            problems = Problem.objects.filter(Q(visible=True) | (Q(user__user__username=username) & Q(visible=False)))
-            #error = "limited permissioin"
-            #return render(request, "error.html", {'error':error})
-
-        if problem_type != '-1':
-            problems = problems.filter(classify=problem_type)
-
-        problem_dict = {'problems': problems, 'type' : problem_type}
-        if request.user.is_authenticated():
-            solution_list = Solution.objects.filter(user_id=request.user.id)
-            accepted = solution_list.filter(result=4).order_by('problem').\
-                    values_list('problem', flat=True).distinct()
-            unsolved = solution_list.exclude(result=4).order_by('problem').\
-                    values_list('problem', flat=True).distinct()
-            problem_dict['accepteds'] = accepted
-            problem_dict['unsolveds'] = unsolved
-
-        return render(request, "problem/problem_list.html", problem_dict)
-
-@request_method_only('GET')
 def problem(request):
     if request.method == 'GET':
         pid = request.GET.get('pid', None)
