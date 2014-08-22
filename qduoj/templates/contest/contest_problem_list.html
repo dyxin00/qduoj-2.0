@@ -10,11 +10,14 @@
 {% include "_mid_left_3_default.html" %}
 {% endblock %}
 {% block mid_mid_9%}
-{% include 'contest/servertime.html' %}
+
 {% if start_time > 0 %}
+{% include 'contest/servertime.html' %}
 {% include 'contest/contest_time.html' %}
 {% endif %}
 {% if start_time <= 0 %}
+<h1 class="text-center">{{contest_title}}</h1>
+{% include 'contest/servertime.html' %}
 {% include 'contest/_contest_problem_list.html' %}
 {% endif %}
 {% endblock %}

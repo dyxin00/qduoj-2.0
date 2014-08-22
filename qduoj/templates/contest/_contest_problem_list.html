@@ -2,11 +2,16 @@
 <table class="table table-bordered table-hover">
     <thead>
       <tr>
+		  {% if contest.mode == 0 %}
         <th class="td-p">Status</th>
+		  {% endif %}
         <th class="td-ID">ID</th>
         <th class="td-Title">Title</th>
-		<th class="td-p">Score</th>
+		  {% if contest.mode == 0 %}
         <th class="td-Ratio">Ratio</th>
+		  {% else %}
+		  <th class="td-p">Score</th>
+		  {% endif %}
         <th class="Date">Date</th>
       </tr>
     </thead>
@@ -14,6 +19,7 @@
  
     {% for problem in problems %}
     <tr>
+		{% if contest.mode == 0 %}
 		{% if problem.problem.id in accepted %}
 		<td class='problem_pass'></td>
 		{% endif %}
@@ -23,10 +29,20 @@
 		{% if not problem.problem.id in accepted and not problem.problem.id in unsolved %}
 		<td></td>
 		{% endif %}
+		{% endif %}
         <td><a href = '/problem/?cid={{cid}}&pid={{problem.problem.id}}'>{{problem.num}}</a></td>
         <td><a href = '/problem/?cid={{cid}}&pid={{problem.problem.id}}'>{{problem.title}}</a></td>
+		{% if contest.mode == 0 %}
+		<td>
+			<div class="progress">
+              <div class="progress-bar" role="progressbar" aria-valuenow="{% widthratio problem.problem.accepted problem.problem.submit 100%}" aria-valuemin="0" aria-valuemax="100" style="width: {% widthratio problem.problem.accepted problem.problem.submit 100%}%;">
+                <span id = 'only' class="only" >{% widthratio problem.problem.accepted  problem.problem.submit 100%}%</span>
+              </div>
+            </div>
+		</td>
+		{% else %}
 		<td>{{problem.sorce}}</td>
-        <td></td>
+		{% endif %}
         <td>{{problem.problem.in_date | date:"Y-m-d H:i"}}</td>
     </tr>
     {% endfor %}
@@ -42,7 +58,7 @@
         	{% endif %}
 		{% else %}
 			{% if contest.mode == 0 %}
-				<a role="button" href="#" class="btn btn-primary status" >Rank</a>
+				<a role="button" href="/contest_rank/?cid={{cid}}" class="btn btn-primary status" >Rank</a>
 			{% endif %}
 		{% endif %}
 	</div>

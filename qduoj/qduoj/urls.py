@@ -39,7 +39,7 @@ urlpatterns = patterns('',
     url(r'^contest_status/', 'solution.views.contest_solution_list', name = 'contest_status'),
     
     url(r'^rank/$', 'oj_user.views.rank', name='rank'),
-
-    url(r'^contest_rank/$', 'contest.views.contest_rank', name='contest_rank')
+    url(r'^contest_rank/$', 'contest.views.contest_rank', name='contest_rank'),
+    url(r'^contest_rank_xls/$', 'contest.views.contest_rank', name = 'contest_rank_xls')
 
 )

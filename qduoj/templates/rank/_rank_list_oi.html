@@ -1,16 +1,20 @@
-{% load pagination_tags %}
+
 {% load rank_tag %}
+<h1 class="text-center">{{contest_title}}</h1>
+<a role="button" class="btn btn-success btn-sm" href="{% url 'contest_rank_xls' %}?cid={{cid}}&xls={{cid}}" style = "position:absolute; right:20px; top: 30px">Excel</a>
 <table class="table table-bordered table-hover ">
     <thead>
       <tr>
         <th class="td-rid">No.</th>
         <th class="td-user">User</th>
         <th class="td-pid">Grade</th>
+		{% for problem in contest_problem %}
+			<th class="td-pid">{{problem.title}}</th>
+		{% endfor %}
         <th class="td-pid">Solved</th>
         <th class="td-pid">Submit</th>
       </tr>
     </thead>
-    {% autopaginate user_list 4 %}
     <tbody class="status-td">
       {% for users in user_list %}
       <tr>
@@ -22,16 +26,19 @@
 <!--        {% endif %}-->
         <td><a href="{% url 'user_info' %}?username={{ users.0 }}">{{ users.0 }}</td>
         <td>{{ users.1 }}</td>
+		{% for i in users.4 %}
+			<td>{{i.score}}</td>
+		{% endfor %}
         <td>{{ users.2 }}</td>
         <td>{{ users.3 }}</td>
       </tr>
       {% endfor %}
     </tbody>
 </table>
-{% paginate %}
+
 <div class="problem-submit">
 	<div>
     	<a role="button" class="btn btn-default" href='/contest_status/?cid={{cid}}'>Status</a>
-   		<a role="button"  class="btn btn-primary status" >Excel</a>
+   		<a role="button" href="/contest_problem_list/?cid={{cid}}" class="btn btn-primary status">Problem</a>
 	</div>
 </div>

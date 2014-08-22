@@ -202,8 +202,7 @@ def contest_solution_list(request):
             error = "You do not have permission to view the results details!"
             return render(request, "error.html", {'error':error})
         
-        #只有mode=1的只能看自己的
-        if ADMIN == False and contest_user == False and contest_obj.mode == 1:
+        if ADMIN == False and contest_user == False:
             solution_list = Solution.objects.select_related(depth=2).filter(**kwargs)
         else:
             del kwargs['user__user__username']
@@ -230,6 +229,7 @@ def contest_solution_list(request):
         return render(request, "contest/contest_status.html", 
                       {'ADMIN':ADMIN, 
                        'contest_user':contest_user,
+                       'contest_title': contest_obj.title,
                        'mode':contest_obj.mode,
                        'solution_result_info':solution_result_info,
                        'flag': contest_obj.end_or_not(),
