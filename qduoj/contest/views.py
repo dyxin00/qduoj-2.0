@@ -100,17 +100,18 @@ def contest_problem_list(request):
                 contest_user = False
                 if username == contest.user.user.username:
                     contest_user = True
-
+                accepted=[]
+                unsolved=[]
                 if request.user.is_authenticated():
                     solution_list = Solution.objects.filter(user_id = request.user.id, contest_id = cid)
                     accepted = solution_list.filter(result=4).order_by('problem').\
                             values_list('problem', flat=True).distinct()
                     unsolved = solution_list.exclude(result=4).order_by('problem').\
                             values_list('problem', flat=True).distinct()
-                    problem_dict = {'problems': problems, 'contest': contest, 'start_time': int(start_time),
-                                    'ADMIN': ADMIN, 'contest_user': contest_user, 'cid': cid, 'hours': hours, 
-                                    'minutes': minutes, 'seconds': seconds, 'flag': contest.end_or_not(), 
-                                    'contest_title': contest.title, 'accepted': accepted, 'unsolved': unsolved}
+                problem_dict = {'problems': problems, 'contest': contest, 'start_time': int(start_time),
+                                'ADMIN': ADMIN, 'contest_user': contest_user, 'cid': cid, 'hours': hours, 
+                                'minutes': minutes, 'seconds': seconds, 'flag': contest.end_or_not(), 
+                                'contest_title': contest.title, 'accepted': accepted, 'unsolved': unsolved}
                     
                 return render(request, 'contest/contest_problem_list.html', problem_dict)
             
@@ -121,12 +122,12 @@ def contest_problem_list(request):
 
 def contest_rank(request):
     if request.method=='GET':
-        cid = request.GET.get('cid', None)
-        page = request.GET.get('page', '1')
-        xls = request.GET.get('xls', 'None')
+        cid=request.GET.get('cid', None)
+        page=request.GET.get('page', '1')
+        xls=request.GET.get('xls', 'None')
 
-        if cid == None:
-            error = "The contest is not exist!"
+        if cid==None:
+            error="The contest is not exist!"
             return render(request, 'error.html', {'error': error})
          
         try:
@@ -135,14 +136,14 @@ def contest_rank(request):
             error = "The contest is not exist!"
             return render(request, 'error.html', {'error':error})
 
-	contest_user_id_list = Solution.objects.select_related(depth=3).filter(contest__id=cid).\
+	contest_user_id_list=Solution.objects.select_related(depth=3).filter(contest__id=cid).\
                 order_by('user__user__id').values_list('user__user__id', flat=True).distinct()
-        contest_user_list = User_oj.objects.filter(user__id__in=contest_user_id_list)
+        contest_user_list=User_oj.objects.filter(user__id__in=contest_user_id_list)
         
-        contest_problem_list = Contest_problem.objects.select_related(depth=3).filter(contest__id=cid)
-        solutions = Solution.objects.select_related(depth=3).all().filter(contest__id=cid)
+        contest_problem_list=Contest_problem.objects.select_related(depth=3).filter(contest__id=cid)
+        solutions=Solution.objects.select_related(depth=3).all().filter(contest__id=cid)
 
-        if contest.mode == 1:
+        if contest.mode==1:
             return contest_rank_oi(request, contest, cid, xls, page, contest_user_list, contest_problem_list, solutions)
         else:
             return contest_rank_acm(request, contest, cid, xls, page, contest_user_list, contest_problem_list, solutions)
@@ -150,36 +151,36 @@ def contest_rank(request):
 
 def contest_rank_oi(request, contest, cid, xls, page, contest_user_list, contest_problem_list, solutions):
   
-        contest_info = []
+        contest_info=[]
         for contest_user in contest_user_list:
-            grade = 0.0   
-            accepted = 0       
-            contest_user_loop = []
+            grade=0.0   
+            accepted=0       
+            contest_user_loop=[]
             contest_user_loop.append(contest_user.user.username)
-            problem_info = []
+            problem_info=[]
             
             for problem in contest_problem_list:
-                problem_loop = {}
+                problem_loop={}
                 problem_loop['id'] = problem.problem.id
                 try:
-                    last_solution = solutions.filter(problem__id=problem.problem.id, user__user__id=contest_user.user.id).order_by('-id')[0]
-                    if last_solution.pass_rate == None:
-                        last_solution.pass_rate = 0
-                    problem_score = float(last_solution.pass_rate) * problem.sorce
-                    if problem_score == problem.sorce:
-                        accepted += 1
-                        problem_loop['AC'] = True
+                    last_solution=solutions.filter(problem__id=problem.problem.id, user__user__id=contest_user.user.id).order_by('-id')[0]
+                    if last_solution.pass_rate==None:
+                        last_solution.pass_rate=0
+                    problem_score=float(last_solution.pass_rate) * problem.sorce
+                    if problem_score==problem.sorce:
+                        accepted+=1
+                        problem_loop['AC']=True
                     else:
-                        problem_loop['AC'] = False
-                    problem_loop['score'] = problem_score
-                    problem_loop['submit'] = solutions.filter(problem__id=problem.problem.id,user__user__id=contest_user.user.id).count()
-                    grade += problem_score
+                        problem_loop['AC']=False
+                    problem_loop['score']=problem_score
+                    problem_loop['submit']=solutions.filter(problem__id=problem.problem.id,user__user__id=contest_user.user.id).count()
+                    grade+=problem_score
 
                 except IndexError:
-                    problem_loop['AC'] = False
-                    problem_loop['score'] = 0.0;
-                    problem_loop['submit'] = -1
-                    grade += 0
+                    problem_loop['AC']=False
+                    problem_loop['score']=0.0
+                    problem_loop['submit']=-1
+                    grade+=0
                 problem_info.append(problem_loop)
                     
             contest_user_loop.append(grade)
@@ -189,7 +190,7 @@ def contest_rank_oi(request, contest, cid, xls, page, contest_user_list, contest
             
             contest_info.append(contest_user_loop)
         contest_info.sort(key=lambda t: (t[1], t[2], -t[3]), reverse=True)
-        if xls == 'None':
+        if xls=='None':
             return render(request, 'rank/rank.html', {'user_list': contest_info,
                                                      'mode': contest.mode,
                                                      'page': int(page),
@@ -200,42 +201,42 @@ def contest_rank_oi(request, contest, cid, xls, page, contest_user_list, contest
             return contest_rank_xls_oi(contest_info, contest, cid, contest_problem_list)
 
 def contest_rank_acm(request, contest, cid, xls, page, contest_user_list, contest_problem_list, solutions):
-    contest_time = contest.start_time
-    contest_info = []
+    contest_time=contest.start_time
+    contest_info=[]
     for contest_user in contest_user_list:
-        accepted = 0
-        user_problem = []
-        total_time = datetime.timedelta()
+        accepted= 0
+        user_problem=[]
+        total_time= datetime.timedelta()
         
         for problem in contest_problem_list:
-            all_solution = solutions.filter(problem__id = problem.problem.id, user__user__id = contest_user.user.id)
-            ac_solution = all_solution.filter(result = 4)
-            unsolved_num = all_solution.exclude(result = 4).count()
+            all_solution=solutions.filter(problem__id=problem.problem.id, user__user__id=contest_user.user.id)
+            ac_solution=all_solution.filter(result=4).order_by("id")
+            unsolved_num=all_solution.exclude(result=4).count()
 
             if ac_solution:
-                ac_time = ac_solution[0].in_date - contest_time
-                wise_time = datetime.timedelta(minutes = unsolved_num * 20)
+                ac_time=ac_solution[0].in_date - contest_time
+                wise_time=datetime.timedelta(minutes=unsolved_num * 20)
                 user_problem.append({
                     'submit': 1,
                     'ac_time': ac_time,
                     'unsolved': unsolved_num
                 })
                 total_time = total_time + ac_time + wise_time
-                accepted += 1
+                accepted+=1
             else:
                 user_problem.append({
                     'submit': 0,
                     'unsolved': unsolved_num
                 })
-        contest_loop = []
+        contest_loop=[]
         contest_loop.append(contest_user.user.username)
         contest_loop.append(accepted)
         contest_loop.append(total_time)
         contest_loop.append(user_problem)
 
         contest_info.append(contest_loop)
-    contest_info.sort(key = lambda t: (-t[1], t[2]))
-    if xls == 'None':
+    contest_info.sort(key=lambda t: (-t[1], t[2]))
+    if xls=='None':
         return render(request, 'rank/rank.html', {'user_list': contest_info,
                                                   'mode': contest.mode,
                                                   'page': int(page),
@@ -252,13 +253,13 @@ def contest_rank_xls_oi(contest_info, contest, cid, contest_problem_list):
     sheet.write(1, 0, u"Rank") 
     sheet.write(1, 1, u"User") 
     sheet.write(1, 2, u"Grade")
-    i = 3
+    line = 3
     for title in contest_problem_list:
-        sheet.write(1, i, u"%s"%title.title)
-        i += 1
-    sheet.write(1, i, u"Solved") 
-    i = i + 1
-    sheet.write(1, i, u"Submit")
+        sheet.write(1, line, u"%s"%title.title)
+        line+= 1
+    sheet.write(1, line, u"Solved") 
+    line+=1
+    sheet.write(1, line, u"Submit")
     line = 2
     for var in contest_info:
         sheet.write(line, 0, u"%s"%str(line - 1))
@@ -267,16 +268,16 @@ def contest_rank_xls_oi(contest_info, contest, cid, contest_problem_list):
         count1 = 3
         for problem in var[4]:
             sheet.write(line, count1, u"%s"%problem['score'])
-            count1 += 1
+            count1+=1
         sheet.write(line, count1, u"%s"%var[2])
-        count1 += 1
+        count1+=1
         sheet.write(line, count1, u"%s"%var[3])
-        line += 1
+        line+=1
     
-    ios = StringIO()
+    ios=StringIO()
     wbk.save(ios)
-    response = HttpResponse(ios.getvalue(), mimetype='application/ontet-stream')
-    response['Content-Disposition'] = 'attachment; filename=contest-%s.xls'% cid
+    response=HttpResponse(ios.getvalue(), mimetype='application/ontet-stream')
+    response['Content-Disposition']='attachment; filename=contest-%s.xls'% cid
     return response
 
 def contest_rank_xls_acm(contest_info, contest, cid, contest_problem_list):
@@ -287,36 +288,36 @@ def contest_rank_xls_acm(contest_info, contest, cid, contest_problem_list):
     sheet.write(1, 1, u"User")
     sheet.write(1, 2, u"AC")
     sheet.write(1, 3, u"Time")
-    i = 4
+    line = 4
     for title in contest_problem_list:
-        sheet.write(1, i, u"%s"%title.title)
-        i += 1
-    line = 2
+        sheet.write(1, line, u"%s"%title.title)
+        line+=1
+    line=2
     for var in contest_info:
-        if line == 2:
+        if line==2:
             sheet.write(line, 0, u"%s"%"Winner")
         else:
             sheet.write(line, 0, u"%s"%str(line - 1))
         sheet.write(line, 1, u"%s"%var[0])
         sheet.write(line, 2, u"%s"%var[1])
         sheet.write(line, 3, u"%s"%var[2])
-        count = 4
+        count=4
         for problem in var[3]:
-            if problem['submit'] == 1:
-                if problem['unsolved'] != 0:
+            if problem['submit']==1:
+                if problem['unsolved']!=0:
                     sheet.write(line, count, u"%s-(%s)"%(problem['ac_time'], problem['unsolved']))
                 else:
                     sheet.write(line, count, u"%s"%problem['ac_time'])
             else:
-                if problem['unsolved'] != 0:
+                if problem['unsolved']!=0:
                     sheet.write(line, count, u"-(%s)"%problem['unsolved'])
-            count += 1
-	line += 1
+            count+=1
+	line+=1
 
-    ios = StringIO()
+    ios=StringIO()
     wbk.save(ios)
-    response = HttpResponse(ios.getvalue(), mimetype='application/ontet-stream')
-    response['Content-Disposition'] = 'attachment; filename=contest-%s.xls'% cid
+    response=HttpResponse(ios.getvalue(), mimetype='application/ontet-stream')
+    response['Content-Disposition']='attachment; filename=contest-%s.xls'% cid
     return response
     
 

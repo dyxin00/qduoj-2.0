@@ -71,7 +71,9 @@ def sign_in(request):
         captcha = request.POST.get('captcha', '')
 
         if not captcha:
-            return HttpResponse("captcha")
+            error = 'Verification code error !'
+            return render(request, "user/sign_in.html",
+                    {'error' : error, 'next' : next_url})
         code = Code(request)
         if not code.check(captcha):
             error = 'Verification code error !'
