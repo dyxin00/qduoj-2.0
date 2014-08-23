@@ -17,14 +17,14 @@ def contest_list(request):
         status = request.GET.get('status', -1)
         username = request.user.username
         try:
-            user_authority = Privilege.objects.get(user__user__username = username).authority
+            user_authority = Privilege.objects.get(user__user__username=username).authority
             if user_authority == config.ADMIN:
                 contests = Contest.objects.all()
             else:
-                contests = Contest.objects.select_related(depth=3).filter(Q(visible=True) | (Q(user__user__username = username) & Q(visible=False)))
+                contests = Contest.objects.select_related(depth=3).filter(Q(visible=True) | (Q(user__user__username=username) & Q(visible=False)))
 
         except ObjectDoesNotExist:
-            contests = Contest.objects.select_related(depth=3).filter(Q(visible=True) | (Q(user__user__username = username) & Q(visible=False)))
+            contests = Contest.objects.select_related(depth=3).filter(Q(visible=True) | (Q(user__user__username=username) & Q(visible=False)))
         for contest in contests:
             if (contest.start_or_not() == True and contest.end_or_not() == True) or (contest.start_or_not() == False):
                 if contest.defunct:
@@ -35,9 +35,9 @@ def contest_list(request):
                     contest.defunct = True
                     contest.save()
         if status == '1':
-            contests = contests.select_related(depth=3).filter(defunct = False)
+            contests = contests.select_related(depth=3).filter(defunct=False)
         else:
-            contests = contests.select_related(depth=3).filter(defunct = True)
+            contests = contests.select_related(depth=3).filter(defunct=True)
         return render(request, 'contest/contest_list.html', {'contests': contests})
 
 def contest_problem_list(request):
@@ -45,13 +45,15 @@ def contest_problem_list(request):
         cid = request.GET.get('cid', None)
         if cid != None:
             try:
-                contest = Contest.objects.get(id = cid)
+                contest = Contest.objects.get(id=cid)
                 now = time.time()
                 t1 = contest.start_time.replace(tzinfo=None) + datetime.timedelta(hours=8)
                 t2 = contest.end_time.replace(tzinfo=None) + datetime.timedelta(hours=8)
-                start_time = float(time.mktime(time.strptime( str(t1),'%Y-%m-%d %H:%M:%S'))) - now
-                end_time = float(time.mktime(time.strptime( str(t2),'%Y-%m-%d %H:%M:%S'))) - now
-                problems = Contest_problem.objects.filter(contest__id = cid).order_by('num')
+                start_time = float(time.mktime(time.strptime(str(t1),
+                                            '%Y-%m-%d %H:%M:%S'))) - now
+                end_time = float(time.mktime(time.strptime(str(t2),
+                                             '%Y-%m-%d %H:%M:%S'))) - now
+                problems = Contest_problem.objects.select_related(depth=3).filter(contest__id=cid).order_by('num')
                 username = request.user.username
 
                 hours = int(start_time / (60 * 60))
@@ -59,7 +61,7 @@ def contest_problem_list(request):
                 seconds = int(start_time - (hours * 60 * 60) - (minutes * 60))
                 ADMIN = False
                 try:
-                    user_authority = Privilege.objects.get(user__user__username = username).authority
+                    user_authority = Privilege.objects.get(user__user__username=username).authority
                     if user_authority == config.ADMIN:
                         ADMIN = True
                     if user_authority == config.ADMIN or contest.user.user.username == username:
@@ -71,7 +73,7 @@ def contest_problem_list(request):
                                 return render(request, "error.html", {'error': error})
                             else:
                                 try:
-                                    ContestPrivilege.objects.get(user__user__username = username, contest__id = contest.id)
+                                    ContestPrivilege.objects.get(user__user__username=username, contest__id=contest.id)
                                 except ObjectDoesNotExist:
                                     error= "Limited permission!"
                                     return render(request, "error.html", {'error': error})
@@ -89,7 +91,7 @@ def contest_problem_list(request):
                                 return render(request, "error.html", {'error': error})
                             else:
                                 try:
-                                    ContestPrivilege.objects.get(user__user__username = username, contest__id=contest.id)
+                                    ContestPrivilege.objects.get(user__user__username=username, contest__id=contest.id)
                                 except ObjectDoesNotExist:
                                     error = "Limited permission!"
                                     return render(request, "error.html", {'error': error})
@@ -103,7 +105,7 @@ def contest_problem_list(request):
                 accepted = []
                 unsolved = []
                 if request.user.is_authenticated():
-                    solution_list = Solution.objects.filter(user_id=request.user.id, contest_id=cid)
+                    solution_list = Solution.objects.select_related(depth=3).filter(user_id=request.user.id, contest_id=cid)
                     accepted = solution_list.filter(result=4).order_by('problem').\
                             values_list('problem', flat=True).distinct()
                     unsolved = solution_list.exclude(result=4).order_by('problem').\
@@ -121,13 +123,13 @@ def contest_problem_list(request):
             
 
 def contest_rank(request):
-    if request.method=='GET':
+    if request.method == 'GET':
         cid = request.GET.get('cid', None)
         page = request.GET.get('page', '1')
         xls = request.GET.get('xls', 'None')
 
         if cid == None:
-            error ="The contest is not exist!"
+            error = "The contest is not exist!"
             return render(request, 'error.html', {'error': error})
          
         try:
@@ -141,7 +143,7 @@ def contest_rank(request):
         contest_user_list = User_oj.objects.filter(user__id__in=contest_user_id_list)
         
         contest_problem_list = Contest_problem.objects.select_related(depth=3).filter(contest__id=cid)
-        solutions=Solution.objects.select_related(depth=3).all().filter(contest__id=cid)
+        solutions = Solution.objects.select_related(depth=3).all().filter(contest__id=cid)
 
         if contest.mode == 1:
             return contest_rank_oi(request, contest, cid, xls, page, contest_user_list, contest_problem_list, solutions)
@@ -173,7 +175,7 @@ def contest_rank_oi(request, contest, cid, xls, page, contest_user_list, contest
                     else:
                         problem_loop['AC'] = False
                     problem_loop['score'] = problem_score
-                    problem_loop['submit'] = solutions.filter(problem__id=problem.problem.id,user__user__id=contest_user.user.id).count()
+                    problem_loop['submit'] = solutions.filter(problem__id=problem.problem.id, user__user__id=contest_user.user.id).count()
                     grade += problem_score
 
                 except IndexError:
@@ -205,15 +207,12 @@ def contest_rank_acm(request, contest, cid, xls, page, contest_user_list, contes
     contest_info = []
     for contest_user in contest_user_list:
         accepted = 0
-        user_problem =[]
+        user_problem = []
         total_time = datetime.timedelta()
         
         for problem in contest_problem_list:
             all_solution = solutions.filter(problem__id=problem.problem.id, user__user__id=contest_user.user.id)
             ac_solution = all_solution.filter(result=4).order_by("id")
-            if contest_user.user.username == "qq" or contest_user.user.username == "3pointer":
-                for i in ac_solution:
-                    print i.in_date
 
             unsolved_num = all_solution.exclude(result=4).count()
 
@@ -280,7 +279,7 @@ def contest_rank_xls_oi(contest_info, contest, cid, contest_problem_list):
     
     ios = StringIO()
     wbk.save(ios)
-    response=HttpResponse(ios.getvalue(), mimetype='application/ontet-stream')
+    response = HttpResponse(ios.getvalue(), mimetype='application/ontet-stream')
     response['Content-Disposition'] = 'attachment; filename=contest-%s.xls'% cid
     return response
 
@@ -316,13 +315,11 @@ def contest_rank_xls_acm(contest_info, contest, cid, contest_problem_list):
                 if problem['unsolved'] != 0:
                     sheet.write(line, count, u"-(%s)"%problem['unsolved'])
             count += 1
-	line += 1
+        line += 1
 
     ios = StringIO()
     wbk.save(ios)
     response = HttpResponse(ios.getvalue(), mimetype='application/ontet-stream')
     response['Content-Disposition'] = 'attachment; filename=contest-%s.xls'% cid
     return response
-    
-
 
