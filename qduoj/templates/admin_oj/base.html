@@ -22,6 +22,56 @@
         {% endblock %}
     </head>
     <body>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+          <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav  top-bar-center">
+                    <li><a class="navbar-brand hidden-sm" href="/admin_oj/index/">QDU-Online Judge</a></li>
+                    <li><a href="/admin_oj/index/">Home</a></li>
+                </ul>
+                <ul class="nav navbar-nav  top-bar-right">
+                    {% if  not user.username %}
+                    {% include "user/_login_register.html" %}
+                    {% else %}
+                    {% include "user/_user_info.html" %}
+                    {% endif %}
+                </ul>
+            </div>
+          </div>
+        </div>
+        
+        <div class="bs-mid" id="content">
+            <h1>Welcome to QDU-Online Judge!</h1>
+        </div>
+        <div class="container">
+            <div class="row row-mid">
+                <div class="col-md-3">
+                   <div class="bs-sidebar hidden-print affix-top" role="complementary">
+                        <div class="list-group">
+                            <a href="#1" class="list-group-item a:hover">A</a>
+                            <a href="#2" class="list-group-item">B</a>
+                            <a href="#3" class="list-group-item">C</a>
+                            <a href="#4" class="list-group-item">D</a>
+                            <a href="#5" class="list-group-item">E</a>
+                        </div>
+                       </div>
+                </div>
+                
+                <div class="col-md-9">
+                    <div class="problem">
+                    ACM国际大学生程序设计竞赛（简称ACM/ICPC）是由国际计算机界历史最悠久、最具权威性组织ACM学会主办，是世界上公认的规模最大、水平最高的国际大学生程序设计竞赛，其目的指在使大学生运用计算机来充分展示个人分析问题和解决问题的能力。ACM崇尚创意、创新，对于当代大学生有着非常强烈的吸引力。比赛题目需要选手具有较强的逻辑思维能力、实际应用能力及创新能力。因历届竞赛都芥蒂了世界各大洲的精英，云集了计算机界的“希望之星”而受到国际各知名大学的重视，并受到全世界各著名计算机公司如Microsoft，IBM等的高度关注，成为世界各国大学生最具影响力的国际级计算机类的赛事，ACM所颁发的获奖证书也为世界各著名计算机公司、各知名大学所认可。
+                    </div>
+                </div>
+            </div>
+        </div>
+
         {% block body %}
         {% endblock %}
 		<script src="{{ STATIC_URL }}js/1.js"></script>
