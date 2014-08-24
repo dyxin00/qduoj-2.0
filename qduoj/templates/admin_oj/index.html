@@ -1,0 +1,58 @@
+{% extends 'admin_oj/base.html' %}
+{% block body %}
+<div class="navbar navbar-inverse navbar-fixed-top">
+    {% include "admin_oj/admin_top_bar.html"%}
+</div>
+
+<div class="container">
+    <div class="row row-mid">
+        <div class="col-md-2">
+            {% include 'admin_oj/_admin_left.html' %}
+        </div>
+        <div class="col-md-9">
+
+            <div class="tab-content" id = 'tab-content'>
+                <div class="tab-pane active" id="home">
+                </div>
+                {% if privilege >= 5%}
+                <div class="tab-pane" id="problem-list">
+                    {% include "admin_oj/admin_problem_list.html" %}
+                </div>
+                <div class="tab-pane" id="problem-add">
+                    {% include "admin_oj/admin_solution_list.html" %}
+                </div>
+                {% endif %}
+                
+                {% if privilege >= 13%}
+                <div class="tab-pane" id="contest-list">
+                    {% include "admin_oj/admin_solution_list.html" %}
+                </div>
+                <div class="tab-pane" id="contest-add">
+                    {% include "admin_oj/admin_solution_list.html" %}
+                </div>
+                {% endif %}
+                
+                {% if privilege == 31%}
+                <div class="tab-pane" id="new-list">
+                    {% include "admin_oj/admin_solution_list.html" %}
+                </div>
+                <div class="tab-pane" id="new-add">
+                    {% include "admin_oj/admin_problem_list.html" %}
+                </div>
+                <div class="tab-pane" id="admin-check">
+                    {% include "admin_oj/admin_solution_list.html" %}
+                </div>
+                {% endif %}
+            </div>
+
+            <script>
+                $(function () {
+                    $('#myTab a:first').tab('show')
+                })
+            </script>
+
+        </div>
+    </div>
+    <script src="{{ STATIC_URL }}js/admin/admin.js"></script>
+</div>
+{% endblock %}
