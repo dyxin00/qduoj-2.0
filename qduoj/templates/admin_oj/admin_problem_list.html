@@ -1,0 +1,27 @@
+<div class="admin_right">
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th class="td-ID">ID</th>
+                <th class="td-Title">Title</th>
+                <th class="td-Visible">Visible</th>
+                <th class="Date">Date</th>
+            </tr>
+        </thead>
+        <tbody>
+
+
+            {% for problem in problem %}
+            <tr>
+                <td>{{ problem.id }}</td>
+                <td>{{ problem.title }}</td>
+                <td>{{ problem.visible }}</td>
+                <td>{{problem.in_date | date:"Y-m-d H:i"}}</td>
+
+            </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+    <p>{{msg}}</p>
+</div>

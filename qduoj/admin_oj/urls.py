@@ -6,5 +6,6 @@ from admin_oj import views
 
 urlpatterns = patterns('',
         url(r'^index/$', views.index, name='problem_index'),
+        url(r'^admin_logout/$', views.sign_out, name='admin_logout')
 
         )
