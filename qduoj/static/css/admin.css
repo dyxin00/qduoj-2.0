@@ -1,0 +1,21 @@
+#problem-list td button{
+	width: 55px;
+}
+
+#problem-list button{
+	margin-left: 200px;
+	width: 80px;
+}
+
+.tab-pane{
+	width: 80%;
+}
+#problem-add input{
+	
+	width: 60%;
+}
+
+#problem-add label input{
+	
+	width: 5%;
+}
