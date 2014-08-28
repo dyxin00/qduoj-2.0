@@ -23,8 +23,9 @@ def Authorization(*args):
             except ObjectDoesNotExist:
                 return HttpResponse(json.dumps({'status': '412'}))
             response_dict['privilege'] = privilege
+            response_dict['user'] = user_oj
             for val in args:
-                if val & privilege == 0:
+                if val & privilege == 0 or val & privilege != val:
                     return HttpResponse(json.dumps({'status': '412'}))
             return func(request, response_dict=response_dict)
         return wrapped

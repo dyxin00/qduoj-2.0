@@ -4,10 +4,10 @@
         </li>
         {% if privilege >= 5%}
         <li><a href="#problem-list" role="tab" data-toggle="tab" cmd = 'problem-list'>题目列表</a></li>
-        <li><a href="#problem-add" role="tab" data-toggle="tab">题目添加</a></li>
+        <li><a href="#problem-add" role="tab" data-toggle="tab" cmd='problem-add'>题目添加</a></li>
         {% endif %}
         {% if privilege >= 13%}
-        <li><a href="#contest-list" role="tab" data-toggle="tab">比赛列表</a></li>
+        <li><a href="#contest-list" role="tab" data-toggle="tab" cmd = 'contest-list'>比赛列表</a></li>
         <li><a href="#contest-add" role="tab" data-toggle="tab">比赛添加</a></li>
         {% endif %}
         {% if privilege == 31 %}

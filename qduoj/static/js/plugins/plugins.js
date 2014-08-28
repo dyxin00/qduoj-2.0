@@ -15,11 +15,11 @@
         for (key in option) {
             op[key] = option[key];
         };
-        get_dict = {};
-        if (op.type == 'GET') {
-            get_dict = op.data;
-            op.data = {};
-        }
+//        get_dict = {};
+//        if (op.type == 'GET') {
+//            get_dict = op.data;
+////            op.data = {};
+//        }
         op.success = function (data) {
             if (op.err_occur(data.status)) {
                 op.rt_func(data);

@@ -421,7 +421,7 @@
 }
 /*admin*/
 .admin_right{
-    height: 500px;
+/*    height: 500p/x;*/
     width: 114%;
     margin-top: 50px;
 	margin-left: 0px;
@@ -432,7 +432,7 @@
 }
 
 .admin_left{
-    height: 500px;
+/*    height: 500px;*/
     width: 100%;
     margin-top: 50px;
     padding-top: 20px;

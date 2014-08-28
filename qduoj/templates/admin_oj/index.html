@@ -19,13 +19,13 @@
                     {% include "admin_oj/admin_problem_list.html" %}
                 </div>
                 <div class="tab-pane" id="problem-add">
-                    {% include "admin_oj/admin_solution_list.html" %}
+                    {% include "admin_oj/admin_problem_add.html" %}
                 </div>
                 {% endif %}
                 
                 {% if privilege >= 13%}
                 <div class="tab-pane" id="contest-list">
-                    {% include "admin_oj/admin_solution_list.html" %}
+                    {% include "admin_oj/admin_contest_list.html" %}
                 </div>
                 <div class="tab-pane" id="contest-add">
                     {% include "admin_oj/admin_solution_list.html" %}

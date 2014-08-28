@@ -34,33 +34,6 @@ def index(request, *args, **kwargs):
 
     return render(request, 'admin_oj/index.html', response_dict)
 
-@Authorization(ADD_PRO)
-def get_problem_list(request, *args, **kwargs):
-
-    response_dict = kwargs.get('response_dict', {})
-    page = request.GET.get('page', 0)
-    count = Problem.objects.all().count()
-
-    index_start = page * PAGE_COUNT
-    index_end = (page + 1) * PAGE_COUNT
-
-    if index_end > count:
-        index_end = count
-
-    check = {'visible' : True}
-    info = ('id', 'title', 'user__user__username', 'visible')
-    problem_list = Problem.objects.filter(**check)[index_start : index_end].values(*info);
-    
-    response_dict['problem_list'] = list(problem_list)
-    return HttpResponse(json.dumps(response_dict), content_type="application/json")
-    
-@Authorization(ADD_CON_AND_PRO_AND_VIS )
-def problem_visible(request, *args, **kwargs):
-
-
-    return HttpResponse(json.dumps({'status' : '200'}), content_type="application/json")
-
-
 
 def sign_in(request):
     if request.method == 'POST':
