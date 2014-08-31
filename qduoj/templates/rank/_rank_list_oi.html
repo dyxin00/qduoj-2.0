@@ -28,7 +28,11 @@
 		  	{% if i.score != 0.0 %}
 		  		<td style="background-color:#6666FF">{{i.score}}</td>
 		  	{% else %}
+		  {% if i.submit != -1 %}
 		  		<td style="background-color:#996699">{{i.score}}</td>
+		  {% else %}
+		  		<td></td>
+		  {% endif %}
 		  	{% endif %}
 		  {% endif %}
 		{% endfor %}

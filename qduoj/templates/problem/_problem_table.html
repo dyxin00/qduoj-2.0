@@ -11,7 +11,7 @@
     </thead>
     <tbody>
       
- 	{% autopaginate problems 10 %}
+ 	{% autopaginate problems 50 %}
     {% for problem in problems %}
     <tr>
 		{% if problem.id in accepteds %}

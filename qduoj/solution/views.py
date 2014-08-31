@@ -227,7 +227,8 @@ def contest_solution_list(request):
             solution_result_info.append(solution_grade_loop)
 
         return render(request, "contest/contest_status.html", 
-                      {'ADMIN':ADMIN, 
+                      {'ADMIN':ADMIN,
+                       'contest': contest_obj,
                        'contest_user':contest_user,
                        'contest_title': contest_obj.title,
                        'mode':contest_obj.mode,
