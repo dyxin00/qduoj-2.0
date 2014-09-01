@@ -270,8 +270,7 @@ def contest_rank_xls_oi(contest_info, contest, cid, contest_problem_list):
         sheet.write(line, 2, u"%s"%var[1])
         count1 = 3
         for problem in var[4]:
-            print problem['submit']
-            if problem['submit'] != '-1':
+            if problem['submit'] != -1:
                 sheet.write(line, count1, u"%s"%problem['score'])
             else:
                 sheet.write(line, count1, u" ")
