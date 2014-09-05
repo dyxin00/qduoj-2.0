@@ -17,22 +17,32 @@
                 {% if privilege >= 5%}
                 <div class="tab-pane" id="problem-list">
                     {% include "admin_oj/admin_problem_list.html" %}
+					{% include "admin_oj/admin_problem_modify.html" %}
                 </div>
                 <div class="tab-pane" id="problem-add">
                     {% include "admin_oj/admin_problem_add.html" %}
+					
                 </div>
                 {% endif %}
                 
                 {% if privilege >= 13%}
                 <div class="tab-pane" id="contest-list">
                     {% include "admin_oj/admin_contest_list.html" %}
+					{% include "admin_oj/admin_contest_fix.html" %}
                 </div>
                 <div class="tab-pane" id="contest-add">
-                    {% include "admin_oj/admin_solution_list.html" %}
+                    {% include "admin_oj/admin_contest_add.html" %}
                 </div>
                 {% endif %}
                 
                 {% if privilege == 31%}
+				<div class="tab-pane" id="contest-sim">
+                    {% include "admin_oj/admin_sim_list.html" %}
+					{% include "admin_oj/admin_contest_sim.html" %}
+                </div>
+				<div class="tab-pane" id="problem-rejudge">
+                    {% include "admin_oj/admin_rejudge_list.html" %}
+                </div>
                 <div class="tab-pane" id="new-list">
                     {% include "admin_oj/admin_solution_list.html" %}
                 </div>

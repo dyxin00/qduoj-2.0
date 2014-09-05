@@ -18,7 +18,7 @@
 //        get_dict = {};
 //        if (op.type == 'GET') {
 //            get_dict = op.data;
-////            op.data = {};
+//            op.data = {};
 //        }
         op.success = function (data) {
             if (op.err_occur(data.status)) {

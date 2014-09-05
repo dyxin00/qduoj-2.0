@@ -1,0 +1,33 @@
+{% load result_tag %}
+{% block css %}
+<link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}styles/shCore.css"/>
+<link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}styles/shThemeDefault.css"/>
+{% endblock%}
+{% block script%}
+<script type="text/javascript" src="{{ STATIC_URL }}scripts/shCore.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}scripts/shBrushCpp.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}scripts/shBrushJava.js"></script>
+    
+    <script type="text/javascript">
+            SyntaxHighlighter.config.clipboardSwf = '{{ STATIC_URL }}scripts/clipboard.swf';
+		    SyntaxHighlighter.all();
+    </script>
+{% endblock %}
+<h3 class='text-center'>相似题目:{{ solution_s.problem.title }}</h3>
+<h4 class='text-center'>ID：{{ solution_s.problem.id }}</h4>
+<div class='left' style="width:600px;float:left;">
+    <h3 class='text-center'>当前代码---运行号:{{ solution_s.id }}</h3>
+	<h4 class='text-center'>当前用户---用户名:{{solution_s.user.user.username}}</h4>
+    <div class="code-default">
+       <pre class="brush: {% language_tag solution_s.language %};">{{ sid_code.source }}</pre>
+    </div>
+</div>
+	
+<div class='right' style="width:600px;float:right;">
+    <h3 class='text-center'>相似代码---运行号:{{ solution_sm.id }}
+	<h4 class='text-center'>相似用户---用户名:{{solution_sm.user.user.username}}</h4>
+    <div class="code-default">
+        <pre class="brush: {% language_tag solution_sm.language %};">{{ smid_code.source }}</pre>
+    </div>
+</div>
+<script src="{{ STATIC_URL }}js/admin/admin.js"></script>

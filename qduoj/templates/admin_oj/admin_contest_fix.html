@@ -1,0 +1,95 @@
+
+<div class="admin_right" id="contest_fix" style="display : none">
+	<div>
+		<div class="form-group">
+			<label for="">ID:</label>
+			<textarea type="text" class="form-control" id="id" rows = 1 disabled></textarea>
+		</div>
+		<div class="form-group">
+			<label for="">Title:</label>
+			<textarea type="text" class="form-control" id="title" rows = 1></textarea>
+		</div>
+		<div class="form-group">
+			<label for="">desc:</label>
+			<textarea type="text" class="form-control" id="desc" rows = 4></textarea>
+		</div>
+		<div class="form-group" id='st-time'>
+			<label for="id_start_time_0" class="required">Start time:</label>
+			<p class="datetime">Date: <input class="vDateField form-control" id="id_start_time_0" name="start_time_0" size="10" type="text" value=""><br>Time: <input class="vTimeField form-control" id="id_start_time_1" name="start_time_1" size="8" type="text" value=""></p>
+		</div>
+		<div class="form-group" id='ed-time'>
+			<label for="id_end_time_0" class="required">End time:</label>
+			<p class="datetime">Date: <input class="vDateField form-control" id="id_end_time_0" name="start_time_0" size="10" type="text" value=""><br>Time: <input class="vTimeField form-control" id="id_end_time_1" name="start_time_1" size="8" type="text" value=""></p>
+		</div>
+		<div class="form-group">
+        	Contest Mode
+        	<select name="result" class="form-control" id="contest-mode">
+				<option value="0">NOIP</option>
+				<option value="1">ACM</option>
+			</select>
+    	</div>
+    	
+		<div class="form-group">
+        	Contest Classify
+        	<select name="result" class="form-control" id="contest-fix-classify" onchange="submit()">
+                <option value="0">Public</option>
+                <option value="1">Private</option>
+            </select>
+    	</div>
+		<div class="form-group" id="fix_user">
+		</div>
+		<script type="text/javascript">
+        function submit(){
+			var main_page = $('#fix_user').unbind();
+			var contest_classify = $('#contest-fix-classify').val();
+	
+			if(contest_classify==1){
+				$('<label for="" id="fix_name">指定用户:</label><textarea type="text" class="form-control" id="fix_users" rows = 6></textarea>').appendTo(main_page);
+			}
+			else{
+				$('#fix_name').remove();
+				$('#fix_users').remove();
+			}
+		}
+		</script>
+		<div class="form-row">
+			<div>
+				<input id="fix_open_rank" name="fix_open_rank" type="checkbox" style="width:20px;"><label for="id_open_rank" class="vCheckboxLabel">Open Rank</label>
+			</div>    
+        </div>
+		<div class="form-group">
+			<label for="">Langmask:</label>
+			<textarea type="text" class="form-control" id="langmask" rows = 1 style="width:55%;"></textarea>
+		</div>
+		<div class="form-group">
+			<div class="input-group">
+			<div class="input-group-addon">pid</div>
+				<input class="form-control" id="pro-input" placeholder="Enter problemid">
+				<button type="submit" class="btn btn-primary" id="problems-add">添加</button>
+			</div>
+		</div>
+
+        <div id="form-group">
+            <table class="table table-bordered table-hover" id='contest-problem'>
+                <thead>
+                    <tr>
+<!--                        <th class="td-ID text-center">NO</th>-->
+                        <th class="td-ID text-center">PID</th>
+                        <th class="td-Title text-center">Title</th>
+                        <th class="td-ID text-center">User</th>
+						<th class="td-ID text-center">Contest-Title</th>
+						<th class="td-ID text-center">Contest-Num</th>
+						<th class="td-ID text-center">Problem-Score</th>
+						<th class="td-ID text-center">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+						
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary" id="contest-fix">Save</button>
+        </div>
+	</div>
+</div>

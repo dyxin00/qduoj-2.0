@@ -8,9 +8,11 @@
         {% endif %}
         {% if privilege >= 13%}
         <li><a href="#contest-list" role="tab" data-toggle="tab" cmd = 'contest-list'>比赛列表</a></li>
-        <li><a href="#contest-add" role="tab" data-toggle="tab">比赛添加</a></li>
+        <li><a href="#contest-add" role="tab" data-toggle="tab" cmd = 'contest-add'>比赛添加</a></li>
         {% endif %}
         {% if privilege == 31 %}
+		<li><a href="#contest-sim" role="tab" data-toggle="tab" cmd = 'contest-sim'>相似检测</a></li>
+		<li><a href="#problem-rejudge" role="tab" data-toggle="tab" cmd = 'problem-rejudge'>题目重判</a></li>
         <li><a href="#new-list" role="tab" data-toggle="tab">new-list</a></li>
         <li><a href="#new-add" role="tab" data-toggle="tab">new-add</a></li>
         <li><a href="#admin-check" role="tab" data-toggle="tab">admin-check</a></li>
