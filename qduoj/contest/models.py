@@ -15,8 +15,8 @@ class Contest(models.Model):
     langmask = models.IntegerField(default=0)
     #mode 0 -> acm, 1->OI
     mode = models.IntegerField(default=0)
+    open_rank = models.BooleanField(default=0)
     user = models.ForeignKey(User_oj)
-    
     def start_or_not(self):
         return self.start_time <= timezone.now()
 

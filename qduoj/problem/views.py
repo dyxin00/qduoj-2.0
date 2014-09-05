@@ -15,11 +15,12 @@ from contest.models import Contest_problem, ContestPrivilege
 from qduoj import config
 
 
-@request_method_only('GET')
 def index(request):
     if request.method == 'GET':
 
         problem_type = request.GET.get('type', '-1')
+        problem_title = request.GET.get('problem_title', '')
+        pid = request.GET.get('pid', None)
 
         username= request.user.username
         try:
@@ -33,8 +34,14 @@ def index(request):
             #error = "limited permissioin"
             #return render(request, "error.html", {'error':error})
  
+        kwargs = {}
         if problem_type != '-1':
-            problems = problems.filter(classify=problem_type)
+            kwargs['classify'] = problem_type
+        if re.match(ur'[0-9]+$', unicode(pid)):
+            kwargs['id'] = pid
+
+        problems = problems.filter(Q(**kwargs) & Q(title__icontains = problem_title))
+
 
         problem_dict = {'problems': problems, 'type' : problem_type}
         if request.user.is_authenticated():

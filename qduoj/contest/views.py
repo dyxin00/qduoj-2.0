@@ -142,7 +142,7 @@ def contest_rank(request):
                 order_by('user__user__id').values_list('user__user__id', flat=True).distinct()
         contest_user_list = User_oj.objects.filter(user__id__in=contest_user_id_list)
         
-        contest_problem_list = Contest_problem.objects.select_related(depth=3).filter(contest__id=cid)
+        contest_problem_list = Contest_problem.objects.select_related(depth=3).filter(contest__id=cid).order_by('num')
         solutions = Solution.objects.select_related(depth=3).all().filter(contest__id=cid)
 
         if contest.mode == 1:
@@ -270,7 +270,10 @@ def contest_rank_xls_oi(contest_info, contest, cid, contest_problem_list):
         sheet.write(line, 2, u"%s"%var[1])
         count1 = 3
         for problem in var[4]:
-            sheet.write(line, count1, u"%s"%problem['score'])
+            if problem['submit'] != -1:
+                sheet.write(line, count1, u"%s"%problem['score'])
+            else:
+                sheet.write(line, count1, u" ")
             count1 += 1
         sheet.write(line, count1, u"%s"%var[2])
         count1 += 1
