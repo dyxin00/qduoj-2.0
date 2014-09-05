@@ -19,15 +19,22 @@
       {% for users in user_list %}
       <tr>
         <td>{% rank_tag page forloop.counter %}</td>
-<!--        {% if forloop.first %}-->
-<!--        <td>Winner</td>-->
-<!--        {% else %}-->
-<!--        <td>{{ forloop.counter }}</td>-->
-<!--        {% endif %}-->
         <td><a href="{% url 'user_info' %}?username={{ users.0 }}">{{ users.0 }}</td>
         <td>{{ users.1 }}</td>
 		{% for i in users.4 %}
-			<td>{{i.score}}</td>
+		  {% if i.AC == True %}
+			<td style="background-color:#66CCCC">{{i.score}}</td>
+		  {% else %}
+		  	{% if i.score != 0.0 %}
+		  		<td style="background-color:#6666FF">{{i.score}}</td>
+		  	{% else %}
+		  {% if i.submit != -1 %}
+		  		<td style="background-color:#996699">{{i.score}}</td>
+		  {% else %}
+		  		<td></td>
+		  {% endif %}
+		  	{% endif %}
+		  {% endif %}
 		{% endfor %}
         <td>{{ users.2 }}</td>
         <td>{{ users.3 }}</td>

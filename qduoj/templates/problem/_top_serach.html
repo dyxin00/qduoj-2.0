@@ -1,4 +1,4 @@
-<form class="form-inline serach-top" role="form" action="/problem/" method="get">
+<form class="form-inline serach-top" role="form" action="/problem_index/" method="get">
     <div class="form-group">
         <span >Classify：</span>
         <select name="type" class="form-control" id = 'type_s' onchange="setsubmit()">
@@ -32,9 +32,16 @@
 			window.location='/problem_index/?type=' + type_s.value;
 		}
 </script>
-  <button type="submit" class="btn btn-default serach_move">Serach</button>
-  <div class="form-group serach_move">
-    <label class="sr-only" for="Problem-id"></label>
-    <input type="text" class="form-control" name='pid' id="" placeholder="Problem ID">
-  </div>     
+    <form class="form-inline serach-top" role="form">
+        <button type="submit" class="btn btn-default serach_move">Serach</button>
+        <!--<a role="button" href="/problem_index/?pid={{problem.id}}&ptitle={{problem.title}}" class="btn btn-default search_move" >Status</a> -->
+        <div class="form-group serach_move">
+          <label class="sr-only" for="Problem-title"></label>
+          <input type="text" class="form-control" name='problem_title' id="" placeholder="Problem Title" maxlength="20">
+        </div>
+        <div class="form-group serach_move">
+          <label class="sr-only" for="Problem-id"></label>
+          <input type="text" class="form-control" name='pid' id="" placeholder="Problem ID" maxlength="6">
+        </div>
+    </form>
 </form>

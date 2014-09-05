@@ -1,46 +1,49 @@
-<div class="admin_right">
-	<script charset="utf-8" src="{{ STATIC_URL }}kindeditor-4.1.10/kindeditor-min.js"></script>
-	<script charset="utf-8" src="{{ STATIC_URL }}kindeditor-4.1.10/lang/zh_CN.js"></script>
+<div class="admin_right" id="problem-modify" style="display : none">
+	<h1 align="center"></h1>
 	<div>
 		<div class="form-group">
+			<label for="">ID:</label>
+			<textarea type="text" class="form-control" id="id" rows = 1 disabled></textarea>
+		</div>
+		<div class="form-group">
 			<label for="">Title:</label>
-			<textarea type="text" class="form-control" id="title" rows = 1>{{problem.title}}</textarea>
+			<textarea type="text" class="form-control" id="title" rows = 1></textarea>
 		</div>
 		<div class="form-group">
 			<label for="">desc:</label>
-			<textarea type="text" class="form-control" id="desc" rows = 6 name='desc-content'>{{problem.description}}</textarea>
+			<textarea type="text" class="form-control" id="desc" name='desc-modify' rows = 6></textarea>
 		</div>
 		<div class="form-group">
 			<label for="">desc-input:</label>
-			<textarea type="text" class="form-control" id="desc-input" rows = 6>{{problem.pro_input}}</textarea>
+			<textarea type="text" class="form-control" id="desc-input" rows = 6></textarea>
   		</div>
 		<div class="form-group">
 			<label for="">desc-input:</label>
-			<textarea type="text" class="form-control" id="desc-output" rows = 6>{{problem.pro_output}}</textarea>
+			<textarea type="text" class="form-control" id="desc-output" rows = 6></textarea>
   		</div>
 		<div class="form-group">
 			<label for="">sample-input:</label>
-			<textarea type="text" class="form-control" id="sample-input" rows = 6>{{problem.sample_input}}</textarea>
+			<textarea type="text" class="form-control" id="sample-input" rows = 6></textarea>
   		</div>
 		<div class="form-group">
 			<label for="">Sample Output:</label>
-			<textarea type="text" class="form-control" id="sample-output" rows = 6>{{problem.sample_output}}</textarea>
+			<textarea type="text" class="form-control" id="sample-output" rows = 6></textarea>
   		</div>
 		<div class="form-group">
 			<label for="">Hint:</label>
-			<textarea type="text" class="form-control" id="hint" rows = 6>{{problem.hint}}</textarea>
+			<textarea type="text" class="form-control" id="hint" rows = 6></textarea>
   		</div>
 		<div class="form-group">
 			<label for="">Source:</label>
-			<textarea type="text" class="form-control" id="source" rows = 1>{{problem.source}}</textarea>
+			<textarea type="text" class="form-control" id="source" rows = 1></textarea>
 		</div>
 		<div class="form-group">
 			<label for="">Time limit:</label>
-			<textarea type="text" class="form-control" id="timelimit" rows = 1>{{problem.time_limit}}</textarea>
+			<textarea type="text" class="form-control" id="timelimit" rows = 1></textarea>
 		</div>
 		<div class="form-group">
 			<label for="">Memory limit:</label>
-			<textarea type="text" class="form-control" id="memorylimit" rows = 1>{{problem.memory_limit}}</textarea>
+			<textarea type="text" class="form-control" id="memorylimit" rows = 1></textarea>
 		</div>
 		<div class="form-group">
 			<label for="">Classify:</label>
@@ -65,13 +68,15 @@
 		</div>
 		<div class="form-group">
 			<label for="">Difficult:</label>
-			<textarea type="text" class="form-control" id="difficult" rows = 1>{{problem.difficult}}</textarea>
+			<textarea type="text" class="form-control" id="difficult" rows = 1></textarea>
 		</div>
 		
 		<div class="form-group">
     		<label for="exampleInputFile">Data update</label>
     		<input type="file" id="input-data" style="width: 25%">
-  		</div>	
-		<button type="submit" class="btn btn-primary" id='submit-problem'>Save</button>
+  		</div>
+		<button type="submit" class="btn btn-primary" id='fix-problem'>Save</button>
+		<button class="btn btn-primary" id='problem-modify-back'>back</button>
 	</div>
+
 </div>

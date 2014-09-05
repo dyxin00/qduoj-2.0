@@ -7,7 +7,8 @@
         <th class="td-rid">Run ID</th>
         <th class="td-user">User</th>
         <th class="td-pid">Problem ID</th>
-        {% if ADMIN or contest_user or mode == 0%}
+        {% if contest.open_rank == 1 %}
+
         <th class="td-result">Result</th>
 		  {% if mode != 0 %}
         <th class="td-time">Score</th>
@@ -32,7 +33,7 @@
                 {% endif %}
                 <td><a href="{% url 'user_info' %}?username={{ solution.2.user.user.username }}">{{ solution.2.user.user.username }}</a></td>
                 <td><a href="{% url 'problem' %}?cid={{cid}}&pid={{ solution.2.problem.id }}">{{ solution.2.num }}</a></td>
-                {% if ADMIN or contest_user or mode == 0%}
+                {% if contest.open_rank == 1 %}
                 <td>
                     {% if user.username == solution.2.user.user.username or ADMIN %}
                       {% if solution.2.result == 11 %}
