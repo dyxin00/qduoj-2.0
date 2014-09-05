@@ -266,7 +266,7 @@ function problem_add() {
 	var editor = init_editor('textarea[name=desc-content]');
 	main_page.find('#submit-problem').click(function () {
 
-		main_page.find('.form-control').each(function () {
+	main_page.find('.form-control').each(function () {
 
 			if ($(this).val() == '') {
 				$(this).parent().addClass('has-error');
@@ -275,14 +275,13 @@ function problem_add() {
 					$(this).parent().removeClass('has-error');
 					$(this).unbind();
 				});
-				if ($(this).attr('id') != 'hint' && $(this).attr('id') != 'source')
+				if ($(this).attr('id') != 'hint' && $(this).attr('id') != 'source' && $(this).attr('id') !='desc')
 					flag = 1;
 			}
 		});
 
 		if (flag == 1)
 			return;
-		console.info(main_page.find('#title').val())
 
 		up_data = {
 			title: main_page.find('#title').val(),
@@ -299,9 +298,9 @@ function problem_add() {
 			classify: main_page.find('#classify').val(),
 			difficult: main_page.find('#difficult').val(),
 		};
-
+		
 		$.ys_ajax({
-
+			
 			url: '/admin_oj/problem_add/',
 			data: up_data,
 			type: 'POST',
@@ -337,7 +336,7 @@ function problem_fix() {
 					$(this).parent().removeClass('has-error');
 					$(this).unbind();
 				});
-				if ($(this).attr('id') != 'hint' && $(this).attr('id') != 'source')
+				if ($(this).attr('id') != 'hint' && $(this).attr('id') != 'source' && $(this).attr('id') != 'desc')
 					flag = 1;
 			}
 		});
