@@ -419,3 +419,25 @@
 	transform:rotate(90deg); 
 	filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
 }
+/*admin*/
+.admin_right{
+/*    height: 500p/x;*/
+    width: 114%;
+    margin-top: 50px;
+	margin-left: 0px;
+    padding: 20px 10px;
+    text-shadow: 0 1px 0 #fff;
+    background-color: #f7f5fa; 
+    border-radius: 10px;
+}
+
+.admin_left{
+/*    height: 500px;*/
+    width: 100%;
+    margin-top: 50px;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    text-shadow: 0 1px 0 #fff;
+    background-color: #f7f5fa; 
+    border-radius: 10px;
+}

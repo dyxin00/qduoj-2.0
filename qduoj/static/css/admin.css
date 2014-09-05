@@ -1,0 +1,100 @@
+#problem-list td button{
+	margin-left: 7px;
+	width: 55px;
+}
+
+#problem-list #ads{
+
+	margin-right: 70px;
+	width: 80px;
+}
+#problem-list button{
+	padding-bottom: 8px;
+	padding-top: 7px;
+	width: 70px;
+}
+
+#contest-list td button{
+
+	width: 55px;
+}
+
+.tab-pane{
+	width: 80%;
+}
+#problem-add input{
+	
+	width: 60%;
+}
+
+#problem-add label input{
+	
+	width: 5%;
+}
+
+#contest-add #st-time{
+	float:left;
+	width: 250px;
+}
+#contest-add #ed-time{
+	float:left;
+	margin-right: 250px;
+	width: 250px;
+}
+
+#contest-add #contest-mode{
+	width: 53%;
+}
+#contest-add #contest-classify{
+	width: 53%;
+}
+#contest-add #contest-mod{
+	width: 150px;
+}
+#contest-add input{
+	width: 150px;
+}
+#bt{
+	margin-left: 250px
+}
+#contest-add #contest-problem tbody tr td #title{
+	width: 100%;
+}
+#contest-add #contest-problem tbody tr td #num{
+	width: 100%;
+}
+
+#contest-list #st-time{
+	float:left;
+	width: 250px;
+}
+#contest-list #ed-time{
+	float:left;
+	margin-right: 250px;
+	width: 250px;
+}
+
+#contest-list #contest-mode{
+	width: 53%;
+}
+#contest-list #contest-classify{
+	width: 53%;
+}
+#contest-list #contest-mod{
+	width: 150px;
+}
+#contest-list input{
+	width: 150px;
+}
+#bt{
+	margin-left: 250px
+}
+#contest-list #contest-problem tbody tr td #title{
+	width: 100%;
+}
+#contest-list #contest-problem tbody tr td #num{
+	width: 100%;
+}
+#contest-list #contest-problem td button{
+	width: 100%;
+}

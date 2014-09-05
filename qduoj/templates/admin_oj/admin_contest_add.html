@@ -1,0 +1,107 @@
+<head>
+<!--<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css">-->
+<!--<link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css">-->
+
+<script type="text/javascript">window.__admin_media_prefix__ = "/static/admin/";</script>
+
+<script type="text/javascript" src="{{ STATIC_URL }}admin/js/jsi18n.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}admin/js/core.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}admin/js/admin/RelatedObjectLookups.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}admin/js/jquery.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}admin/js/jquery.init.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}admin/js/actions.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}admin/js/calendar.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}admin/js/admin/DateTimeShortcuts.js"></script>
+
+<meta name="robots" content="NONE,NOARCHIVE">
+</head>
+<div class="admin_right">
+	<div>
+		<div class="form-group">
+			<label for="">Title:</label>
+			<textarea type="text" class="form-control" id="title" rows = 1></textarea>
+		</div>
+		<div class="form-group">
+			<label for="">desc:</label>
+			<textarea type="text" class="form-control" id="desc" rows = 4></textarea>
+		</div>
+		<div class="form-group" id='st-time'>
+			<label for="id_start_time_0" class="required">Start time:</label>
+			<p class="datetime">Date: <input class="vDateField form-control" id="id_start_time_0" name="start_time_0" size="10" type="text" value=""><br>Time: <input class="vTimeField form-control" id="id_start_time_1" name="start_time_1" size="8" type="text" value=""></p>
+		</div>
+		<div class="form-group" id='ed-time'>
+			<label for="id_end_time_0" class="required">End time:</label>
+			<p class="datetime">Date: <input class="vDateField form-control" id="id_end_time_0" name="start_time_0" size="10" type="text" value=""><br>Time: <input class="vTimeField form-control" id="id_end_time_1" name="start_time_1" size="8" type="text" value=""></p>
+		</div>
+		<div class="form-group">
+        	Contest Mode
+        	<select name="result" class="form-control" id="contest-mode">
+				<option value="0">NOIP</option>
+				<option value="1">ACM</option>
+			</select>
+    	</div>
+    	
+		<div class="form-group">
+        	Contest Classify
+        	<select name="result" class="form-control" id="contest-classify" onchange="setsubmit()">
+                <option value="0">Public</option>
+                <option value="1">Private</option>
+            </select>
+    	</div>
+		<div class="form-group" id="user">
+		</div>
+		<script type="text/javascript">
+        function setsubmit(){
+			var main_page = $('#user').unbind();
+			var contest_classify = $('#contest-classify').val();
+	
+			if(contest_classify==1){
+				$('<label for="" id="name">指定用户:</label><textarea type="text" class="form-control" id="users" rows = 6></textarea>').appendTo(main_page);
+			}
+			else{
+				$('#name').remove();
+				$('#users').remove();
+			}
+		}
+		</script>
+		<div class="form-row">
+			<div>
+				<input id="open_rank" name="open_rank" type="checkbox" style="width:20px;"><label for="id_open_rank" class="vCheckboxLabel">Open Rank</label>
+			</div>    
+        </div>
+		<div class="form-group">
+			<label for="">Langmask:</label>
+			<textarea type="text" class="form-control" id="langmask" rows = 1 style="width:55%;"></textarea>
+		</div>
+		<div class="form-group">
+			<div class="input-group">
+			<div class="input-group-addon">pid</div>
+				<input class="form-control" id="pro-input" placeholder="Enter problemid">
+				<button type="submit" class="btn btn-primary" id="problems-add">添加</button>
+			</div>
+		</div>
+
+        <div id="form-group">
+            <table class="table table-bordered table-hover" id='contest-problem'>
+                <thead>
+                    <tr>
+<!--                        <th class="td-ID text-center">NO</th>-->
+                        <th class="td-ID text-center">PID</th>
+                        <th class="td-Title text-center">Title</th>
+                        <th class="td-ID text-center">User</th>
+						<th class="td-ID text-center">Contest-Title</th>
+						<th class="td-ID text-center">Contest-Num</th>
+						<th class="td-ID text-center">Problem-Score</th>
+						<th class="td-ID text-center">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+						
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary" id="contest-add">Save</button>
+        </div>
+	</div>
+</div>

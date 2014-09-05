@@ -56,6 +56,7 @@ class Source_code(models.Model):
 class Sim(models.Model):
 
     solution = models.ForeignKey(Solution, primary_key=True)
+    contest_id = models.IntegerField()
     sim_s_id = models.IntegerField()
     sim = models.IntegerField()
 
