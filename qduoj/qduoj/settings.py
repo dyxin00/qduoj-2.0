@@ -141,7 +141,7 @@ INSTALLED_APPS = (
     'oj_user',
     'contest',
     'solution',
-    #'oj_admin',
+    'admin_oj',
     'oj_user',
     'south',
     'about',

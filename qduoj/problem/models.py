@@ -3,13 +3,13 @@ from django.db import models
 from oj_user.models import User_oj
 
 class Problem(models.Model):
-    title = models.CharField(max_length=200, default='')
+    title = models.CharField(max_length=200)
     description = models.TextField()
     pro_input = models.TextField()
     pro_output = models.TextField()
     sample_input = models.TextField()
     sample_output = models.TextField()
-    spj = models.CharField(max_length=1, default='0')
+    spj = models.CharField(max_length=1, default=0)
     hint = models.TextField(null=True)
     source = models.CharField(max_length=100, null=True)
     in_date = models.DateTimeField(auto_now_add=True)
