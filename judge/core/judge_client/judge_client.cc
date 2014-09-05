@@ -518,7 +518,7 @@ void login(){
 }
 /* write result back to database */
 void _update_solution_mysql(int solution_id, int result, int time, int memory,
-    int sim, int sim_s_id,double pass_rate) {
+    int sim, int sim_s_id,double pass_rate, int contest_id) {
     char sql[BUFFER_SIZE];
     if(oi_mode){
         sprintf(
@@ -538,8 +538,8 @@ void _update_solution_mysql(int solution_id, int result, int time, int memory,
     if (sim) {
         sprintf(
             sql,
-            "insert into sim(solution_id,sim_s_id,sim) values(%d,%d,%d) on duplicate key update  sim_s_id=%d,sim=%d",
-            solution_id, sim_s_id, sim, sim_s_id, sim);
+            "insert into sim(solution_id,sim_s_id,sim, contest_id) values(%d,%d,%d,%d) on duplicate key update  sim_s_id=%d,sim=%d",
+            solution_id, sim_s_id, sim,contest_id, sim_s_id, sim);
         //      printf("sql= %s\n",sql);
         if (mysql_real_query(conn, sql, strlen(sql))) {
             //              printf("..update failed! %s\n",mysql_error(conn));
@@ -554,12 +554,12 @@ void _update_solution_http(int solution_id, int result, int time, int memory,int
     //fscanf(fjobs,"%d",&ret);
     pclose(fjobs);
 }
-void update_solution(int solution_id, int result, int time, int memory,int sim, int sim_s_id,double pass_rate) {
+void update_solution(int solution_id, int result, int time, int memory,int sim, int sim_s_id,double pass_rate, int contest_id) {
     if(result==OJ_TL&&memory==0) result=OJ_ML;
     if(http_judge){
         _update_solution_http( solution_id,  result,  time,  memory, sim, sim_s_id,pass_rate);
     }else{
-        _update_solution_mysql( solution_id,  result,  time,  memory, sim, sim_s_id,pass_rate);
+        _update_solution_mysql( solution_id,  result,  time,  memory, sim, sim_s_id,pass_rate, contest_id);
     }
 }
 /* write compile error message back to database */
@@ -1977,7 +1977,7 @@ int main(int argc, char** argv) {
 
     Compile_OK = compile(lang);
     if (Compile_OK != 0) {
-        update_solution(solution_id, OJ_CE, 0, 0, 0,0, 0.0);
+        update_solution(solution_id, OJ_CE, 0, 0, 0,0, 0.0,0);
         addceinfo(solution_id);
         update_user(user_id);
         update_problem(p_id);
@@ -1989,7 +1989,7 @@ int main(int argc, char** argv) {
             write_log("compile error");
         exit(0);
     } else {
-        update_solution(solution_id, OJ_RI, 0, 0, 0,0, 0.0);
+        update_solution(solution_id, OJ_RI, 0, 0, 0,0, 0.0,0);
     }
     //exit(0);
     // run
@@ -2066,7 +2066,7 @@ int main(int argc, char** argv) {
         }else{   
             addcustomout(solution_id);
         }
-        update_solution(solution_id, OJ_TR, usedtime, topmemory >> 10, 0,0,0);
+        update_solution(solution_id, OJ_TR, usedtime, topmemory >> 10, 0,0,0,contest_id);
 
         exit(0);
     }
@@ -2156,10 +2156,10 @@ int main(int argc, char** argv) {
     if(oi_mode){
         if(num_of_test>0) pass_rate = score/score_sum;
         update_solution(solution_id, finalACflg, usedtime, topmemory >> 10, sim,
-            sim_s_id,pass_rate);
+            sim_s_id,pass_rate,contest_id);
     }else{
         update_solution(solution_id, ACflg, usedtime, topmemory >> 10, sim,
-            sim_s_id,0);
+            sim_s_id,0, contest_id);
     }
     if((oi_mode&&finalACflg==OJ_WA)||ACflg==OJ_WA){ 
         if(DEBUG) printf("add diff info of %d..... \n",solution_id);

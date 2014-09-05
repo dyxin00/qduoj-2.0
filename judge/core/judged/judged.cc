@@ -34,7 +34,7 @@
 #include <sys/stat.h>
 #include <signal.h>
 #include <sys/resource.h>
-static int DEBUG=0;
+static int DEBUG=1;
 #define BUFFER_SIZE 1024
 #define LOCKFILE "/var/run/judged.pid"
 #define LOCKMODE (S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH)
