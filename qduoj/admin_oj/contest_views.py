@@ -49,10 +49,10 @@ def get_contest_list(request, *args, **kwargs):
         contest_list = contest[index_start : index_end]
     else:
         contest_list = contest
-    num = contest.count()
-    if index_end > num:
-        index_end = num
-        flag = 1
+        num = contest.count()
+        if index_end > num:
+            index_end = num
+            flag = 1
 
     response_dict['contest_list'] = list(contest_list)
     del response_dict['user']
@@ -63,7 +63,7 @@ def get_contest_list(request, *args, **kwargs):
 def contest_add(request, *args, **kwargs):
     arry = request.GET.get('problems', None)
     problem_info = json.loads(arry)
-    
+
     problem_list = []
     for problem in problem_info:
         problem_list.append(problem['p_id'])
@@ -73,19 +73,19 @@ def contest_add(request, *args, **kwargs):
     open_rank = False
     if request.GET.get('contest_openrank') == 'true':
         open_rank = True
-    key = {
-        'title' : request.GET.get('title', None),
-        'start_time': start_time,
-        'end_time' : end_time,
-        'user' : request.user.user_oj,
-        'description' : request.GET.get('desc', None),
-        'private' : int(request.GET.get('contest_classify', 0)),
-        'open_rank' : open_rank,
-        'langmask' : int(request.GET.get('contest_langmask', 0)),
-        'mode' : int(request.GET.get('contest_mode', None)),
-    }
-    problems = Problem.objects.filter(id__in=problem_list)
-    
+        key = {
+            'title' : request.GET.get('title', None),
+            'start_time': start_time,
+            'end_time' : end_time,
+            'user' : request.user.user_oj,
+            'description' : request.GET.get('desc', None),
+            'private' : int(request.GET.get('contest_classify', 0)),
+            'open_rank' : open_rank,
+            'langmask' : int(request.GET.get('contest_langmask', 0)),
+            'mode' : int(request.GET.get('contest_mode', None)),
+        }
+        problems = Problem.objects.filter(id__in=problem_list)
+
     try:
         contest = Contest.objects.create(**key)
         count = 0
@@ -151,7 +151,7 @@ def contest_get(request, *args, **kwargs):
         response_dict['problems'] = list(problems)
         response_dict['users'] = list(users)
         return HttpResponse(json.dumps(response_dict), content_type="application/json")
-    
+
     except ObjectDoesNotExist:
         return HttpResponse(json.dumps({'status': 403}), content_type="application/json")
 
@@ -162,7 +162,7 @@ def contest_fix(request, *args, **kwargs):
 
     start_time = request.GET.get('start_data') + ' ' + request.GET.get('start_day')
     end_time = request.GET.get('end_data') + ' ' + request.GET.get('end_day')
-    	
+
     open_rank = False
     if request.GET.get('contest_openrank') == 'true':
         open_rank = True
@@ -226,7 +226,6 @@ def get_contest_sim(request, *args, **kwargs):
     response_dict = kwargs.get('response_dict', {})
     cid = request.GET.get('id', 0)
     if response_dict['privilege'] & ADD_CON_AND_PRO_AND_VIS != 0:
-        solutions = Solution.objects.select_related(depth=3).filter(contest__id=cid)
         value = {
             'solution__id',
             'sim_s_id',
@@ -234,11 +233,17 @@ def get_contest_sim(request, *args, **kwargs):
             'solution__user__user__username',
             'solution__contest__title',
         }
-        sim = Sim.objects.select_related(depth=3).filter(solution__in=solutions).values(*value)
+        sims = Sim.objects.filter(contest_id=cid)
+        for obj in sims:
+            solution = Solution.objects.get(id=obj.sim_s_id)
+            if solution.user.user.username == obj.solution.user.user.username:
+                obj.delete()
+                #sim = Sim.objects.select_related(depth=3).filter(solution__in=solutions).values(*value)
                 #filter(Q(solution__in=solutions) & Q(sim_s_id__user__user__username__ne=solution__user__user__username)).values(*value)
         del response_dict['user']
+        sim = sims.values(*value)
         response_dict['sim'] = list(sim)
-    return HttpResponse(json.dumps(response_dict), content_type="application/json")
+        return HttpResponse(json.dumps(response_dict), content_type="application/json")
 
 @Authorization(ADD_CON_AND_PRO_AND_VIS)
 def get_sim_code(request, *args, **kwargs):
@@ -247,7 +252,7 @@ def get_sim_code(request, *args, **kwargs):
     smid = request.GET.get('smid', 0)
     sid_code = Source_code.objects.get(solution__id=sid)
     smid_code = Source_code.objects.get(solution__id=smid)
-    
+
     solution_s = Solution.objects.get(id=sid)
     response_dict['sid_code'] = sid_code
     response_dict['solution_s'] = solution_s
