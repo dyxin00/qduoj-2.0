@@ -25,4 +25,5 @@ urlpatterns = patterns('',
         url(r'^contest_get/$', contest_views.contest_get, name=''),
         url(r'^contest_fix/$', contest_views.contest_fix, name=''),
         url(r'^contest_visible/$', contest_views.contest_visible, name=''),
+        url(r'^image_upload/$', problem_views.image_upload, name=''),
         )

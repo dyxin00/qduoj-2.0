@@ -3,6 +3,7 @@ from random import choice
 import re
 import time, datetime
 import json
+from  PIL import ImageFile
 
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
@@ -12,6 +13,7 @@ from django.utils import timezone
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.views.decorators.csrf import csrf_exempt
 from DjangoVerifyCode import Code
 from django.core.exceptions import ObjectDoesNotExist
 from oj_user.models import User_oj, Privilege
@@ -151,3 +153,20 @@ def solution_rejudge(request, *args, **kwargs):
         return HttpResponse(json.dumps({'status': 403}), content_type="application/json")
     
     return HttpResponse(json.dumps({'status': 200}), content_type="application/json")
+
+@csrf_exempt
+def image_upload(request):
+    in_time = time.time();
+    print request.FILES
+    data = request.FILES.get('imgFile', None)
+    if data == None:
+        return HttpResponse(json.dumps({"error" : 1, "url" : ""}))
+
+    parser = ImageFile.Parser()
+    for chunk in data.chunks():
+        parser.feed(chunk)
+    image = parser.close()
+    dir_img = os.path.dirname(__file__) + '/..'
+    image.save(dir_img + "/static/problem_img/%s"%str(int(in_time))+ '-' + str(data))
+    return HttpResponse(json.dumps({"error" : 0, "url" : "/static/problem_img/%s"%str(int(in_time)) + '-' + str(data)}))
+
