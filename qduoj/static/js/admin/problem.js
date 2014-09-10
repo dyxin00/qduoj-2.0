@@ -11,71 +11,26 @@ function init_problem_list() {
 	$('#problem-list #problem-modify').hide();
 	$('#problem-list #problem-table').show();
 	$('#bt').show();
-	up_data = {
-		page: page,
-	};
-	$.ys_ajax({
-
-
-		url: '/admin_oj/get_problem_list/',
-		data: up_data,
-		type: 'GET',
-
-		rt_func: function (data) {
-
-			var problem_list = data.problem_list;
-
-			if (data.flag == 1) {
-				page = page - 1;
-			}
-			problem_item.empty();
-
-			if (data.privilege & 4 != data.privilege && flag == 0) {
-				$('#problem-list table thead tr').append('<th class="td-Visible text-center">Visible</th>').append('<th class="td-Visible text-center">修改</th>');
-				flag = 1;
-			}
-
-			for (val in problem_list) {
-				var item_tr = $('<tr></tr>').addClass('text-center');
-
-				var td_id = $('<td></td>').html('<a target="_blank" href = "/problem/?pid=' + problem_list[val].id + '" >' + problem_list[val].id + '</a>').appendTo(item_tr);
-				var td_title = $('<td></td>').html(problem_list[val].title).appendTo(item_tr);
-				var td_user = $('<td></td>').html(problem_list[val].user__user__username).appendTo(item_tr);
-				if (data.privilege & 4 != 0) {
-
-					var td_visible_button = $('<button class="btn btn-primary visible"></button>').text(problem_list[val].visible).attr('id', problem_list[val].id);
-					var td_visible = $('<td></td>').append(td_visible_button).appendTo(item_tr);
-
-
-					var td_mod_button = $('<button class="btn btn-primary mod"></button>').text('修改').attr('id', problem_list[val].id);
-
-
-					var td_mod = $('<td></td>').append(td_mod_button).appendTo(item_tr);
-				}
-				item_tr.appendTo(problem_item);
-			}
-			if (tflag == 0) {
-				$('<div id="bt">').appendTo(table);
-				var td_up_button = $('<button class="btn btn-primary back" id="ads"></button>').text('上翻');
-				td_up_button.appendTo("#bt");
-				var td_next_button = $('<button class="btn btn-primary next" id="ads"></button>').text('下翻');
-				td_next_button.appendTo("#bt");
-				tflag = 1;
-			}
-
-		}
-
-	});
-
-
+	problem_list_init();
+	problem_search();
+	$('#bt').remove();
+	$('<div id="bt">').appendTo(table);	
+	var td_up_button = $('<button class="btn btn-primary back" id="ads"></button>').text('上翻');
+	td_up_button.appendTo("#bt");
+	var td_next_button = $('<button class="btn btn-primary next" id="ads"></button>').text('下翻');
+	td_next_button.appendTo("#bt");
+	tflag = 1;
+	
 	table.find('button.next').unbind().click(function () {
 		page = page + 1;
-		init_problem_list();
+		problem_list_init();
 	})
 	table.find('button.back').unbind().click(function () {
 		if (page > 0)
 			page = page - 1;
-		init_problem_list();
+		else
+			return;
+		problem_list_init();
 	})
 
 	table.find('#serach').unbind().click(function () {
@@ -110,66 +65,26 @@ function init_problem_list() {
 					}
 					item_tr.appendTo(problem_item);
 				}
+				problem_search();
 			}
 		});
 	});
+	
 	
 	table.find('#classify').unbind().click(function () {
-		classify = $(this).val();
-		up_data = {
+		page = 0;
+		problem_list_init();
+		problem_search();
+	});	
+}
 
-			classify: classify,
-		};
-		$.ys_ajax({
-
-			url: '/admin_oj/get_problem_list/',
-			data: up_data,
-			type: 'GET',
-
-			rt_func: function (data) {
-				var problem_list = data.problem_list;
-
-				if (data.flag == 1) {
-					page = page - 1;
-				}
-				problem_item.empty();
-
-				if (data.privilege & 4 != data.privilege && flag == 0) {
-					$('#problem-list table thead tr').append('<th class="td-Visible text-center">Visible</th>').append('<th class="td-Visible text-center">修改</th>');
-					flag = 1;
-				}
-
-				for (val in problem_list) {
-					var item_tr = $('<tr></tr>').addClass('text-center');
-
-					var td_id = $('<td></td>').html('<a target="_blank" href = "/problem/?pid=' + problem_list[val].id + '" >' + problem_list[val].id + '</a>').appendTo(item_tr);
-					var td_title = $('<td></td>').html(problem_list[val].title).appendTo(item_tr);
-					var td_user = $('<td></td>').html(problem_list[val].user__user__username).appendTo(item_tr);
-					if (data.privilege & 4 != 0) {
-
-						var td_visible_button = $('<button class="btn btn-primary visible"></button>').text(problem_list[val].visible).attr('id', problem_list[val].id);
-						var td_visible = $('<td></td>').append(td_visible_button).appendTo(item_tr);
-
-
-						var td_mod_button = $('<button class="btn btn-primary mod"></button>').text('修改').attr('id', problem_list[val].id);
-
-
-						var td_mod = $('<td></td>').append(td_mod_button).appendTo(item_tr);
-					}
-					item_tr.appendTo(problem_item);
-				}
-			}
-		});
-	});
-	
-	
+function problem_search(){
 	problem_item.find('tr td button.mod').click(function () {
 		var id = $(this).attr('id');
 		problem_modify_init(id);
 	});
 
 	problem_item.find('tr td button.visible').click(function () {
-
 		var id = $(this).attr('id');
 		var button = $(this);
 	
@@ -200,6 +115,57 @@ function init_problem_list() {
 			}
 		});
 	});
+}
+
+function problem_list_init(){
+	
+//		classify = $(this).val();
+		classify = $('#problem-list #problem-table #classify').val();
+		up_data = {
+
+			classify: classify,
+			page : page,
+		};
+		$.ys_ajax({
+
+			url: '/admin_oj/get_problem_list/',
+			data: up_data,
+			type: 'GET',
+
+			rt_func: function (data) {
+				var problem_list = data.problem_list;
+
+				if (data.flag == 1) {
+					page = page - 1;
+				}
+				problem_item.empty();
+
+				if (data.privilege & 4 != data.privilege && flag == 0) {
+					$('#problem-list table thead tr').append('<th class="td-Visible text-center">Visible</th>').append('<th class="td-Visible text-center">修改</th>');
+					flag = 1;
+				}
+
+				for (val in problem_list) {
+					var item_tr = $('<tr></tr>').addClass('text-center');
+
+					var td_id = $('<td></td>').html('<a target="_blank" href = "/problem/?pid=' + problem_list[val].id + '" >' + problem_list[val].id + '</a>').appendTo(item_tr);
+					var td_title = $('<td></td>').html(problem_list[val].title).appendTo(item_tr);
+					var td_user = $('<td></td>').html(problem_list[val].user__user__username).appendTo(item_tr);
+					if (data.privilege & 4 != data.privilege) {
+
+						var td_visible_button = $('<button class="btn btn-primary visible"></button>').text(problem_list[val].visible).attr('id', problem_list[val].id);
+						var td_visible = $('<td></td>').append(td_visible_button).appendTo(item_tr);
+
+
+						var td_mod_button = $('<button class="btn btn-primary mod"></button>').text('修改').attr('id', problem_list[val].id);
+
+
+						var td_mod = $('<td></td>').append(td_mod_button).appendTo(item_tr);
+					}
+					item_tr.appendTo(problem_item);
+				}
+			}
+		});
 }
 
 function problem_modify_init(id){
@@ -264,8 +230,7 @@ function problem_add() {
 
 	var flag = 0;
 	var editor = init_editor('textarea[name=desc-content]');
-	main_page.find('#submit-problem').click(function () {
-
+	main_page.find('#submit-problem').unbind('click').click(function () {
 	main_page.find('.form-control').each(function () {
 
 			if ($(this).val() == '') {

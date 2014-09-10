@@ -24,14 +24,16 @@ from qduoj.config import *
 
 from admin_oj.util import Authorization
 
+
+def log(request):
+    return render(request, 'admin/login.html',{})
+
+
 @Authorization(ACCESS_BACKEND)
 def index(request, *args, **kwargs):
 
     response_dict = kwargs.get('response_dict', {})
-
     user_oj = request.user.user_oj
- 
-
     return render(request, 'admin_oj/index.html', response_dict)
 
 

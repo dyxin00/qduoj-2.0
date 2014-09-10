@@ -50,10 +50,7 @@ def get_problem_list(request, *args, **kwargs):
         del check['visible']
 
     problem = Problem.objects.filter(**check).values(*info)
-    if classify != -1:
-        problem_list = problem
-    else:
-        problem_list = problem[index_start : index_end]
+    problem_list = problem[index_start : index_end]
     num = problem.count()
     if index_end > num:
         index_end = num
@@ -77,7 +74,7 @@ def problem_add(request, *args, **kwargs):
         'hint' : request.POST.get('hint', None),
         'source' : request.POST.get('source', None),
         'time_limit' : int(request.POST.get('timelimit', 0)),
-        'memory_limit' : int(request.GET.get('memorylimit', 0)),
+        'memory_limit' : int(request.POST.get('memorylimit', 0)),
         'classify' : int(request.POST.get('classify', 0)),
         'user' : request.user.user_oj,
         'difficult' : int(request.POST.get('difficult',0)),
