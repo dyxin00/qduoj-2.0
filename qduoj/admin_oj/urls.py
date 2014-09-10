@@ -5,6 +5,9 @@ from django.conf.urls import patterns, include, url
 from admin_oj import views, problem_views, contest_views
 
 urlpatterns = patterns('',
+        url(r'^log/$', views.log, name='log'),
+        url(r'^login/$', views.login, name='log'),
+        url(r'^logout/$', views.logout, name='log'),
         url(r'^index/$', views.index, name='problem_index'),
         url(r'^admin_logout/$', views.sign_out, name='admin_lokout'),
         url(r'^get_problem_list/$', problem_views.get_problem_list, name=''),
