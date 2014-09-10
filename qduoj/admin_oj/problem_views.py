@@ -71,7 +71,7 @@ def problem_add(request, *args, **kwargs):
         'hint' : request.POST.get('hint', None),
         'source' : request.POST.get('source', None),
         'time_limit' : int(request.POST.get('timelimit', 0)),
-        'memory_limit' : int(request.GET.get('memorylimit', 0)),
+        'memory_limit' : int(request.POST.get('memorylimit', 0)),
         'classify' : int(request.POST.get('classify', 0)),
         'user' : request.user.user_oj,
         'difficult' : int(request.POST.get('difficult',0)),
