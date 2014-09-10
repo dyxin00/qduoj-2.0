@@ -97,7 +97,7 @@ def problem_fix(request):
         problem.hint = request.POST.get('hint', None)
         problem.source = request.POST.get('source', None)
         problem.time_limit = int(request.POST.get('timelimit', 0))
-        problem.memory_limit = int(request.GET.get('memorylimit', 0))
+        problem.memory_limit = int(request.POST.get('memorylimit', 0))
         problem.classify = int(request.POST.get('classify', 0))
         problem.user = request.user.user_oj
         problem.difficult = int(request.POST.get('difficult',0))
