@@ -249,7 +249,7 @@ function init_editor(id) {
         'anchor', 'link', 'unlink', '|', 'about'
 	]
 	var editor = KindEditor.create(id, {
-		uploadJson: '',
+		uploadJson: '/admin_oj/image_upload/',
 		fileManagerJson: '',
 		allowFileManager: true,
 		width: '100%',
