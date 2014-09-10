@@ -3,6 +3,7 @@ from random import choice
 import re
 import time, datetime
 import json
+import os
 from  PIL import ImageFile
 
 from django.shortcuts import render, redirect
@@ -159,8 +160,7 @@ def solution_rejudge(request, *args, **kwargs):
 
 @csrf_exempt
 def image_upload(request):
-    in_time = time.time();
-    print request.FILES
+    in_time = time.time()
     data = request.FILES.get('imgFile', None)
     if data == None:
         return HttpResponse(json.dumps({"error" : 1, "url" : ""}))
