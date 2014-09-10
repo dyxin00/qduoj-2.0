@@ -12,8 +12,9 @@ function init_problem_list() {
 	$('#problem-list #problem-table').show();
 	$('#bt').show();
 	problem_list_init();
-
-	$('<div id="bt">').appendTo(table);
+	problem_search();
+	$('#bt').remove();
+	$('<div id="bt">').appendTo(table);	
 	var td_up_button = $('<button class="btn btn-primary back" id="ads"></button>').text('上翻');
 	td_up_button.appendTo("#bt");
 	var td_next_button = $('<button class="btn btn-primary next" id="ads"></button>').text('下翻');
@@ -22,7 +23,6 @@ function init_problem_list() {
 	
 	table.find('button.next').unbind().click(function () {
 		page = page + 1;
-//		init_problem_list();
 		problem_list_init();
 	})
 	table.find('button.back').unbind().click(function () {
@@ -65,6 +65,7 @@ function init_problem_list() {
 					}
 					item_tr.appendTo(problem_item);
 				}
+				problem_search();
 			}
 		});
 	});
@@ -73,15 +74,17 @@ function init_problem_list() {
 	table.find('#classify').unbind().click(function () {
 		page = 0;
 		problem_list_init();
-	});
-	
+		problem_search();
+	});	
+}
+
+function problem_search(){
 	problem_item.find('tr td button.mod').click(function () {
 		var id = $(this).attr('id');
 		problem_modify_init(id);
 	});
 
 	problem_item.find('tr td button.visible').click(function () {
-
 		var id = $(this).attr('id');
 		var button = $(this);
 	
@@ -148,7 +151,7 @@ function problem_list_init(){
 					var td_id = $('<td></td>').html('<a target="_blank" href = "/problem/?pid=' + problem_list[val].id + '" >' + problem_list[val].id + '</a>').appendTo(item_tr);
 					var td_title = $('<td></td>').html(problem_list[val].title).appendTo(item_tr);
 					var td_user = $('<td></td>').html(problem_list[val].user__user__username).appendTo(item_tr);
-					if (data.privilege & 4 != 0) {
+					if (data.privilege & 4 != data.privilege) {
 
 						var td_visible_button = $('<button class="btn btn-primary visible"></button>').text(problem_list[val].visible).attr('id', problem_list[val].id);
 						var td_visible = $('<td></td>').append(td_visible_button).appendTo(item_tr);
@@ -227,8 +230,7 @@ function problem_add() {
 
 	var flag = 0;
 	var editor = init_editor('textarea[name=desc-content]');
-	main_page.find('#submit-problem').click(function () {
-
+	main_page.find('#submit-problem').unbind('click').click(function () {
 	main_page.find('.form-control').each(function () {
 
 			if ($(this).val() == '') {
