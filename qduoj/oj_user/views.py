@@ -148,7 +148,7 @@ def user_info(request):
         if authority == config.ADMIN:
             solution_list = Solution.objects.filter(user_id=user_id)
         else:
-            solution_list = Solution.objects.filter(Q(user_id=user_id) & (Q(contest__isnull = True) | (Q(contest__isnull = False) & Q(contest__end_time__lt = timezone.now()))))
+            solution_list = Solution.objects.filter(Q(user_id=user_id) & (Q(contest__isnull=True) | (Q(contest__isnull=False) & Q(problem__visible=True))))
         
         accepted_list = solution_list.filter(result=4).order_by('problem').\
                 values_list('problem', flat=True).distinct()
