@@ -49,10 +49,7 @@ def get_problem_list(request, *args, **kwargs):
         del check['visible']
 
     problem = Problem.objects.filter(**check).values(*info)
-    if classify != -1:
-        problem_list = problem
-    else:
-        problem_list = problem[index_start : index_end]
+    problem_list = problem[index_start : index_end]
     num = problem.count()
     if index_end > num:
         index_end = num
