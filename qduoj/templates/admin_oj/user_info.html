@@ -1,10 +1,10 @@
 <li class="">
     <div class="user-span">
-        <span><a class="user-info-bar" href="{% url 'user_info' %}">{{ user.username }}</a></span>
+        <span><a class="user-info-bar" href="{% url 'user_info' %}">{{user.user.username}}</a></span>
     </div>
 </li>
 <li>
-    <form role="form" action="{% url 'logout' %}" method="post"> 
+    <form role="form" action="/admin_oj/logout/" method="post"> 
         {% csrf_token %}
         <button type="submit" class="btn btn-black">Logout</button>
     </form>

@@ -12,6 +12,7 @@ function init_menu(){
         cmd_map[cmd]();
     });
 }
+
 $(document).ready(function(){
     init_menu();
 });
