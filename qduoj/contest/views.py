@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from problem.models import Problem, Score
-from contest.models import Contest, Contest_problem, ContestPrivilege
+from problem.models import Problem, Score 
+from contest.models import Contest, Contest_problem, ContestPrivilege 
 from solution.models import Solution, Custominput, Source_code
 from oj_user.models import User_oj, Privilege
 from django.core.exceptions import ObjectDoesNotExist
@@ -138,8 +138,12 @@ def contest_rank(request):
             error = "The contest is not exist!"
             return render(request, 'error.html', {'error':error})
 
-	contest_user_id_list = Solution.objects.select_related(depth=3).filter(contest__id=cid).\
-                order_by('user__user__id').values_list('user__user__id', flat=True).distinct()
+        username = request.user.username
+        user_authority = Privilege.objects.get(user__user__username=username).authority
+        if contest.open_rank == False and user_authority != config.ADMIN and contest.user.user.username != username:
+            error = "Limited permission!"
+            return render(request, "error.html", {'error': error})
+	    contest_user_id_list = Solution.objects.select_related(depth=3).filter(contest__id=cid).order_by('user__user__id').values_list('user__user__id', flat=True).distinct()
         contest_user_list = User_oj.objects.filter(user__id__in=contest_user_id_list)
         
         contest_problem_list = Contest_problem.objects.select_related(depth=3).filter(contest__id=cid).order_by('num')

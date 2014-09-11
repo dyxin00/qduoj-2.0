@@ -183,6 +183,7 @@ def get_code(request):
     return code.display()
 
 def rank(request):
+    '''
     if request.method == 'GET':
         page = request.GET.get('page', '1') 
 
@@ -190,6 +191,6 @@ def rank(request):
         
         #user_list=rank_list.filter().order_by('-solved', 'submit')
         return render(request, 'rank/rank.html', {'user_list' : user_list, 'page' : int(page)})
-    
-    error = "呵呵"
+    '''
+    error = "404 not found"
     return render(request, 'error.html', {'error' : error})

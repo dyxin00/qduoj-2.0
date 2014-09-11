@@ -3,6 +3,7 @@
     <master>true</master>  
     <workers>2</workers>
     <module>wsgi</module>  #这个文件下面要建立
-    <pythonpath>/home/cxsys/qduoj-2.0/qduoj/qduoj/</pythonpath>   #刚才建立项目的路径
+    <pythonpath>./qduoj/</pythonpath>   #刚才建立项目的路径
+	<daemonize>/home/qduoj/oj/uwsgi/uwsgi.log</daemonize>
     <profiler>..</profiler>  
 </uwsgi> 

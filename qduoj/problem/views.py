@@ -73,19 +73,17 @@ def problem(request):
             authority = Privilege.objects.get(user__user__username=username).authority
         except ObjectDoesNotExist:
             authority = None
-            if cid == None:
-                try:
-                    problem = Problem.objects.get(id=pid)
-                except ObjectDoesNotExist:
-                    error = "The problem not exist!"
-                    return render(request, "error.html", {'error':error})
-
-                if authority == config.ADMIN or problem.visible is True or problem.user.user.username == username:
-                    return render(request, "problem/problem.html",
-                                  {'problem' : problem})
-                else:
-                    error = "The problem not exist!"
-                    return render(request, "error.html", {'error':error})
+        if cid == None:
+            try:
+                problem = Problem.objects.get(id=pid)
+            except ObjectDoesNotExist:
+                error = "The problem not exist!"
+                return render(request, "error.html", {'error': error})
+            if authority == config.ADMIN or problem.visible is True or problem.user.user.username == username:
+				return render(request, "problem/problem.html", {'problem' : problem})
+            else:
+                error = "The problem not exist!"
+                return render(request, "error.html", {'error':error})
 
         try:
             problem = Problem.objects.get(id=pid)
