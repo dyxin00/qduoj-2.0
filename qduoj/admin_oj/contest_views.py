@@ -61,30 +61,30 @@ def get_contest_list(request, *args, **kwargs):
 
 @Authorization(ADD_CON_AND_PRO_AND_VIS)
 def contest_add(request, *args, **kwargs):
-    arry = request.GET.get('problems', None)
+    arry = request.POST.get('problems', None)
     problem_info = json.loads(arry)
 
     problem_list = []
     for problem in problem_info:
         problem_list.append(problem['p_id'])
 
-    start_time = request.GET.get('start_data') + ' ' + request.GET.get('start_day')
-    end_time = request.GET.get('end_data') + ' ' + request.GET.get('end_day')
+    start_time = request.POST.get('start_data') + ' ' + request.POST.get('start_day')
+    end_time = request.POST.get('end_data') + ' ' + request.POST.get('end_day')
     open_rank = False
-    if request.GET.get('contest_openrank') == 'true':
+    if request.POST.get('contest_openrank') == 'true':
         open_rank = True
-        key = {
-            'title' : request.GET.get('title', None),
-            'start_time': start_time,
-            'end_time' : end_time,
-            'user' : request.user.user_oj,
-            'description' : request.GET.get('desc', None),
-            'private' : int(request.GET.get('contest_classify', 0)),
-            'open_rank' : open_rank,
-            'langmask' : int(request.GET.get('contest_langmask', 0)),
-            'mode' : int(request.GET.get('contest_mode', None)),
-        }
-        problems = Problem.objects.filter(id__in=problem_list)
+    key = {
+        'title' : request.POST.get('title', None),
+        'start_time': start_time,
+        'end_time' : end_time,
+        'user' : request.user.user_oj,
+        'description' : request.POST.get('desc', None),
+        'private' : int(request.POST.get('contest_classify', 0)),
+        'open_rank' : open_rank,
+        'langmask' : int(request.POST.get('contest_langmask', 0)),
+        'mode' : int(request.POST.get('contest_mode', None)),
+    }
+    problems = Problem.objects.filter(id__in=problem_list)
 
     try:
         contest = Contest.objects.create(**key)
@@ -104,7 +104,7 @@ def contest_add(request, *args, **kwargs):
                 return HttpResponse(json.dumps({'status': 401}), content_type="application/json")
 
         if contest.private == 1:
-            contest_user_list = request.GET.get('privilege_user', None)
+            contest_user_list = request.POST.get('privilege_user', None)
             contest_user = contest_user_list.split(',')
             user_list = User_oj.objects.filter(user__username__in=contest_user)
             for user in user_list:
@@ -119,7 +119,8 @@ def contest_add(request, *args, **kwargs):
         else:
             pass
         return HttpResponse(json.dumps({'status': 200}), content_type="application/json")
-    except:
+    except  Exception as e:
+        print e
         return HttpResponse(json.dumps({'status': 403}), content_type="application/json")
 
 @Authorization(ADD_CON_AND_PRO_AND_VIS)
@@ -157,28 +158,27 @@ def contest_get(request, *args, **kwargs):
 
 @Authorization(ADD_CON_AND_PRO_AND_VIS)
 def contest_fix(request, *args, **kwargs):
-    cid = request.GET.get('id', 0)
+    cid = request.POST.get('id', 0)
     contest = Contest.objects.get(id=cid)
 
-    start_time = request.GET.get('start_data') + ' ' + request.GET.get('start_day')
-    end_time = request.GET.get('end_data') + ' ' + request.GET.get('end_day')
+    start_time = request.POST.get('start_data') + ' ' + request.POST.get('start_day')
+    end_time = request.POST.get('end_data') + ' ' + request.POST.get('end_day')
 
     open_rank = False
-    if request.GET.get('contest_openrank') == 'true':
+    if request.POST.get('contest_openrank') == 'true':
         open_rank = True
 
-    contest.title = request.GET.get('title', None)
+    contest.title = request.POST.get('title', None)
     contest.start_time = start_time
     contest.end_time = end_time
     contest.user = request.user.user_oj
-    contest.description = request.GET.get('desc', None)
-    contest.private = int(request.GET.get('contest_classify', 0))
+    contest.description = request.POST.get('desc', None)
+    contest.private = int(request.POST.get('contest_classify', 0))
     contest.open_rank = open_rank
-    contest.langmask = int(request.GET.get('contest_langmask', 0))
-    contest.mode = int(request.GET.get('contest_mode', 0))
+    contest.langmask = int(request.POST.get('contest_langmask', 0))
+    contest.mode = int(request.POST.get('contest_mode', 0))
     contest.save()
-    print request.GET.get('contest_classify')    
-    arry = request.GET.get('problems', None)
+    arry = request.POST.get('problems', None)
     problem_info = json.loads(arry)
     contest_problem = Contest_problem.objects.select_related(depth=3).filter(contest=contest)
     contest_problem.delete()
@@ -206,7 +206,7 @@ def contest_fix(request, *args, **kwargs):
     contest_user = ContestPrivilege.objects.select_related(depth=3).filter(contest=contest)
     contest_user.delete()
     if contest.private == 1:
-        contest_user_list = request.GET.get('privilege_user', None)
+        contest_user_list = request.POST.get('privilege_user', None)
         contest_user = contest_user_list.split(',')
         user_list = User_oj.objects.filter(user__username__in=contest_user)
         for user in user_list:

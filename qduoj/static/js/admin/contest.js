@@ -166,7 +166,7 @@ function contest_fix(){
 			
 			url : '/admin_oj/problem_get/',
 			data : up_data,
-			type : 'GET',
+			type : 'POST',
 			
 			rt_func : function(data){
 				
@@ -374,7 +374,7 @@ function contest_add(){
 		$.ys_ajax({
 			url : '/admin_oj/contest_add/',
 			data : up_data,
-			type : 'GET',
+			type : 'POST',
 			
 			rt_func : function(data){
 				if(data.status==401)
