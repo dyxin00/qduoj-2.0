@@ -71,10 +71,20 @@ def code(request):
         except ObjectDoesNotExist:
             error = "The solution not exist!"
             return render(request, "error.html", {'error':error})
+        username = request.user.username
+        try:
+            authority = Privilege.objects.get(user__user__username=username).authority
+        except ObjectDoesNotExist:
+            authority = None
+
 
         try:
             source_code = Source_code.objects.get(solution=solution)
         except ObjectDoesNotExist:
+            error = "The code not exist!"
+            return render(request, "error.html", {'error':error})
+
+        if authority != config.ADMIN and source_code.solution.user.user.username != username:  
             error = "The code not exist!"
             return render(request, "error.html", {'error':error})
 
