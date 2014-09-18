@@ -1,0 +1,30 @@
+<div class="admin_right" style="display : none" id = 'news-modify'>
+	<script charset="utf-8" src="{{ STATIC_URL }}kindeditor-4.1.10/kindeditor-min.js"></script>
+	<script charset="utf-8" src="{{ STATIC_URL }}kindeditor-4.1.10/lang/zh_CN.js"></script>
+        <div class="problem">
+            <div class="form-group">
+                <label for="">Title:</label>
+                <textarea type="text" class="form-control" id="html-news-title-modify" rows = 1></textarea>
+            </div>
+            <div class="form-group">
+                <label for="">desc:</label>
+                <textarea type="text" class="form-control" id="html-news-desc-modify" rows = 6 name='html-news-desc-modify'></textarea>
+            </div>
+            <div class="form-group">
+                <label for="">Classify:</label>
+                <select name="type" class="form-control" id="html-news-classify-modify" style="width : 50%">
+                    <option value="0">默认_00</option>
+                    <option value="1">01</option>
+                    <option value="2">02</option>
+                    <option value="3">03</option>
+                    <option value="4">04</option>
+                    <option value="5">05</option>
+                </select>
+            </div>
+            <div>
+                <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" id="html-news-save-modify">Save</button>
+            </div>
+        </div>
+
+    <p>{{msg}}</p>
+</div>
