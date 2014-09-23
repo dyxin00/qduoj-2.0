@@ -5,6 +5,7 @@ cmd_map = {
 	'contest-add' : contest_add,
 	'contest-sim' : contest_sim,
 	'problem-rejudge' : problem_rejudge,
+	'admin-check' : admin_check,
 }
 function init_menu(){
     $('#myTab').find('li').click(function(){

@@ -119,8 +119,7 @@ function init_contest_list(){
         type : 'GET',
         
         rt_func : function(data){
-           
-            if(data.status == 200){
+           if(data.status == 200){
                 var status = button.html();
                 
                 if(status == 'true'){

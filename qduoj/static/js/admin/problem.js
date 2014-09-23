@@ -274,6 +274,7 @@ function problem_add() {
 				if (data.status == 200) {
 					alert('添加成功');
 				} else {
+					alert(data.status);
 					return;
 				}
 			}
