@@ -1,0 +1,55 @@
+{% extends 'admin_oj/base.html' %}
+{% block body %}
+
+
+		<title>Simpla Admin | Sign In</title>
+		<link rel="stylesheet" href="{{ STATIC_URL }}css/reset.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="{{ STATIC_URL }}css/style.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="{{ STATIC_URL }}css/invalid.css" type="text/css" media="screen" />	
+		<script type="text/javascript" src="{{ STATIC_URL }}js/simpla.jquery.configuration.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/facebox.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.wysiwyg.js"></script>
+		<script src="{{ STATIC_URL }}js/admin/login.js"></script>
+  
+	<body id="login">
+		
+		<div id="login-wrapper" class="png_bg">
+			<div id="login-top">
+			
+				<h1>Admin</h1>
+				<!-- Logo (221px width) -->
+				<a href="http://www.uimaker.com"><img id="logo" src="{{ STATIC_URL }}img/logo.png" alt="Simpla Admin logo" /></a>
+			</div> <!-- End #logn-top -->
+			
+			<div id="login-content">
+				
+					<div class="notification information png_bg">
+						<div>
+							Click "Sign In".
+						</div>
+					</div>
+					
+					<p>
+						<label>Username</label>
+						<input class="form-control" id='username' type="text" style="height: 26px;"/>
+					</p>
+					<div class="clear"></div>
+					<p>
+						<label>Password</label>
+						<input class="form-control" id='password' type="password" style="height: 26px;"/>
+					</p>
+					<div class="clear"></div>
+					<p id="remember-password">
+						<input type="checkbox" />Remember me
+					</p>
+					<div class="clear"></div>
+					<p>
+						<input class="button" id='sign_in' type="submit" value="Sign In" />
+					</p>
+
+			</div> 
+			
+		</div> 
+		
+  </body>
+{% endblock %}

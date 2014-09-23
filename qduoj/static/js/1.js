@@ -2,6 +2,47 @@ function refresh_captcha(obj) {
     obj.src = "/get_code/";
 }
 
+function change(){
+	var changed = $('#changed').unbind();
+	changed.click(function(){
+		var m = $('#m').val();
+		var m1 = $('#m1').val();
+		var m2 = $('#m2').val();
+		$('#m').val('');
+		$('#m1').val('');
+		$('#m2').val('');
+		if(m1 != m2){
+			alert('两次输入密码不一致！');
+		}
+		else{
+			$.ajax({
+				url : '/password_change/',
+				type : 'POST',
+				dataType : 'json',
+				data : {
+					'm' : m,
+					'm1' : m1,
+					'm2' : m2,
+				},
+				success : function(data){
+					if(data.status == 'filed'){
+						alert('修改失败~');
+					}
+					else{
+						$.ajax({
+							url : '/logout/',
+							type : 'GET',
+							dataType : 'json',
+							data : {},
+							success : function(){}
+						})
+						location.href = "/sign_in/";
+					}
+				}
+			})
+		}
+	})
+}
 
 function check_in(){
 	var check = $('#check_in').unbind();
@@ -46,6 +87,7 @@ function fun_check(){
 }
 $(document).ready(function(){
 	fun_check();
+	change();
 })
 
 $(document).ajaxSend(function(event, xhr, settings) {  

@@ -25,6 +25,7 @@ urlpatterns = patterns('',
     url(r'^logout/$', 'oj_user.views.sign_out', name='logout'),
     url(r'^sign_in/$', 'oj_user.views.sign_in', name='sign_in'),
     url(r'^check_in/$', 'oj_user.views.check_in', name='check_in'),
+    url(r'^password_change/$', 'oj_user.views.password_change', name='password_change'),
     url(r'^user_info/$', 'oj_user.views.user_info', name='user_info'),
     url(r'^get_code/$', 'oj_user.views.get_code', name='get_code'),
 
