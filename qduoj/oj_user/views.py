@@ -101,7 +101,7 @@ def sign_in(request):
 
 def sign_out(request):
     logout(request)
-
+    
     return render(request, 'delay_jump.html', {
         'next_url' : '/',
         'info' : 'Logout successful'
@@ -131,9 +131,28 @@ def check_in(request):
 
         return HttpResponse(json.dumps({'status' : 'success'}))
 
+def password_change(request):
+    if request.method == 'POST':
+        user = request.user
+        old_pass = request.POST.get('m')
+        new_pass = request.POST.get('m1')
+        print request.POST
+        if user.check_password(old_pass):
+            user.set_password(new_pass)
+            user.save()
+            return HttpResponse(json.dumps({'status' : 'success'}))
+        else:
+            return HttpResponse(json.dumps({'status' : 'filed'}))
+
+
 def user_info(request):
     if request.method=="GET":
         username = request.GET.get('username', '-1')
+
+        if request.user.is_anonymous():
+            error = "No user login"
+            return render(request, 'error.html', {'error' : error})
+
         if username != '-1':
             user_info = User.objects.get(username=username)
             user_id = user_info.id
