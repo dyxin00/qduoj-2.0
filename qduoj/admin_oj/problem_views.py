@@ -20,7 +20,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from oj_user.models import User_oj, Privilege
 from problem.models import Problem
 from solution.models import Solution
-
+from admin_oj.models import Check_problem_contest
 from django.db.models import Sum, Q
 from qduoj import config
 from qduoj.config import *
@@ -34,7 +34,7 @@ def get_problem_list(request, *args, **kwargs):
     user = response_dict['user']
     page = int(request.GET.get('page', 0))
     classify = int(request.GET.get('classify', -1))
-
+    
     index_start = page * PAGE_COUNT
     index_end = (page + 1) * PAGE_COUNT
     flag = 0
@@ -80,10 +80,20 @@ def problem_add(request, *args, **kwargs):
         'difficult' : int(request.POST.get('difficult',0)),
     }
     try:
-        Problem.objects.create(**key)
-        return HttpResponse(json.dumps({'status': 200}), content_type="application/json")
+        problem = Problem.objects.create(**key)
     except:
-        return HttpResponse(json.dumps({'status': 503}), content_type="application/json")
+        return HttpResponse(json.dumps({'status': 503}), content_type="application/json") 
+    check_key = {
+        'cpid' : 'p' + str(problem.id),
+        'check' : 0,
+        'user' : request.user.user_oj,
+        'desc' : '未检测～',
+    }
+    try:
+        Check_problem_contest.objects.create(**check_key)
+    except:
+        return HttpResponse(json.dumps({'status': 504}), content_type="application/json")
+    return HttpResponse(json.dumps({'status': 200}), content_type="application/json")
 
 def problem_fix(request):
     pid = request.POST.get('id', None)
@@ -124,11 +134,23 @@ def problem_get(request, *args, **kwargs):
 
 @Authorization(ADD_CON_AND_PRO_AND_VIS)
 def problem_visible(request, *args, **kwargs):
-    pid = request.GET.get("id", 0) 
+    pid = request.GET.get("id", 0)
     problem = Problem.objects.get(id=pid)
-    problem.visible = not problem.visible
-    problem.save()
-    return HttpResponse(json.dumps({'status' : '200'}), content_type="application/json")
+    cpid = 'p' + str(pid)
+    try:
+        check = Check_problem_contest.objects.get(cpid=cpid)
+        if check.check == 1:
+            problem.visible = not problem.visible
+            problem.save()
+            return HttpResponse(json.dumps({'status' : '200'}), content_type="application/json")
+        else:
+            return HttpResponse(json.dumps({'status' : '403'}), content_type="application/json")
+    except: 
+        problem.visible = not problem.visible
+        problem.save()
+        return HttpResponse(json.dumps({'status' : '200'}), content_type="application/json")
+
+
 
 @Authorization(ADD_CON_AND_PRO_AND_VIS)
 def problem_rejudge(request, *args, **kwargs):

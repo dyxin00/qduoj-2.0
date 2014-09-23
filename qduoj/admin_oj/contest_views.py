@@ -19,7 +19,7 @@ from oj_user.models import User_oj, Privilege
 from problem.models import Problem
 from contest.models import Contest, Contest_problem, ContestPrivilege
 from solution.models import Sim, Solution, Source_code
-
+from admin_oj.models import Check_problem_contest
 from django.db.models import Sum, Q
 from qduoj import config
 from qduoj.config import *
@@ -118,9 +118,18 @@ def contest_add(request, *args, **kwargs):
                     return HttpResponse(json.dumps({'status': 402}), content_type="application/json")
         else:
             pass
+        check_key = {
+            'cpid' : 'c' + str(contest.id),
+            'check' : 0,
+            'user' : request.user.user_oj,
+            'desc' : '未检测～',
+        }
+        try:
+            Check_problem_contest.objects.create(**check_key)
+        except:
+            return HttpResponse(json.dumps({'status': 403}), content_type="application/json")
         return HttpResponse(json.dumps({'status': 200}), content_type="application/json")
-    except  Exception as e:
-        print e
+    except:
         return HttpResponse(json.dumps({'status': 403}), content_type="application/json")
 
 @Authorization(ADD_CON_AND_PRO_AND_VIS)
@@ -267,6 +276,16 @@ def get_sim_code(request, *args, **kwargs):
 def contest_visible(request, *args, **kwargs):
     cid = request.GET.get("id", 0)
     contest = Contest.objects.get(id=cid)
-    contest.visible = not contest.visible
-    contest.save()
-    return HttpResponse(json.dumps({'status': 200}), content_type="application/json")
+    cpid = 'c' + str(cid)
+    try:
+        obj = Check_problem_contest.objects.get(cpid=cpid)
+        if obj.check == 1:
+            contest.visible = not contest.visible
+            contest.save()
+            return HttpResponse(json.dumps({'status': 200}), content_type="application/json")
+        else:
+            return HttpResponse(json.dumps({'status': 403}), content_type="application/json")
+    except:
+        contest.visible = not contest.visible
+        contest.save()
+        return HttpResponse(json.dumps({'status': 200}), content_type="application/json")

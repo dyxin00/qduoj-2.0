@@ -2,7 +2,7 @@
 # coding=utf-8
 
 from django.conf.urls import patterns, include, url
-from admin_oj import views, problem_views, contest_views
+from admin_oj import views, problem_views, contest_views, check_views
 
 urlpatterns = patterns('',
         url(r'^log/$', views.log, name='log'),
@@ -25,4 +25,7 @@ urlpatterns = patterns('',
         url(r'^contest_get/$', contest_views.contest_get, name=''),
         url(r'^contest_fix/$', contest_views.contest_fix, name=''),
         url(r'^contest_visible/$', contest_views.contest_visible, name=''),
+
+        url(r'^get_check_list/$', check_views.get_check_list, name=''),
+        url(r'^check_save/$', check_views.check_save, name=''),
         )
