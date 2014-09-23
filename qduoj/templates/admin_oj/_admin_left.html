@@ -1,7 +1,6 @@
 <div class="nav admin_left">
     <ul class="nav nav-pills nav-stacked" role="tablist" id="myTab">
-        <li class="active"><a href="#home" role="tab" data-toggle="tab">Home</a>
-        </li>
+        <li class="active"><a href="#home" role="tab" data-toggle="tab">Home</a></li>
         {% if privilege >= 5%}
         <li><a href="#problem-list" role="tab" data-toggle="tab" cmd = 'problem-list'>题目列表</a></li>
         <li><a href="#problem-add" role="tab" data-toggle="tab" cmd='problem-add'>题目添加</a></li>
@@ -13,8 +12,8 @@
         {% if privilege == 31 %}
 		<li><a href="#contest-sim" role="tab" data-toggle="tab" cmd = 'contest-sim'>相似检测</a></li>
 		<li><a href="#problem-rejudge" role="tab" data-toggle="tab" cmd = 'problem-rejudge'>题目重判</a></li>
-        <li><a href="#new-list" role="tab" data-toggle="tab">new-list</a></li>
-        <li><a href="#new-add" role="tab" data-toggle="tab">new-add</a></li>
+        <li><a href="#news-list" role="tab" data-toggle="tab" cmd = 'news-list'>公告列表</a></li>
+        <li><a href="#news-add" role="tab" data-toggle="tab" cmd = 'news-add'>公告添加</a></li>
         <li><a href="#admin-check" role="tab" data-toggle="tab" cmd = 'admin-check'>admin-check</a></li>
         {% endif %}
     </ul>

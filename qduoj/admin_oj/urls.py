@@ -3,6 +3,7 @@
 
 from django.conf.urls import patterns, include, url
 from admin_oj import views, problem_views, contest_views, check_views
+from admin_oj import news_views
 
 urlpatterns = patterns('',
         url(r'^log/$', views.log, name='log'),
@@ -28,4 +29,10 @@ urlpatterns = patterns('',
 
         url(r'^get_check_list/$', check_views.get_check_list, name=''),
         url(r'^check_save/$', check_views.check_save, name=''),
+        url(r'^get_news_list/$', news_views.get_news_list, name=''),
+        url(r'^news_add/$', news_views.news_add, name=''),
+        url(r'^news_delete/$', news_views.news_delete, name=''),
+        url(r'^news_get/$', news_views.news_get, name=''),
+        url(r'^news_modify/$', news_views.news_modify, name=''),
+        url(r'^news_visible/$', news_views.news_visible, name=''),
         )

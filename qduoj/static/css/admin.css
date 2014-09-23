@@ -93,3 +93,24 @@
 #contest-list #contest-problem td button{
 	width: 100%;
 }
+
+#news-list td button{
+	margin-left: 7px;
+	width: 55px;
+}
+
+#news-list #ads{
+
+	margin-right: 70px;
+	width: 80px;
+}
+
+#news-list button{
+	padding-bottom: 8px;
+	padding-top: 7px;
+	width: 70px;
+}
+
+#news_page_button{
+	margin-left: 250px
+}

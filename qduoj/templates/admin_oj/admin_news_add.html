@@ -1,0 +1,32 @@
+<div class="admin_right">
+	<script charset="utf-8" src="{{ STATIC_URL }}kindeditor-4.1.10/kindeditor-min.js"></script>
+	<script charset="utf-8" src="{{ STATIC_URL }}kindeditor-4.1.10/lang/zh_CN.js"></script>
+        <div class="problem" id='news-add'>
+            <div class="form-group">
+                <label for="">Title:</label>
+                <textarea type="text" class="form-control" id="html-news-title" rows = 1>{{news.title}}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="">desc:</label>
+                <textarea type="text" class="form-control" id="html-news-desc" rows = 6 name='html-news-desc-content'>{{news.description}}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="">Classify:</label>
+                <select name="type" class="form-control" id="html-news-classify" style="width : 50%">
+                    <option value="0">默认_00</option>
+                    <option value="1">01</option>
+                    <option value="2">02</option>
+                    <option value="3">03</option>
+                    <option value="4">04</option>
+                    <option value="5">05</option>
+                </select>
+            </div>
+            <div>
+                <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" id="html-news-save">Save</button>
+            </div>
+        </div>
+
+    <p>{{msg}}</p>
+    <script src="{{ STATIC_URL }}js/admin/news_add.js"></script>
+    <script src="{{ STATIC_URL }}js/admin/news.js"></script>
+</div>
