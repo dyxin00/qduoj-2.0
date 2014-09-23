@@ -78,7 +78,7 @@ def contest_problem_list(request):
                                     error= "Limited permission!"
                                     return render(request, "error.html", {'error': error})
                         else:
-                            if contest.visible == False and user_authority != config.ADMIN and contest.user.user.username != username:
+                            if contest.visible == False:
                                 error = "Limited permission!"
                                 return render(request, "error.html", {'error': error})
                 except ObjectDoesNotExist:
@@ -96,7 +96,7 @@ def contest_problem_list(request):
                                     error = "Limited permission!"
                                     return render(request, "error.html", {'error': error})
                         else:
-                            if contest.visible == False and user_authority != config.ADMIN and contest.user.user.username != username:
+                            if contest.visible == False:
                                 error = "Limited permission!"
                                 return render(request, "error.html", {'error': error})
                 contest_user = False
@@ -139,11 +139,15 @@ def contest_rank(request):
             return render(request, 'error.html', {'error':error})
 
         username = request.user.username
-        user_authority = Privilege.objects.get(user__user__username=username).authority
+        try:
+            user_authority = Privilege.objects.get(user__user__username=username).authority
+        except ObjectDoesNotExist:
+            error = "Limited permission!"
+            return render(request, "error.html", {'error': error})
         if contest.open_rank == False and user_authority != config.ADMIN and contest.user.user.username != username:
             error = "Limited permission!"
             return render(request, "error.html", {'error': error})
-	    contest_user_id_list = Solution.objects.select_related(depth=3).filter(contest__id=cid).order_by('user__user__id').values_list('user__user__id', flat=True).distinct()
+	contest_user_id_list = Solution.objects.select_related(depth=3).filter(contest__id=cid).order_by('user__user__id').values_list('user__user__id', flat=True).distinct()
         contest_user_list = User_oj.objects.filter(user__id__in=contest_user_id_list)
         
         contest_problem_list = Contest_problem.objects.select_related(depth=3).filter(contest__id=cid).order_by('num')
