@@ -3,10 +3,12 @@
     <div id = "gao">
        <h3 class="gao-h3">公告</h3>
        <div direction=up class="gao" id=m onmouseout=m.start() onMouseOver=m.stop() scrollamount=2 >
-            <div>
-              <h4 class="gao-h4"><font color="#FF0000" size=5>通知：</font></h4>
-                <p><font color="#FF0000" size=4>9月12日下午6:30到9:30 进行集训队纳新机试,这次考试难度不大，希望大家能细心做好每一个题, 取得一个好成绩。</font></p>
+            <div id="table-news-show">
+              <h4 class="gao-h4" id="table-news-title"><font color="#FF0000" size=5></font></h4>
+                <p><font color="#FF0000" size=4 id="table-news-desc"></font></p>
             </div>
         </div>
     </div>        
 </div>
+
+<script src="{{ STATIC_URL }}js/1.js"></script>
