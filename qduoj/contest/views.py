@@ -47,8 +47,8 @@ def contest_problem_list(request):
             try:
                 contest = Contest.objects.get(id=cid)
                 now = time.time()
-                t1 = contest.start_time.replace(tzinfo=None)
-                t2 = contest.end_time.replace(tzinfo=None)
+                t1 = contest.start_time.replace(tzinfo=None) + datetime.timedelta(hours=8)
+                t2 = contest.end_time.replace(tzinfo=None) + datetime.timedelta(hours=8)
                 start_time = float(time.mktime(time.strptime(str(t1),
                                             '%Y-%m-%d %H:%M:%S'))) - now
                 end_time = float(time.mktime(time.strptime(str(t2),
@@ -59,6 +59,7 @@ def contest_problem_list(request):
                 hours = int(start_time / (60 * 60))
                 minutes = int((start_time - (hours * 60 * 60)) / 60)
                 seconds = int(start_time - (hours * 60 * 60) - (minutes * 60))
+                print hours, minutes, seconds
                 ADMIN = False
                 try:
                     user_authority = Privilege.objects.get(user__user__username=username).authority
