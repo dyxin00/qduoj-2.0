@@ -1,7 +1,7 @@
 # Django settings for qduoj project.
 
 import os
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -11,18 +11,18 @@ ADMINS = (
 MANAGERS = ADMINS 
 DATABASES = {
     'default': { 'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'qduoj',                      # Or path to database file if using sqlite3.
+        'NAME': 'qduoj2',                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
         'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': '192.168.41.57',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+        'PASSWORD': 'redcode',
+        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
         'PORT': '3306',                      # Set to empty string for default.
     }
 }
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
