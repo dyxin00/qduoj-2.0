@@ -59,6 +59,7 @@ def contest_problem_list(request):
                 hours = int(start_time / (60 * 60))
                 minutes = int((start_time - (hours * 60 * 60)) / 60)
                 seconds = int(start_time - (hours * 60 * 60) - (minutes * 60))
+                print hours, minutes, seconds
                 ADMIN = False
                 try:
                     user_authority = Privilege.objects.get(user__user__username=username).authority

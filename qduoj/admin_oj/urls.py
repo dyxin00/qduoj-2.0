@@ -35,4 +35,6 @@ urlpatterns = patterns('',
         url(r'^news_get/$', news_views.news_get, name=''),
         url(r'^news_modify/$', news_views.news_modify, name=''),
         url(r'^news_visible/$', news_views.news_visible, name=''),
+        url(r'^news_show/$', news_views.news_show, name='news_show'),
+
         )
