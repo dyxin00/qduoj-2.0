@@ -56,6 +56,14 @@ def sign_up(request):
             return render(request, "user/sign_up.html", {'error' : error})
         
         User_oj.objects.create(user=user, school_id=school_id)
+
+        user_privilege = User_oj.objects.get(user=user)
+        try:
+            Privilege.objects.create(user=user_privilege, authority=0)
+        except:
+            error = 'This user is not exists!'
+            return render(request, "user/sign_up.html", {'error':error})
+
         return render(request, 'delay_jump.html', {
             'next_url' : '/sign_in/',
             'info' : 'Registration successful'
@@ -136,7 +144,6 @@ def password_change(request):
         user = request.user
         old_pass = request.POST.get('m')
         new_pass = request.POST.get('m1')
-        print request.POST
         if user.check_password(old_pass):
             user.set_password(new_pass)
             user.save()
