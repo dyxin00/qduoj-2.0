@@ -148,7 +148,6 @@ def news_modify(request, *args, **kwargs):
 def news_show(request):
     news_list = News.objects.filter(visible=True)
     response_dict = {}
-
     try:
         news = news_list[0]
         response_dict['news'] = model_to_dict(news)
