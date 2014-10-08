@@ -1,27 +1,14 @@
 # -*- coding: utf-8 -*-  
-from random import choice
 import re
-import time, datetime
 import json
 
-from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.db import IntegrityError
-from django.utils import timezone
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
-from django.http import HttpResponse
-from DjangoVerifyCode import Code
 from django.forms.models import model_to_dict
 
 from django.core.exceptions import ObjectDoesNotExist
-from oj_user.models import User_oj, Privilege
-from contest.models import Contest
 from about.models import News
+from oj_user.models import User_oj
 
-from django.db.models import Sum, Q
-from qduoj import config
 from qduoj.config import *
 
 from admin_oj.util import Authorization
@@ -138,6 +125,7 @@ def news_get(request, *args, **kwargs):
 def news_modify(request, *args, **kwargs):
     response_dict = kwargs.get('response_dict', {})
     news_id = request.POST.get('id', '')
+    print news_id
 
     if not re.match(ur'[0-9]+$', unicode(news_id)):
         return HttpResponse(json.dumps({'status':400}), content_type='application/json') 
@@ -157,5 +145,16 @@ def news_modify(request, *args, **kwargs):
 
     return HttpResponse(json.dumps({'status':200}), content_type='application/json')
 
+def news_show(request):
+    news_list = News.objects.filter(visible=True)
+    response_dict = {}
 
+    try:
+        news = news_list[0]
+        response_dict['news'] = model_to_dict(news)
+        response_dict['status'] = 'success'
+    except:
+        response_dict['status'] = 'filed'
+
+    return HttpResponse(json.dumps(response_dict))
 

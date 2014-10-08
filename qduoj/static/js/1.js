@@ -85,9 +85,32 @@ function fun_check(){
 	})
 	$('#check_in').trigger("click");
 }
+
+function news_show(){
+    var news_display = $('#table-news-show')
+    news_display.ready(function(){
+        $.ajax({
+			url : '/admin_oj/news_show/',
+			type : 'POST',
+			dataType : 'json',
+			data : {},
+			success : function(data){
+				if(data.status == 'success'){
+                    $('#table-news-title').html(data.news.title);
+                    $('#table-news-desc').html(data.news.description);
+                }
+                if(data.status == 'filed'){
+                    
+                }
+			}
+		})
+    })
+}
+
 $(document).ready(function(){
 	fun_check();
 	change();
+    news_show();
 })
 
 $(document).ajaxSend(function(event, xhr, settings) {  
