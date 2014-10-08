@@ -79,12 +79,12 @@ def sign_in(request):
         captcha = request.POST.get('captcha', '')
 
         if not captcha:
-            error = 'Verification code error !'
+            error = 'Verification code error!'
             return render(request, "user/sign_in.html",
                     {'error' : error, 'next' : next_url})
         code = Code(request)
         if not code.check(captcha):
-            error = 'Verification code error !'
+            error = 'Verification code error!'
             return render(request, "user/sign_in.html",
                     {'error' : error, 'next' : next_url})
 
@@ -97,11 +97,11 @@ def sign_in(request):
                     'info' : 'Login successful'
                     })
             else:
-                error = 'The account has been stopped using !'
+                error = 'The account has been stopped using!'
                 return render(request, "user/sign_in.html",
                         {'error' : error, 'next' : next_url})
         else:
-            error =''
+            error ='User name or password error!'
             return render(request, "user/sign_in.html",
                     {'error' : error, 'next' : next_url})
     next_url = request.GET.get('next', '/')
