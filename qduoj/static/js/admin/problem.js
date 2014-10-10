@@ -24,6 +24,7 @@ function init_problem_list() {
 	table.find('button.next').unbind().click(function () {
 		page = page + 1;
 		problem_list_init();
+        problem_search();
 	})
 	table.find('button.back').unbind().click(function () {
 		if (page > 0)
@@ -31,6 +32,7 @@ function init_problem_list() {
 		else
 			return;
 		problem_list_init();
+        problem_search();
 	})
 
 	table.find('#serach').unbind().click(function () {
@@ -88,6 +90,7 @@ function problem_search(){
 		var id = $(this).attr('id');
 		var button = $(this);
 	
+        alert(id);
 		up_data = {
 			id: id,
 		};

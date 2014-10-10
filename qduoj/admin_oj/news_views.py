@@ -7,6 +7,7 @@ from django.forms.models import model_to_dict
 
 from django.core.exceptions import ObjectDoesNotExist
 from about.models import News
+from oj_user.models import User_oj
 
 from qduoj.config import *
 
@@ -124,6 +125,7 @@ def news_get(request, *args, **kwargs):
 def news_modify(request, *args, **kwargs):
     response_dict = kwargs.get('response_dict', {})
     news_id = request.POST.get('id', '')
+    print news_id
 
     if not re.match(ur'[0-9]+$', unicode(news_id)):
         return HttpResponse(json.dumps({'status':400}), content_type='application/json') 
@@ -146,7 +148,6 @@ def news_modify(request, *args, **kwargs):
 def news_show(request):
     news_list = News.objects.filter(visible=True)
     response_dict = {}
-
     try:
         news = news_list[0]
         response_dict['news'] = model_to_dict(news)
