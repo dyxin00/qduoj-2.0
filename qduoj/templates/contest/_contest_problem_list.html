@@ -33,13 +33,17 @@
         <td><a href = '/problem/?cid={{cid}}&pid={{problem.problem.id}}'>{{problem.num}}</a></td>
         <td><a href = '/problem/?cid={{cid}}&pid={{problem.problem.id}}'>{{problem.title}}</a></td>
 		{% if contest.mode == 0 %}
-		<td>
-			<div class="progress">
-              <div class="progress-bar" role="progressbar" aria-valuenow="{% widthratio problem.problem.accepted problem.problem.submit 100%}" aria-valuemin="0" aria-valuemax="100" style="width: {% widthratio problem.problem.accepted problem.problem.submit 100%}%;">
-                <span id = 'only' class="only" >{% widthratio problem.problem.accepted  problem.problem.submit 100%}%</span>
-              </div>
-            </div>
-		</td>
+            {% for cp_list in cp_ratio %}
+                {% if cp_list.problem == problem.problem.id %}
+                <td>
+                    <div class="progress">
+                      <div class="progress-bar" role="progressbar" aria-valuenow="{% widthratio cp_list.ratio_accepted cp_list.ratio_submit 100%}" aria-valuemin="0" aria-valuemax="100" style="width: {% widthratio cp_list.ratio_accepted cp_list.ratio_submit 100%}%;">
+                        <span id = 'only' class="only" >{% widthratio cp_list.ratio_accepted cp_list.ratio_submit 100%}%</span>
+                      </div>
+                    </div>
+                </td>
+                {% endif %}
+            {% endfor %}
 		{% else %}
 		<td>{{problem.sorce}}</td>
 		{% endif %}

@@ -46,81 +46,103 @@ def contest_problem_list(request):
         if cid != None:
             try:
                 contest = Contest.objects.get(id=cid)
-                now = time.time()
-                t1 = contest.start_time.replace(tzinfo=None) + datetime.timedelta(hours=8)
-                t2 = contest.end_time.replace(tzinfo=None) + datetime.timedelta(hours=8)
-                start_time = float(time.mktime(time.strptime(str(t1),
-                                            '%Y-%m-%d %H:%M:%S'))) - now
-                end_time = float(time.mktime(time.strptime(str(t2),
-                                             '%Y-%m-%d %H:%M:%S'))) - now
-                problems = Contest_problem.objects.select_related(depth=3).filter(contest__id=cid).order_by('num')
-                username = request.user.username
 
-                hours = int(start_time / (60 * 60))
-                minutes = int((start_time - (hours * 60 * 60)) / 60)
-                seconds = int(start_time - (hours * 60 * 60) - (minutes * 60))
-                ADMIN = False
-                try:
-                    user_authority = Privilege.objects.get(user__user__username=username).authority
-                    if user_authority == config.ADMIN:
-                        ADMIN = True
-                    if user_authority == config.ADMIN or contest.user.user.username == username:
-                        start_time = 0
-                    else:
-                        if contest.private == 1:
-                            if contest.visible == False:
-                                error= "Limited permission!"
-                                return render(request, "error.html", {'error': error})
-                            else:
-                                try:
-                                    ContestPrivilege.objects.get(user__user__username=username, contest__id=contest.id)
-                                except ObjectDoesNotExist:
-                                    error= "Limited permission!"
-                                    return render(request, "error.html", {'error': error})
-                        else:
-                            if contest.visible == False:
-                                error = "Limited permission!"
-                                return render(request, "error.html", {'error': error})
-                except ObjectDoesNotExist:
-                    if contest.user.user.username == username:
-                        start_time = 0
-                    else:
-                        if contest.private == 1:
-                            if contest.visible == False:
-                                error = "Limited permission!"
-                                return render(request, "error.html", {'error': error})
-                            else:
-                                try:
-                                    ContestPrivilege.objects.get(user__user__username=username, contest__id=contest.id)
-                                except ObjectDoesNotExist:
-                                    error = "Limited permission!"
-                                    return render(request, "error.html", {'error': error})
-                        else:
-                            if contest.visible == False:
-                                error = "Limited permission!"
-                                return render(request, "error.html", {'error': error})
-                contest_user = False
-                if username == contest.user.user.username:
-                    contest_user = True
-                accepted = []
-                unsolved = []
-                if request.user.is_authenticated():
-                    solution_list = Solution.objects.select_related(depth=3).filter(user_id=request.user.id, contest_id=cid)
-                    accepted = solution_list.filter(result=4).order_by('problem').\
-                            values_list('problem', flat=True).distinct()
-                    unsolved = solution_list.exclude(result=4).order_by('problem').\
-                            values_list('problem', flat=True).distinct()
-                problem_dict = {'problems': problems, 'contest': contest, 'start_time': int(start_time),
-                                'ADMIN': ADMIN, 'contest_user': contest_user, 'cid': cid, 'hours': hours, 
-                                'minutes': minutes, 'seconds': seconds, 'flag': contest.end_or_not(), 
-                                'contest_title': contest.title, 'accepted': accepted, 'unsolved': unsolved}
-                    
-                return render(request, 'contest/contest_problem_list.html', problem_dict)
-            
             except ObjectDoesNotExist:
                 error = "This contest does not exist!"
                 return render(request, "error.html", {'error': error})
-            
+
+            now = time.time()
+            t1 = contest.start_time.replace(tzinfo=None) + datetime.timedelta(hours=8)
+            t2 = contest.end_time.replace(tzinfo=None) + datetime.timedelta(hours=8)
+            start_time = float(time.mktime(time.strptime(str(t1),'%Y-%m-%d %H:%M:%S'))) - now
+            end_time = float(time.mktime(time.strptime(str(t2),'%Y-%m-%d %H:%M:%S'))) - now
+            username = request.user.username
+
+            hours = int(start_time / (60 * 60))
+            minutes = int((start_time - (hours * 60 * 60)) / 60)
+            seconds = int(start_time - (hours * 60 * 60) - (minutes * 60))
+            ADMIN = False
+
+            #Judge the problem true or false
+            accepted = []
+            unsolved = []
+
+
+            if request.user.is_authenticated():
+                solution_list = Solution.objects.select_related(depth=3).filter(user_id=request.user.id, contest_id=cid)
+                accepted = solution_list.filter(result=4).order_by('problem').\
+                        values_list('problem', flat=True).distinct()
+                unsolved = solution_list.exclude(result=4).order_by('problem').\
+                        values_list('problem', flat=True).distinct()
+
+
+
+            #Calculate the ratio
+            problems = Contest_problem.objects.select_related(depth=3).filter(contest__id=cid).order_by('num')
+            cp_ratio = []    #contest_problem_ratio
+
+            solution_plist = Solution.objects.select_related(depth=3).filter(contest_id=cid)
+            for problem in problems:
+                ratio_accepted = solution_plist.filter(result=4, problem__id=problem.problem.id).count()
+                ratio_submit = solution_plist.filter(problem__id=problem.problem.id).count()
+                cp_ratio.append({
+                    'problem' : int(problem.problem.id),
+                    'ratio_accepted' : ratio_accepted,
+                    'ratio_submit' : ratio_submit,
+                })
+
+            try:
+                user_authority = Privilege.objects.get(user__user__username=username).authority
+                if user_authority == config.ADMIN:
+                    ADMIN = True
+                if user_authority == config.ADMIN or contest.user.user.username == username:
+                    start_time = 0
+                else:
+                    if contest.private == 1:
+                        if contest.visible == False:
+                            error= "Limited permission!"
+                            return render(request, "error.html", {'error': error})
+                        else:
+                            try:
+                                ContestPrivilege.objects.get(user__user__username=username, contest__id=contest.id)
+                            except ObjectDoesNotExist:
+                                error= "Limited permission!"
+                                return render(request, "error.html", {'error': error})
+                    else:
+                        if contest.visible == False:
+                            error = "Limited permission!"
+                            return render(request, "error.html", {'error': error})
+            except ObjectDoesNotExist:
+                if contest.user.user.username == username:
+                    start_time = 0
+                else:
+                    if contest.private == 1:
+                        if contest.visible == False:
+                            error = "Limited permission!"
+                            return render(request, "error.html", {'error': error})
+                        else:
+                            try:
+                                ContestPrivilege.objects.get(user__user__username=username, contest__id=contest.id)
+                            except ObjectDoesNotExist:
+                                error = "Limited permission!"
+                                return render(request, "error.html", {'error': error})
+                    else:
+                        if contest.visible == False:
+                            error = "Limited permission!"
+                            return render(request, "error.html", {'error': error})
+            contest_user = False
+            if username == contest.user.user.username:
+                contest_user = True
+
+
+            problem_dict = {'problems': problems, 'cp_ratio': cp_ratio, 'contest': contest, 'start_time': int(start_time),
+                            'ADMIN': ADMIN, 'contest_user': contest_user, 'cid': cid, 'hours': hours, 
+                            'minutes': minutes, 'seconds': seconds, 'flag': contest.end_or_not(), 
+                            'contest_title': contest.title, 'accepted': accepted, 'unsolved': unsolved}
+
+            return render(request, 'contest/contest_problem_list.html', problem_dict)
+
+
 
 def contest_rank(request):
     if request.method == 'GET':
