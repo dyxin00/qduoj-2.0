@@ -33,11 +33,9 @@ function admin_check(){
 		}
 	});
 	check_item.find('tr td button.save').click(function(){
-		id = this.id;
-		status = check_item.find('tr td #check').val();	
-		desc = check_item.find('tr td #desc').val();
-		//alert(status);
-		//alert(desc);
+		var id = this.id;
+		var status = $(this).parent().parent().find('td #check').val();	
+		var desc = $(this).parent().parent().find('td #desc').val();
 		up_data = {
 			id : id,
 			check : status,

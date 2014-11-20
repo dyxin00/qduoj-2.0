@@ -1,0 +1,25 @@
+
+{% extends 'admin_oj/base.html' %}
+{% block body %}
+<div class="navbar navbar-inverse navbar-fixed-top">
+    {% include "admin_oj/admin_top_bar.html"%}
+</div>
+<div class="container">
+    <div class="row row-mid">
+		<div class="sign">
+		{% if status == 'success' %}
+			<script type="text/javascript">
+				alert('ok');
+			</script>
+		{% endif %}
+		<form method="POST" enctype="multipart/form-data" >
+		{% csrf_token %}
+			<input type="file" class="form-control input-sm" name="update" style="width:50%">
+			
+			<button type="submit" class="btn btn-success btn-sm">上传</button>
+			
+		</form>
+			</div>
+	</div>
+</div>
+{% endblock %}

@@ -4,6 +4,7 @@ import re
 import time, datetime
 import json
 import os
+import zipfile
 from  PIL import ImageFile
 
 from django.shortcuts import render, redirect
@@ -191,4 +192,43 @@ def image_upload(request):
     dir_img = os.path.dirname(__file__) + '/..'
     image.save(dir_img + "/static/problem_img/%s"%str(int(in_time))+ '-' + str(data))
     return HttpResponse(json.dumps({"error" : 0, "url" : "/static/problem_img/%s"%str(int(in_time)) + '-' + str(data)}))
+
+
+def problem_update(request):
+    if request.method == "POST":
+        file = request.FILES.get('update')
+        if(file == None):
+            return render(request, "admin_oj/problem_update.html", {'status': 'file no chiose'})
+        zip_path = '/home/judge/data/'
+        dir_path = zip_path + file.name
+        description = open(dir_path, 'wb+')
+        for chunk in file.chunks():
+            description.write(chunk)
+        description.close()
+        dir_name = str(file.name).split('.')[0]
+        unzip_file(dir_path, zip_path + dir_name + '/')
+        os.remove(dir_path)
+        return render(request, "admin_oj/problem_update.html", {'status': 'success'})
+    else:
+        return render(request, "admin_oj/problem_update.html", {'status': 'filed'})
+
+def unzip_file(zipfilename, unziptodir):
+    if not os.path.exists(unziptodir): 
+        os.mkdir(unziptodir, 0777)
+    zfobj = zipfile.ZipFile(zipfilename)
+    for name in zfobj.namelist():
+        name = name.replace('\\','/')
+        
+        if name.endswith('/'):
+            os.mkdir(os.path.join(unziptodir, name))
+        else:            
+            ext_filename = os.path.join(unziptodir, name)
+            ext_dir= os.path.dirname(ext_filename)
+            if not os.path.exists(ext_dir): 
+                os.mkdir(ext_dir,0777)
+            outfile = open(ext_filename, 'wb')
+            outfile.write(zfobj.read(name))
+            outfile.close()
+
+
 

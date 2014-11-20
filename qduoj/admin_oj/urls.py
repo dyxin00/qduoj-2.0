@@ -16,6 +16,7 @@ urlpatterns = patterns('',
         url(r'^problem_fix/$', problem_views.problem_fix, name=''),
         url(r'^problem_get/$', problem_views.problem_get, name=''),
         url(r'^problem_visible/$', problem_views.problem_visible, name=''),
+        url(r'^problem_update/$', problem_views.problem_update, name=''),
        
         url(r'^problem_rejudge/$', problem_views.problem_rejudge, name=''),
         url(r'^solution_rejudge/$', problem_views.solution_rejudge, name=''),
